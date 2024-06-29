@@ -31,6 +31,7 @@
     <div>
         <label for="username">Username:</label>
         <input type="text" id="username">
+        <button onclick="connect()" id="connect">Connect</button>
     </div>
     <input type="text" id="message" placeholder="Type a message...">
     <button onclick="sendMessage('', 'message')" id="send">Send</button>
@@ -102,7 +103,6 @@
             }
         }
 
-        usernameInput.addEventListener('change', connect);
     </script>
 </body>
 </html>
