@@ -40,6 +40,12 @@
         const messageInput = document.getElementById('message');
         const usernameInput = document.getElementById('username');
         let socket;
+        window.addEventListener('beforeunload', function (event) {
+                event.preventDefault(); 
+                event.returnValue = ''; 
+                return 'Are you sure you want to leave this page?';
+                alert('The page is being refreshed!');
+        });
 
         function connect() {
             const username = usernameInput.value;
