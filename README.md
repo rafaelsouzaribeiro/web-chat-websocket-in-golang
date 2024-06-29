@@ -1,2 +1,1 @@
 web chat WebSocket with notifications for logged-in and logged-out users in golang.
-For web chat access, visit the <a href="https://github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang">repository</a>.
