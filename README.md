@@ -1,1 +1,1 @@
-this repository is still under deveplopment and not ready for use yet.
+web chat WebSocket with notifications for logged-in and logged-out users in gola
