@@ -93,20 +93,20 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 	defer func() {
 		username := getUsernameByConnection(conn)
 
-		disconnectionMessage := dto.Payload{
-			Username: "info",
-			Message:  fmt.Sprintf("User %s disconnected", username),
-		}
-
-		buffer = append(buffer, disconnectionMessage)
-		broadcast <- disconnectionMessage
-
 		mu.Lock()
 		delete(messageExists, conn)
 		delete(messageConnected, conn)
 		mu.Unlock()
 
 		if username != "" {
+			disconnectionMessage := dto.Payload{
+				Username: "info",
+				Message:  fmt.Sprintf("User %s disconnected", username),
+			}
+
+			buffer = append(buffer, disconnectionMessage)
+			broadcast <- disconnectionMessage
+
 			deleteUserByUserName(username, true)
 			conn.Close()
 		}
@@ -127,7 +127,6 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 				}
 
 				deleteUserByConn(conn, false)
-				buffer = append(buffer, systemMessage)
 				conn.WriteJSON(systemMessage)
 			}
 			continue
