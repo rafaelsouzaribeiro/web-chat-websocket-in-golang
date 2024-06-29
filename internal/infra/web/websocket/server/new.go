@@ -84,13 +84,11 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	mu.Lock()
 	if verifyCon(conn, &messageConnected) {
 		for _, v := range buffer {
 			conn.WriteJSON(v)
 		}
 	}
-	mu.Unlock()
 
 	defer func() {
 		username := getUsernameByConnection(conn)
@@ -129,18 +127,14 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 				}
 
 				deleteUserByConn(conn, false)
-				mu.Lock()
 				buffer = append(buffer, systemMessage)
-				mu.Unlock()
 				conn.WriteJSON(systemMessage)
 			}
 			continue
 		}
 
 		if msgs.Type == "message" {
-			mu.Lock()
 			buffer = append(buffer, msgs)
-			mu.Unlock()
 			broadcast <- msgs
 		} else {
 			systemMessage := dto.Payload{
@@ -155,8 +149,9 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 				username: msgs.Username,
 				id:       id,
 			}
-			buffer = append(buffer, systemMessage)
 			mu.Unlock()
+
+			buffer = append(buffer, systemMessage)
 			broadcast <- systemMessage
 		}
 	}
