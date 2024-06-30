@@ -85,9 +85,11 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if verifyCon(conn, &messageConnected) {
+		mu.Lock()
 		for _, v := range buffer {
 			conn.WriteJSON(v)
 		}
+		mu.Unlock()
 	}
 
 	defer func() {
@@ -104,7 +106,10 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 				Message:  fmt.Sprintf("User %s disconnected", username),
 			}
 
+			mu.Lock()
 			buffer = append(buffer, disconnectionMessage)
+			mu.Unlock()
+
 			broadcast <- disconnectionMessage
 
 			deleteUserByUserName(username, true)
@@ -133,7 +138,9 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 		}
 
 		if msgs.Type == "message" {
+			mu.Lock()
 			buffer = append(buffer, msgs)
+			mu.Unlock()
 			broadcast <- msgs
 		} else {
 			systemMessage := dto.Payload{
@@ -148,9 +155,10 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 				username: msgs.Username,
 				id:       id,
 			}
-			mu.Unlock()
 
 			buffer = append(buffer, systemMessage)
+			mu.Unlock()
+
 			broadcast <- systemMessage
 		}
 	}
