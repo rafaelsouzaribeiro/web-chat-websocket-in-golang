@@ -32,7 +32,6 @@ type User struct {
 
 var broadcast = make(chan dto.Payload)
 var users = make(map[string]User)
-var messageConnected = make(map[*websocket.Conn]bool)
 var messageExists = make(map[*websocket.Conn]bool)
 var buffer []dto.Payload
 var mu sync.Mutex
@@ -84,20 +83,17 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if verifyCon(conn, &messageConnected) {
-		mu.Lock()
-		for _, v := range buffer {
-			conn.WriteJSON(v)
-		}
-		mu.Unlock()
+	mu.Lock()
+	for _, v := range buffer {
+		conn.WriteJSON(v)
 	}
+	mu.Unlock()
 
 	defer func() {
 		username := getUsernameByConnection(conn)
 
 		mu.Lock()
 		delete(messageExists, conn)
-		delete(messageConnected, conn)
 		mu.Unlock()
 
 		if username != "" {
