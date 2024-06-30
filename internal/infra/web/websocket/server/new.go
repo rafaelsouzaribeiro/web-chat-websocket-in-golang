@@ -6,6 +6,7 @@ import (
 	"sync"
 
 	"github.com/google/uuid"
+	"github.com/gorilla/mux"
 	"github.com/gorilla/websocket"
 	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/usecase/dto"
 )
@@ -45,14 +46,15 @@ func NewServer(host, pattern string, port int) *Server {
 }
 
 func (server *Server) ServerWebsocket() {
-	http.HandleFunc(server.pattern, handleConnections)
-	http.HandleFunc("/chat", serveChat)
+	router := mux.NewRouter()
+	router.HandleFunc("/chat", serveChat).Methods("GET")
+	router.HandleFunc(server.pattern, handleConnections)
 
 	go handleMessages()
 
 	fmt.Printf("Server started on %s:%d \n", server.host, server.port)
 
-	err := http.ListenAndServe(fmt.Sprintf("%s:%d", server.host, server.port), nil)
+	err := http.ListenAndServe(fmt.Sprintf("%s:%d", server.host, server.port), router)
 	if err != nil {
 		panic("Error starting server: " + err.Error())
 	}
