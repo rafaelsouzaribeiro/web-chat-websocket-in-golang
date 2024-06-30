@@ -98,8 +98,8 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 
 		if username != "" {
 			disconnectionMessage := dto.Payload{
-				Username: "info",
-				Message:  fmt.Sprintf("User %s disconnected", username),
+				Username: "<strong>info</strong>",
+				Message:  fmt.Sprintf("User <strong>%s</strong> disconnected", username),
 			}
 
 			mu.Lock()
@@ -123,8 +123,8 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 		if !verifyExistsUser(msgs.Username, conn) {
 			if verifyCon(conn, &messageExists) {
 				systemMessage := dto.Payload{
-					Username: "info",
-					Message:  fmt.Sprintf("User already exists: %s", msgs.Username),
+					Username: "<strong>info</strong>",
+					Message:  fmt.Sprintf("User already exists: <strong>%s</strong>", msgs.Username),
 				}
 
 				deleteUserByConn(conn, false)
@@ -140,8 +140,8 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 			broadcast <- msgs
 		} else {
 			systemMessage := dto.Payload{
-				Username: "info",
-				Message:  fmt.Sprintf("User %s connected", msgs.Username),
+				Username: "<strong>info</strong>",
+				Message:  fmt.Sprintf("User <strong>%s</strong> connected", msgs.Username),
 			}
 
 			mu.Lock()

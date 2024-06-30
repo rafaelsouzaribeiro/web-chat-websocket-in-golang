@@ -72,7 +72,7 @@
                 if (msg.username && msg.message) {
                     const messageElement = document.createElement('div');
                     messageElement.classList.add('message');
-                    messageElement.textContent = `${msg.username}: ${msg.message}`;
+                    messageElement.innerHTML = `${msg.username}: ${msg.message}`;
                     chat.appendChild(messageElement);
                     chat.scrollTop = chat.scrollHeight;
                 }
