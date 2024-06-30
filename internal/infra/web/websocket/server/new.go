@@ -66,6 +66,8 @@ func handleMessages() {
 	for msg := range broadcast {
 		mu.Lock()
 		for _, user := range users {
+			msg.Username = fmt.Sprintf("<strong>%s</strong>", msg.Username)
+
 			if err := user.conn.WriteJSON(msg); err != nil {
 				fmt.Println("Error sending message:", err)
 				user.conn.Close()
@@ -135,6 +137,7 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 
 		if msgs.Type == "message" {
 			mu.Lock()
+			msgs.Username = fmt.Sprintf("<strong>%s</strong>", msgs.Username)
 			buffer = append(buffer, msgs)
 			mu.Unlock()
 			broadcast <- msgs
