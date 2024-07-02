@@ -41,6 +41,8 @@
         const messageInput = document.getElementById('message');
         const usernameInput = document.getElementById('username');
         let socket;
+        const webSocketURL = "{{.WebSocketURL}}";
+
         window.addEventListener('beforeunload', function (event) {
                 event.preventDefault(); 
                 event.returnValue = ''; 
@@ -59,7 +61,7 @@
                 socket.close();
             }
 
-            socket = new WebSocket(`ws://localhost:8080/ws`);
+            socket = new WebSocket(webSocketURL);
 
             socket.onopen = function() {
                 console.log('Connected to the server');

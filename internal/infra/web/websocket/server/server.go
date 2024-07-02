@@ -9,7 +9,7 @@ import (
 
 func (server *Server) ServerWebsocket() {
 	router := mux.NewRouter()
-	router.HandleFunc("/chat", serveChat).Methods("GET")
+	router.HandleFunc("/chat", server.serveChat).Methods("GET")
 	router.HandleFunc(server.pattern, handleConnections)
 
 	go handleMessages()
@@ -20,8 +20,4 @@ func (server *Server) ServerWebsocket() {
 	if err != nil {
 		panic("Error starting server: " + err.Error())
 	}
-}
-
-func serveChat(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "../web/templates/chat.html")
 }
