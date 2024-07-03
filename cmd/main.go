@@ -1,6 +1,11 @@
 package main
 
 import (
+	"log"
+	"strconv"
+
+	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/configs"
+
 	"github.com/spf13/viper"
 
 	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/infra/web/websocket/server"
@@ -8,23 +13,34 @@ import (
 
 func main() {
 
-	appName := viper.GetString("APP_NAME")
+	hostname := viper.GetString("HOST_NAME")
 	wsEndpoint := viper.GetString("WS_ENDPOINT")
-	portStr := viper.GetInt("PORT")
+	portStr := viper.GetString("PORT")
 
-	if appName == "" {
-		appName = "localhost"
+	Conf, err := configs.LoadConfig("../")
+
+	if err != nil {
+		panic(err)
+	}
+
+	if hostname == "" {
+		hostname = Conf.HostName
 	}
 
 	if wsEndpoint == "" {
-		wsEndpoint = "/ws"
+		wsEndpoint = Conf.WsEndPoint
 	}
 
-	if portStr == 0 {
-		portStr = 8080
+	if portStr == "" {
+		portStr = Conf.Port
 	}
 
-	svc := server.NewServer(appName, wsEndpoint, portStr)
+	port, err := strconv.Atoi(portStr)
+	if err != nil {
+		log.Fatalf("Invalid port: %v", err)
+	}
+
+	svc := server.NewServer(hostname, wsEndpoint, port)
 	go svc.ServerWebsocket()
 	select {}
 
