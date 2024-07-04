@@ -4,10 +4,13 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+
+	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/web/templates"
 )
 
 func (server *Server) serveChat(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles("../web/templates/chat.html")
+	tmpl, err := template.New("").Parse(templates.Chat)
+
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
