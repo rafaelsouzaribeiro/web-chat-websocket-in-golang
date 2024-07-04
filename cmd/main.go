@@ -13,25 +13,20 @@ import (
 
 func main() {
 
+	viper.AutomaticEnv()
 	hostname := viper.GetString("HOST_NAME")
 	wsEndpoint := viper.GetString("WS_ENDPOINT")
 	portStr := viper.GetString("PORT")
 
-	Conf, err := configs.LoadConfig("../")
-
-	if err != nil {
-		panic(err)
-	}
-
 	if hostname == "" {
+		Conf, err := configs.LoadConfig("../")
+
+		if err != nil {
+			panic(err)
+		}
+
 		hostname = Conf.HostName
-	}
-
-	if wsEndpoint == "" {
 		wsEndpoint = Conf.WsEndPoint
-	}
-
-	if portStr == "" {
 		portStr = Conf.Port
 	}
 
