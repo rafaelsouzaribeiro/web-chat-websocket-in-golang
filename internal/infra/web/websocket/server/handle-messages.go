@@ -13,7 +13,9 @@ func handleMessages() {
 
 			if err != nil {
 				fmt.Println("Error sending message:", err)
+				mu.Lock()
 				user.conn.Close()
+				mu.Unlock()
 				deleteUserByUserName(user.username, false)
 			}
 		}
