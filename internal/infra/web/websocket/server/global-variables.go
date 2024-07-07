@@ -4,9 +4,9 @@ import (
 	"context"
 	"sync"
 
-	"github.com/go-redis/redis/v8"
 	"github.com/gorilla/websocket"
 	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/usecase/dto"
+	"github.com/redis/go-redis/v9"
 )
 
 var (
@@ -17,6 +17,6 @@ var (
 
 	ctx = context.Background()
 	rdb = redis.NewClient(&redis.Options{
-		Addr: "localhost:6379",
+		Addr: "0.0.0.0:6379",
 	})
 )
