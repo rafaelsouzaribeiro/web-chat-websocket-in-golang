@@ -1,6 +1,7 @@
 package server
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 
@@ -15,11 +16,17 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	mu.Lock()
-	for _, v := range buffer {
-		conn.WriteJSON(v)
+	messages, err := rdb.LRange(ctx, "chat_messages", 0, -1).Result()
+	if err != nil {
+		fmt.Println("Error retrieving messages from Redis:", err)
+	} else {
+		for _, msg := range messages {
+			var payload dto.Payload
+			if err := json.Unmarshal([]byte(msg), &payload); err == nil {
+				conn.WriteJSON(payload)
+			}
+		}
 	}
-	mu.Unlock()
 
 	defer func() {
 		username := getUsernameByConnection(conn)
@@ -34,10 +41,7 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 				Message:  fmt.Sprintf("User <strong>%s</strong> disconnected", username),
 			}
 
-			mu.Lock()
-			buffer = append(buffer, disconnectionMessage)
-			mu.Unlock()
-
+			saveMessageToRedis(disconnectionMessage)
 			broadcast <- disconnectionMessage
 
 			deleteUserByUserName(username, true)
@@ -68,8 +72,9 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 		if msgs.Type == "message" {
 			mu.Lock()
 			msgs.Username = fmt.Sprintf("<strong>%s</strong>", msgs.Username)
-			buffer = append(buffer, msgs)
 			mu.Unlock()
+
+			saveMessageToRedis(msgs)
 			broadcast <- msgs
 		} else {
 			systemMessage := dto.Payload{
@@ -85,9 +90,9 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 				id:       id,
 			}
 
-			buffer = append(buffer, systemMessage)
 			mu.Unlock()
 
+			saveMessageToRedis(systemMessage)
 			broadcast <- systemMessage
 		}
 	}
