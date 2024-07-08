@@ -74,7 +74,10 @@
         window.addEventListener('beforeunload', function (event) {
                 event.preventDefault(); 
                 event.returnValue = ''; 
-                socket.close();
+                if (usernameInput.value!=""){
+                    socket.close();
+                }
+                
         });
 
         function connect() {
