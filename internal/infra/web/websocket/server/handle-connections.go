@@ -9,6 +9,10 @@ import (
 	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/usecase/dto"
 )
 
+const (
+	perPage = 20
+)
+
 func handleConnections(w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
@@ -16,7 +20,18 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	messages, err := rdb.LRange(ctx, "chat_messages", 0, -1).Result()
+	totalMessages, err := rdb.LLen(ctx, "chat_messages").Result()
+	if err != nil {
+		fmt.Println("Error retrieving total number of messages from Redis:", err)
+		return
+	}
+
+	startIndex := int64(0)
+	if totalMessages > perPage {
+		startIndex = totalMessages - perPage
+	}
+
+	messages, err := rdb.LRange(ctx, "chat_messages", startIndex, -1).Result()
 	if err != nil {
 		fmt.Println("Error retrieving messages from Redis:", err)
 	} else {
