@@ -16,7 +16,9 @@ var (
 	mu            sync.Mutex
 
 	ctx = context.Background()
-	rdb = redis.NewClient(&redis.Options{
-		Addr: "0.0.0.0:6379",
-	})
+	rdb *redis.Client
+)
+
+const (
+	perPage = 20
 )

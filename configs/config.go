@@ -8,6 +8,8 @@ type Conf struct {
 	HostName   string `mapstructure:"HOST_NAME_CONF"`
 	WsEndPoint string `mapstructure:"WS_ENDPOINT_CONF"`
 	Port       string `mapstructure:"PORT_CONF"`
+	HostRedis  string `mapstructure:"HOST_REDIS"`
+	PortRedis  string `mapstructure:"PORT_REDIS"`
 }
 
 func LoadConfig(path string) (*Conf, error) {
