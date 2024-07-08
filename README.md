@@ -1,4 +1,4 @@
-Web chat with WebSocket and notifications for logged-in and logged-out users and using emojis in Go and JavaScript. 
+Web chat with WebSocket and Redis, including notifications for logged-in and logged-out users, and emoji support, implemented in Go and JavaScript."
 <br />
 <br />
 1 - Run: cmd/main.go<br />
