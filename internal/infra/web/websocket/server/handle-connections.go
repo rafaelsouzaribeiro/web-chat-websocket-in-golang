@@ -41,10 +41,10 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 				Message:  fmt.Sprintf("User <strong>%s</strong> disconnected", username),
 			}
 
+			deleteUserByUserName(username, true)
+
 			saveMessageToRedis(disconnectionMessage)
 			broadcast <- disconnectionMessage
-
-			deleteUserByUserName(username, true)
 			conn.Close()
 		}
 	}()
