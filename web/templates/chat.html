@@ -105,7 +105,12 @@
                         chat.insertBefore(messageElement, chat.firstChild);
                     });
                     startIndex -= 20;
-                    scroller.scrollTop = 100;
+
+                    const childDivs = chat.getElementsByTagName('div');
+                    
+                    if(childDivs.length>19){
+                        scroller.scrollTop = chat.scrollHeight;
+                    }
                     hasMoreMessages = data.hasMore;
 
                 })
@@ -140,7 +145,13 @@
                     messageElement.classList.add('message');
                     messageElement.innerHTML = `${msg.username}: ${msg.message}`;
                     chat.appendChild(messageElement);
-                    scroller.scrollTop = 100;
+
+                    const childDivs = chat.getElementsByTagName('div');
+
+                    if(childDivs.length>19){
+                        scroller.scrollTop = chat.scrollHeight;
+                    }
+                    
                 }
             };
 
