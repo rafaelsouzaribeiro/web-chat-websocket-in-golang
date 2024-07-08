@@ -37,6 +37,16 @@ func (server *Server) getMessagesFromIndex(w http.ResponseWriter, r *http.Reques
 		}
 	}
 
+	hasMore := startIndex > 0
+
+	response := struct {
+		Messages []dto.Payload `json:"messages"`
+		HasMore  bool          `json:"hasMore"`
+	}{
+		Messages: payloads,
+		HasMore:  hasMore,
+	}
+
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(payloads)
+	json.NewEncoder(w).Encode(response)
 }
