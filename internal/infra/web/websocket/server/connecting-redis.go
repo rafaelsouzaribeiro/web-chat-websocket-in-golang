@@ -8,6 +8,7 @@ import (
 
 func (server *Server) ConnectingRedis(host string, port int) {
 	rdb = redis.NewClient(&redis.Options{
-		Addr: fmt.Sprintf("%s:%d", host, port),
+		Addr:     fmt.Sprintf("%s:%d", host, port),
+		Password: "123mudar",
 	})
 }

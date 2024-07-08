@@ -16,10 +16,17 @@ func (server *Server) ServerWebsocket() {
 
 	go handleMessages()
 
-	fmt.Printf("Server started on %s:%d \n", server.host, server.port)
-
-	err := http.ListenAndServe(fmt.Sprintf("%s:%d", server.host, server.port), router)
-	if err != nil {
-		panic("Error starting server: " + err.Error())
+	httpServer := &http.Server{
+		Addr:    fmt.Sprintf("%s:%d", server.host, server.port),
+		Handler: router,
 	}
+
+	go func() {
+		fmt.Printf("Server started on %s:%d \n", server.host, server.port)
+		if err := httpServer.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			fmt.Printf("Error starting server: %v\n", err)
+		}
+	}()
+
+	gracefulShutdown(httpServer)
 }
