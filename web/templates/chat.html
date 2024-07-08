@@ -74,9 +74,7 @@
         window.addEventListener('beforeunload', function (event) {
                 event.preventDefault(); 
                 event.returnValue = ''; 
-                if (usernameInput.value!=""){
-                    socket.close();
-                }
+                socket.close();
                 
         });
 
@@ -155,9 +153,7 @@
         });
         
         emojiInput.addEventListener("blur", () => {
-            setTimeout(() => {
             emojiContainer.style.display = "none";
-            }, 200);
         });
         
         emojiContainer.addEventListener("click", (e) => {
