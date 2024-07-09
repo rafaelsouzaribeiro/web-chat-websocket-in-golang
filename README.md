@@ -56,7 +56,7 @@ sudo docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}'
  <br/>
  After running this command, you can set the Redis IP address in the Dockerfile using the ENV instruction:<br/>
 ```
- ENV HOST_REDIS=<ip_address_from_inspect>
+ENV HOST_REDIS=ip_address_from_inspect
  ```
 
 
