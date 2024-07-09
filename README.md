@@ -30,7 +30,7 @@ WORKDIR /root/
 ENV HOST_NAME=0.0.0.0
 ENV WS_ENDPOINT=/ws
 ENV PORT=8080
-ENV HOST_REDIS=0.0.0.0
+ENV HOST_REDIS=<ip_address_from_inspect>
 ENV PORT_REDIS=6379
 
 COPY --from=builder /app/main .
@@ -48,3 +48,16 @@ To run Redis in Docker, use:
  ```
 sudo docker run --name redis -d -p 6379:6379 redis
  ```
+<br />
+"To use Redis as a Docker container and access it from another WebSocket container, you need to determine the internal IP address of the Redis container. First, with Redis running, execute the following command: 
+ ```
+sudo docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' redis
+ ```
+ <br/>
+ After running this command, you can set the Redis IP address in the Dockerfile using the ENV instruction:<br/>
+```
+ ENV HOST_REDIS=<ip_address_from_inspect>
+ ```
+
+
+
