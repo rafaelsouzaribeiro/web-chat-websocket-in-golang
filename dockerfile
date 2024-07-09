@@ -17,7 +17,7 @@ WORKDIR /root/
 ENV HOST_NAME=0.0.0.0
 ENV WS_ENDPOINT=/ws
 ENV PORT=8080
-ENV HOST_REDIS=<ip_address_from_inspect>
+ENV HOST_REDIS=172.17.0.2
 ENV PORT_REDIS=6379
 
 COPY --from=builder /app/main .
