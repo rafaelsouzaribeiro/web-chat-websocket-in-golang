@@ -50,14 +50,19 @@ sudo docker run --name redis -d -p 6379:6379 redis
  ```
 <br />
 "To use Redis as a Docker container and access it from another WebSocket container, you need to determine the internal IP address of the Redis container. First, with Redis running, execute the following command: 
+
  ```
 sudo docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' redis
  ```
- <br/>
- After running this command, you can set the Redis IP address in the Dockerfile using the ENV instruction:<br/>
- ```
+
+ 
+ 
+ After running this command, you can set the Redis IP address in the Dockerfile using the ENV instruction:
+
+```
 ENV HOST_REDIS=ip_address_from_inspect
  ```
+
 
 
 
