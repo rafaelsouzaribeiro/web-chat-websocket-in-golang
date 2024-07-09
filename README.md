@@ -9,7 +9,6 @@ Web chat with WebSocket and Redis, including notifications for logged-in and log
 <br/>
 
 You can also run it through the dockerfile:<br />
-dockerfile running with map
 
  ```
 FROM golang:1.22.0 AS builder
