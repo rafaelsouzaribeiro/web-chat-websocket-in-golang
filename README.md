@@ -41,9 +41,9 @@ CMD ["./main"]
 
  ```
  <br />
-To use messages and track connected and disconnected users only with a map variable, use version: v1.0.0.<br /><br />
+To use messages and track connected and disconnected users with only a map variable, use this project.<a href="https://github.com/rafaelsouzaribeiro/Web-chat-with-WebSocket-using-a-map-variable-in-Go">here</a>.<br /><br />
 
-Now, if you want to use chat with messages and track connected and disconnected users with Redis, use version: v1.1.0.<br /><br />
+Now, if you want to use a chat with messages and track connected and disconnected users using Redis, this is the project you need.<br /><br />
 To run Redis in Docker, use:
  ```
 sudo docker run --name redis -d -p 6379:6379 redis
