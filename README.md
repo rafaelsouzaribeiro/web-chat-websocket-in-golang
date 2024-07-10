@@ -1,5 +1,8 @@
 Web chat with WebSocket and Redis, including notifications for logged-in and logged-out users, and emoji support, implemented in Go and JavaScript.
 <br />
+To use messages and track connected and disconnected users with only a map variable, use this project.<a href="https://github.com/rafaelsouzaribeiro/Web-chat-with-WebSocket-using-a-map-variable-in-Go">here</a>.<br /><br />
+
+Now, if you want to use a chat with messages and track connected and disconnected users using Redis, this is the project you need.<br /><br />
 <br />
 1 - Run: cmd/main.go<br />
 2 - access via browser: http://localhost:8080/chat<br />
@@ -41,9 +44,7 @@ CMD ["./main"]
 
  ```
  <br />
-To use messages and track connected and disconnected users with only a map variable, use this project.<a href="https://github.com/rafaelsouzaribeiro/Web-chat-with-WebSocket-using-a-map-variable-in-Go">here</a>.<br /><br />
 
-Now, if you want to use a chat with messages and track connected and disconnected users using Redis, this is the project you need.<br /><br />
 To run Redis in Docker, use:
  ```
 sudo docker run --name redis -d -p 6379:6379 redis
