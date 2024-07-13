@@ -1,6 +1,7 @@
 package server
 
 import (
+	"encoding/base64"
 	"fmt"
 	"html/template"
 	"net/http"
@@ -18,8 +19,10 @@ func (server *Server) serveChat(w http.ResponseWriter, r *http.Request) {
 
 	data := struct {
 		WebSocketURL string
+		Img          string
 	}{
 		WebSocketURL: fmt.Sprintf("ws://%s:%d%s", server.host, server.port, server.pattern),
+		Img:          base64.StdEncoding.EncodeToString(templates.Img),
 	}
 
 	err = tmpl.Execute(w, data)

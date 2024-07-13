@@ -23,6 +23,9 @@
         #messages{
             width: 98%!important;
             height: 55%!important;
+            background-image: url("data:image/png;base64,{{.Img}}");
+            background-color: #8696A0!important;
+              
         }
 
         #message {
@@ -31,6 +34,7 @@
             background-color: #8696A0;
             padding: 20px;
             color:#000
+            
         }
         #username {
             width: calc(99% - 50px);
@@ -40,11 +44,20 @@
         }
 
         .message {
-            margin-bottom: 10px;
-            color:#ccc;
-            padding: 4px;
+            margin-bottom: 2px;
+            color:#fff;
+            padding: 10px;
+            border-radius: 10px;
             
         }
+
+                
+        #messages .message {
+            background-color: #fff;
+            color:#2A3942;
+            
+        }
+
 
           
         .emoji-container {
@@ -112,13 +125,13 @@
         }
 
         .icons{
-            position: relative;
+
             width: 100%;
         }
 
         .message-time{
             padding: 5px;
-            background-color: #8696A0;
+            background-color: #fff;
             margin-left: 30%;
             width: 100px;
             text-align: center;
