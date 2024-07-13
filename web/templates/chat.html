@@ -13,7 +13,7 @@
 
         #chat,#messages {
             width: 30%;
-            height: 86vh;
+            height: 100%;
             border: 1px solid  #8696A0;;
             padding: 10px;
             overflow-y: scroll;
@@ -22,8 +22,9 @@
 
         #messages{
             width: 98%!important;
-            height: 77vh!important;
+            height: 55%!important;
         }
+
         #message {
             width: calc(100% - 50px);
             border-radius: 10px;
@@ -88,11 +89,22 @@
             align-items: stretch;
         }
 
-        #send{
-            padding: 20px;
+        .container{
+            width: 100%;
+            height: 100%;
         }
+
+        #send{
+            padding: 19px;
+            width: 100px;
+            position: absolute;
+            top:0;
+            right:5px
+        }
+
         .emoji-picker{
             height: 100px;
+            position: relative;
         }
 
         .icons{
@@ -100,11 +112,7 @@
             width: 100%;
         }
 
-        .emoji-input{
-            width: 87%!important;
-        }
-
-      
+             
     </style>
 </head>
 <body>
