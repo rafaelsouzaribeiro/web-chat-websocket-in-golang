@@ -140,6 +140,7 @@
         let hasMoreMessages = true;
         let hasMoreUsers=true
         let startIndex = -20;
+        let startmessageIndex = -20
 
         window.addEventListener('beforeunload', function (event) {
             if(socket){
@@ -191,7 +192,7 @@
         }
 
         function loadPreviousMessages() {
-            fetch(`/last-messages/${startIndex}`)
+            fetch(`/last-messages/${startmessageIndex}`)
                 .then(response => response.json())
                 .then(data => {
                     if(data.messages!=null){
@@ -202,7 +203,7 @@
                             messageElement.innerHTML = `${msg.username}: ${msg.message}`;
                             messages.insertBefore(messageElement, messages.firstChild);
                         });
-                        startIndex -= 20;
+                        startmessageIndex -= 20;
 
                         const childDivs = messages.getElementsByTagName('div');
                         
