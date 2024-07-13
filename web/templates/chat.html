@@ -116,7 +116,20 @@
             width: 100%;
         }
 
-             
+        .message-time{
+            padding: 5px;
+            background-color: #8696A0;
+            margin-left: 30%;
+            width: 50px;
+            text-align: center;
+            height: auto;
+        }
+
+        #load{
+            width: 50px;
+            height: 20px;
+            float: right;
+        }
     </style>
 </head>
 <body>
@@ -126,6 +139,7 @@
     </div>
     <div class="container">
         <div id="chat">
+            <button id="load">Load</button>
             <div id="spacer"></div>
         </div>
         <div class="icons">
@@ -146,6 +160,7 @@
         const usernameInput = document.getElementById('username');
         const messages = document.getElementById('spacer-ms')
         const messagesScroll = document.getElementById('messages')
+        const load = document.getElementById('load')
         let socket;
         const webSocketURL = "{{.WebSocketURL}}";
         let hasMoreMessages = true;
@@ -162,12 +177,18 @@
                 
         });
 
+        
         chat.addEventListener('scroll', function(event) {
             if (chat.scrollTop === 0 && hasMoreUsers) {
                 loadPreviousUsers();
             }
         });
 
+        load.addEventListener('click',function(event){
+            if (hasMoreUsers) {
+                loadPreviousUsers();
+            }
+        });
 
         messagesScroll.addEventListener('scroll', function(event) {
             if (messagesScroll.scrollTop === 0 && hasMoreMessages) {
@@ -212,6 +233,11 @@
                             const messageElement = document.createElement('div');
                             messageElement.classList.add('message');
                             messageElement.innerHTML = `${msg.username}: ${msg.message}`;
+
+                            const timeElement = document.createElement('div');
+                            timeElement.classList.add('message-time');
+                            timeElement.innerHTML = formatTime(msg.time);
+                            messages.insertBefore(timeElement, messages.firstChild);
                             messages.insertBefore(messageElement, messages.firstChild);
                         });
                         startmessageIndex -= 20;
@@ -252,20 +278,25 @@
                 const msg = JSON.parse(event.data);
 
                 if (msg.username && msg.message) {
+   
                     const messageElement = document.createElement('div');
                     messageElement.classList.add('message');
                     messageElement.innerHTML = `${msg.username}: ${msg.message}`;
-
+                       
                     if (msg.type=="message"){
+                        const timeElement = document.createElement('div');
+                        timeElement.classList.add('message-time');
+                        timeElement.innerHTML = formatTime(msg.time);
+                        messages.appendChild(timeElement);
                         messages.appendChild(messageElement);
                     }else{
-                        chat.appendChild(messageElement);
+                       chat.appendChild(messageElement);
                     }
   
 
                     const childDivs = chat.getElementsByTagName('div');
 
-                    if(childDivs.length>19){
+                    if(childDivs.length>13){
                         chat.scrollTop = chat.scrollHeight;
                     }
 
@@ -287,8 +318,9 @@
                 message = messageInput.value;
             }
             const username = usernameInput.value;
+            const currentTime = new Date().toISOString();
             if (socket && socket.readyState === WebSocket.OPEN) {
-                socket.send(JSON.stringify({ Username: username, Message: message, Type: type }));
+                socket.send(JSON.stringify({ Username: username, Message: message, Type: type,Time:currentTime }));
                // messageInput.value = '';
             } else {
                 alert('WebSocket is not connected.');
@@ -323,6 +355,26 @@
         emojiContainer.addEventListener("click", (e) => {
             emojiInput.value += e.target.innerText;
         });
+
+       
+        function formatTime(time) {
+            const today = new Date();
+            const date = new Date(time);
+
+            const isToday = today.toDateString() === date.toDateString();
+            if (isToday) {
+                return "Hoje";
+            }
+
+            const yesterday = new Date(today);
+            yesterday.setDate(today.getDate() - 1);
+            const isYesterday = yesterday.toDateString() === date.toDateString();
+            if (isYesterday) {
+                return "Ontem";
+            }
+
+            return date.toLocaleDateString();
+        }
 
     </script>
 </body>

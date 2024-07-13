@@ -3,6 +3,7 @@ package server
 import (
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/usecase/dto"
@@ -26,6 +27,7 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 			disconnectionMessage := dto.Payload{
 				Username: "<strong>info</strong>",
 				Message:  fmt.Sprintf("User <strong>%s</strong> disconnected", username),
+				Time:     time.Now(),
 			}
 
 			deleteUserByUserName(username, true)
@@ -48,6 +50,7 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 				systemMessage := dto.Payload{
 					Username: "<strong>info</strong>",
 					Message:  fmt.Sprintf("User already exists: <strong>%s</strong>", msgs.Username),
+					Time:     time.Now(),
 				}
 
 				deleteUserByConn(conn, false)
@@ -68,6 +71,7 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 			systemMessage := dto.Payload{
 				Username: "<strong>info</strong>",
 				Message:  fmt.Sprintf("User <strong>%s</strong> connected", msgs.Username),
+				Time:     time.Now(),
 			}
 
 			mu.Lock()
