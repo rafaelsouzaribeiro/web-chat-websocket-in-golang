@@ -76,6 +76,10 @@
             margin-bottom: 300px;
         }
 
+        #spacer{
+            overflow-y: scroll;
+        }
+
         .clear{
             clear: both;
         }
@@ -138,7 +142,6 @@
     </div>
     <script>
         const chat = document.getElementById('spacer');
-        const scroller = document.getElementById('chat');
         const messageInput = document.getElementById('message');
         const usernameInput = document.getElementById('username');
         const messages = document.getElementById('spacer-ms')
@@ -159,8 +162,8 @@
                 
         });
 
-        scroller.addEventListener('scroll', function(event) {
-            if (scroller.scrollTop === 0 && hasMoreUsers) {
+        chat.addEventListener('scroll', function(event) {
+            if (chat.scrollTop === 0 && hasMoreUsers) {
                 loadPreviousUsers();
             }
         });
@@ -190,7 +193,7 @@
                         const childDivs = chat.getElementsByTagName('div');
                         
                         if(childDivs.length>19){
-                            scroller.scrollTop = chat.scrollHeight;
+                            chat.scrollTop = chat.scrollHeight;
                         }
                         hasMoreUsers = data.hasMore;
                 }
@@ -263,7 +266,7 @@
                     const childDivs = chat.getElementsByTagName('div');
 
                     if(childDivs.length>19){
-                        scroller.scrollTop = chat.scrollHeight;
+                        chat.scrollTop = chat.scrollHeight;
                     }
 
                 }
