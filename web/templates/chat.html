@@ -227,7 +227,7 @@
             fetch(`/last-messages/${startmessageIndex}`)
                 .then(response => response.json())
                 .then(data => {
-                    if(data.messages!=null){ 
+                    if(data.messages!=null){
                         let lastTimestamps = ""; 
                         data.messages.reverse().forEach(msg => {
                             console.log(msg)
@@ -235,20 +235,15 @@
                             messageElement.classList.add('message');
                             messageElement.innerHTML = `${msg.username}: ${msg.message}`;
                             v=formatTime(msg.time);
+                            messages.insertBefore(messageElement, messages.firstChild);
                             
-                            const container = document.createElement('div');
-                            container.appendChild(messageElement);
-
                             if(lastTimestamps!=v){
                                 const timeElement = document.createElement('div');
                                 timeElement.classList.add('message-time');
                                 timeElement.innerHTML = v;
-                                container.appendChild(timeElement);
+                                messages.after(timeElement);
                                 lastTimestamps=v;
                             }
-
-                            
-                            messages.insertBefore(container, messages.firstChild);
  
                             
                         });
