@@ -227,18 +227,30 @@
             fetch(`/last-messages/${startmessageIndex}`)
                 .then(response => response.json())
                 .then(data => {
-                    if(data.messages!=null){
+                    if(data.messages!=null){ 
+                        let lastTimestamps = ""; 
                         data.messages.reverse().forEach(msg => {
                             console.log(msg)
                             const messageElement = document.createElement('div');
                             messageElement.classList.add('message');
                             messageElement.innerHTML = `${msg.username}: ${msg.message}`;
+                            v=formatTime(msg.time);
+                            
+                            const container = document.createElement('div');
+                            container.appendChild(messageElement);
 
-                            const timeElement = document.createElement('div');
-                            timeElement.classList.add('message-time');
-                            timeElement.innerHTML = formatTime(msg.time);
-                            messages.insertBefore(timeElement, messages.firstChild);
-                            messages.insertBefore(messageElement, messages.firstChild);
+                            if(lastTimestamps!=v){
+                                const timeElement = document.createElement('div');
+                                timeElement.classList.add('message-time');
+                                timeElement.innerHTML = v;
+                                container.appendChild(timeElement);
+                                lastTimestamps=v;
+                            }
+
+                            
+                            messages.insertBefore(container, messages.firstChild);
+ 
+                            
                         });
                         startmessageIndex -= 20;
 
@@ -274,6 +286,7 @@
                 sendMessage('connected', 'connect');
             };
 
+            let lastTimestamp = ""; 
             socket.onmessage = function(event) {
                 const msg = JSON.parse(event.data);
 
@@ -282,12 +295,17 @@
                     const messageElement = document.createElement('div');
                     messageElement.classList.add('message');
                     messageElement.innerHTML = `${msg.username}: ${msg.message}`;
+                    const v = formatTime(msg.time);
                        
                     if (msg.type=="message"){
-                        const timeElement = document.createElement('div');
-                        timeElement.classList.add('message-time');
-                        timeElement.innerHTML = formatTime(msg.time);
-                        messages.appendChild(timeElement);
+                        if(lastTimestamp!=v){
+                            const timeElement = document.createElement('div');
+                            timeElement.classList.add('message-time');
+                            timeElement.innerHTML = v;
+                            messages.appendChild(timeElement);
+                            lastTimestamp=v;
+                        }
+   
                         messages.appendChild(messageElement);
                     }else{
                        chat.appendChild(messageElement);
