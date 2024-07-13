@@ -238,7 +238,11 @@
                             messages.insertBefore(messageElement, messages.firstChild);
                             
                             if(lastTimestamps!=v){
-                                messages.insertAdjacentHTML('beforebegin',"<div class='message-time'>"+v+"</div>");
+                                const timeElement = document.createElement('div');
+                                timeElement.classList.add('message-time');
+                                timeElement.innerHTML = v;
+                                messages.insertBefore(timeElement, messages.firstChild);
+                                // messages.insertAdjacentHTML('beforebegin',"<div class='message-time'>"+v+"</div>");
                                 lastTimestamps=v;
                             }
  
