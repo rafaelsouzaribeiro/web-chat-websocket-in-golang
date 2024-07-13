@@ -234,16 +234,11 @@
                             messageElement.classList.add('message');
                             messageElement.innerHTML = `${msg.username}: ${msg.message}`;
 
-                            const container = document.createElement('div');
-                            container.classList.add('container-time');
-
                             const timeElement = document.createElement('div');
                             timeElement.classList.add('message-time');
                             timeElement.innerHTML = formatTime(msg.time);
                             messages.insertBefore(timeElement, messages.firstChild);
                             messages.insertBefore(messageElement, messages.firstChild);
-                            container.appendChild(timeElement)
-                            container.appendChild(messageElement)
                         });
                         startmessageIndex -= 20;
 
