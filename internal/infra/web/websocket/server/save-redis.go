@@ -7,14 +7,14 @@ import (
 	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/usecase/dto"
 )
 
-func saveMessageToRedis(msg dto.Payload) {
+func saveMessageToRedis(msg dto.Payload, key string) {
 	data, err := json.Marshal(msg)
 	if err != nil {
 		fmt.Println("Error marshaling message:", err)
 		return
 	}
 
-	err = rdb.RPush(ctx, "chat_messages", data).Err()
+	err = rdb.RPush(ctx, key, data).Err()
 	if err != nil {
 		fmt.Println("Error saving message to Redis:", err)
 	}

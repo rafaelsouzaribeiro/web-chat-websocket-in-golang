@@ -33,7 +33,7 @@ func gracefulShutdown(server *http.Server) {
 			Message:  fmt.Sprintf("User <strong>%s</strong> disconnected", user.username),
 		}
 
-		saveMessageToRedis(disconnectionMessage)
+		saveMessageToRedis(disconnectionMessage, "users")
 		deleteUserByConn(user.conn, true)
 	}
 

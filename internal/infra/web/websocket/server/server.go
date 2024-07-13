@@ -11,10 +11,11 @@ func (server *Server) ServerWebsocket() {
 	router := mux.NewRouter()
 	router.HandleFunc("/chat", server.serveChat).Methods("GET")
 	router.HandleFunc("/last-messages/{startIndex}", server.getMessagesFromIndex).Methods("GET")
-
+	router.HandleFunc("/last-users/{startIndex}", server.getUsersFromIndex).Methods("GET")
 	router.HandleFunc(server.pattern, handleConnections)
 
 	go handleMessages()
+	go handleConnected()
 
 	httpServer := &http.Server{
 		Addr:    fmt.Sprintf("%s:%d", server.host, server.port),

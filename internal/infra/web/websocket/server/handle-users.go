@@ -2,8 +2,8 @@ package server
 
 import "fmt"
 
-func handleMessages() {
-	for msg := range messages {
+func handleConnected() {
+	for msg := range connected {
 
 		for _, user := range users {
 			mu.Lock()

@@ -1,7 +1,6 @@
 package server
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 
@@ -14,29 +13,6 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println(err)
 		return
-	}
-
-	totalMessages, err := rdb.LLen(ctx, "chat_messages").Result()
-	if err != nil {
-		fmt.Println("Error retrieving total number of messages from Redis:", err)
-		return
-	}
-
-	startIndex := int64(0)
-	if totalMessages > perPage {
-		startIndex = totalMessages - perPage
-	}
-
-	messages, err := rdb.LRange(ctx, "chat_messages", startIndex, -1).Result()
-	if err != nil {
-		fmt.Println("Error retrieving messages from Redis:", err)
-	} else {
-		for _, msg := range messages {
-			var payload dto.Payload
-			if err := json.Unmarshal([]byte(msg), &payload); err == nil {
-				conn.WriteJSON(payload)
-			}
-		}
 	}
 
 	defer func() {
@@ -54,8 +30,8 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 
 			deleteUserByUserName(username, true)
 
-			saveMessageToRedis(disconnectionMessage)
-			broadcast <- disconnectionMessage
+			saveMessageToRedis(disconnectionMessage, "users")
+			connected <- disconnectionMessage
 			conn.Close()
 		}
 	}()
@@ -76,6 +52,7 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 
 				deleteUserByConn(conn, false)
 				conn.WriteJSON(systemMessage)
+
 			}
 			continue
 		}
@@ -85,8 +62,8 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 			msgs.Username = fmt.Sprintf("<strong>%s</strong>", msgs.Username)
 			mu.Unlock()
 
-			saveMessageToRedis(msgs)
-			broadcast <- msgs
+			saveMessageToRedis(msgs, "messages")
+			messages <- msgs
 		} else {
 			systemMessage := dto.Payload{
 				Username: "<strong>info</strong>",
@@ -102,9 +79,10 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 			}
 
 			mu.Unlock()
-
-			saveMessageToRedis(systemMessage)
-			broadcast <- systemMessage
+			getRedis(0, conn, "users")
+			getRedis(0, conn, "messages")
+			saveMessageToRedis(systemMessage, "users")
+			connected <- systemMessage
 		}
 	}
 }

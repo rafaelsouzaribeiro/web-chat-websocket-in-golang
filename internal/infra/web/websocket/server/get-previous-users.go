@@ -9,7 +9,7 @@ import (
 	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/usecase/dto"
 )
 
-func (server *Server) getMessagesFromIndex(w http.ResponseWriter, r *http.Request) {
+func (server *Server) getUsersFromIndex(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	startIndex, err := strconv.ParseInt(vars["startIndex"], 10, 64)
 	if err != nil {
@@ -23,7 +23,7 @@ func (server *Server) getMessagesFromIndex(w http.ResponseWriter, r *http.Reques
 		startIndex = 0
 	}
 
-	messages, err := rdb.LRange(ctx, "messages", startIndex, endIndex).Result()
+	messages, err := rdb.LRange(ctx, "users", startIndex, endIndex).Result()
 	if err != nil {
 		http.Error(w, "Error retrieving messages from Redis", http.StatusInternalServerError)
 		return
