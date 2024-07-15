@@ -151,6 +151,16 @@
             width: 100%;
             text-align: right;
         }
+
+        #scroll-down{
+            position: absolute;
+            bottom:450px;
+            right:10px;
+            background-color: #fff;
+            border:solid 1px #2A3942;
+            padding: 5px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -165,6 +175,7 @@
         </div>
         <div class="icons">
             <div id="messages">
+                <div id="scroll-down">SCROLL DOWN</div>
                 <div id="tempo" class="message-time"></div>
                 <div id="spacer-ms"></div>
             </div>
@@ -182,6 +193,7 @@
         const usernameInput = document.getElementById('username');
         const messages = document.getElementById('spacer-ms')
         const messagesScroll = document.getElementById('messages')
+        const scrolldown = document.getElementById('scroll-down')
         const load = document.getElementById('load')
         let socket;
         const webSocketURL = "{{.WebSocketURL}}";
@@ -189,6 +201,7 @@
         let hasMoreUsers=true
         let startIndex = -20;
         let startmessageIndex = -20;
+
 
         window.addEventListener('beforeunload', function (event) {
             if(socket){
@@ -199,7 +212,10 @@
                 
         });
 
-        
+        scrolldown.addEventListener('click',function(event){
+            messagesScroll.scrollTo(0, messagesScroll.scrollHeight);
+        });
+
         chat.addEventListener('scroll', function(event) {
             if (chat.scrollTop === 0 && hasMoreUsers) {
                 loadPreviousUsers();
