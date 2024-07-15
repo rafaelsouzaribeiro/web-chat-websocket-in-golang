@@ -125,17 +125,20 @@
         }
 
         .icons{
-
+            position: relative;
             width: 100%;
         }
 
         .message-time{
             padding: 5px;
             background-color: #fff;
-            margin-left: 30%;
             width: 100px;
             text-align: center;
             height: auto;
+            top:20px;
+            right:50%;
+            position: absolute;
+            border:solid 1px #2A3942;
         }
 
         #load{
@@ -162,6 +165,7 @@
         </div>
         <div class="icons">
             <div id="messages">
+                <div id="tempo" class="message-time"></div>
                 <div id="spacer-ms"></div>
             </div>
             <div class="emoji-picker">
@@ -208,10 +212,29 @@
             }
         });
 
+
+        function updateVisibleMessages() {
+            let children = messages.getElementsByClassName("horadate");
+            let visibleValues = "";
+
+            for (let index = 0; index < children.length; index++) {
+                const element = children[index];
+                const rect = element.getBoundingClientRect();
+
+                if (rect.top >= 0 && (rect.bottom+200) <= window.innerHeight) {
+                    document.getElementById('tempo').innerHTML=element.innerHTML; 
+                }
+
+            }
+             
+        }
+
         messagesScroll.addEventListener('scroll', function(event) {
             if (messagesScroll.scrollTop === 0 && hasMoreMessages) {
                 loadPreviousMessages();
             }
+
+            updateVisibleMessages()
         });
 
         function GetTime(v){
@@ -279,6 +302,7 @@
                             messagesScroll.scrollTop = messages.scrollHeight;
                         }
                         hasMoreMessages = data.hasMore;
+                        updateVisibleMessages()
                  }
 
                 })
