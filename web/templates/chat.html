@@ -143,6 +143,11 @@
             height: 20px;
             float: right;
         }
+
+        .horadate{
+            width: 100%;
+            text-align: right;
+        }
     </style>
 </head>
 <body>
@@ -210,6 +215,14 @@
             }
         });
 
+        function GetTime(v){
+            let currentTime = new Date(v);
+            let hours = currentTime.getHours();
+            let minutes = currentTime.getMinutes();
+
+            return formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+        }
+
 
         function loadPreviousUsers() {
             fetch(`/last-users/${startIndex}`)
@@ -244,11 +257,18 @@
                     if(data.messages!=null){
                         data.messages.reverse().forEach(msg => {
                             console.log(msg)
+                            formattedTime=GetTime(msg.time)
+
                             const messageElement = document.createElement('div');
                             messageElement.classList.add('message');
                             messageElement.innerHTML = `${msg.username}: ${msg.message}`;
                             v=formatTime(msg.time);
                             messages.insertBefore(messageElement, messages.firstChild);
+
+                            const horadate = document.createElement('div');
+                            horadate.classList.add('horadate');
+                            horadate.innerHTML = `${formattedTime}`;
+                            messageElement.appendChild(horadate)
                             
                             if(lastTimestamp!=v){
                                 const timeElement = document.createElement('div');
@@ -311,10 +331,17 @@
                             timeElement.classList.add('message-time');
                             timeElement.innerHTML = v;
                             messages.appendChild(timeElement);
-                            lastTimestamp=v;
+                            lastTimestamp=v;  
                         }
-   
+
+                        formattedTime=GetTime(msg.time)
+                        const horadate = document.createElement('div');
+                        horadate.classList.add('horadate');
+                        horadate.innerHTML = `${formattedTime}`;
+                        messageElement.appendChild(horadate);
+
                         messages.appendChild(messageElement);
+
                     }else{
                        chat.appendChild(messageElement);
                     }
