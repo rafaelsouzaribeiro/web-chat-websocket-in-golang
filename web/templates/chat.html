@@ -185,7 +185,6 @@
         let hasMoreUsers=true
         let startIndex = -20;
         let startmessageIndex = -20;
-        let lastTimestamp = "";
 
         window.addEventListener('beforeunload', function (event) {
             if(socket){
@@ -267,19 +266,10 @@
 
                             const horadate = document.createElement('div');
                             horadate.classList.add('horadate');
-                            horadate.innerHTML = `${formattedTime}`;
+                            horadate.innerHTML = `${v} - ${formattedTime}`;
                             messageElement.appendChild(horadate)
                             
-                            if(lastTimestamp!=v){
-                                const timeElement = document.createElement('div');
-                                timeElement.classList.add('message-time');
-                                timeElement.innerHTML = v;
-                                messages.insertBefore(timeElement, messages.firstChild);
-                                // messages.insertAdjacentHTML('beforebegin',"<div class='message-time'>"+v+"</div>");
-                                lastTimestamp=v;
-                            }
- 
-                            
+                                                      
                         });
                         startmessageIndex -= 20;
 
@@ -326,18 +316,10 @@
                     let v = formatTime(msg.time);
                        
                     if (msg.type=="message"){
-                        if(lastTimestamp!=v){
-                            const timeElement = document.createElement('div');
-                            timeElement.classList.add('message-time');
-                            timeElement.innerHTML = v;
-                            messages.appendChild(timeElement);
-                            lastTimestamp=v;  
-                        }
-
                         formattedTime=GetTime(msg.time)
                         const horadate = document.createElement('div');
                         horadate.classList.add('horadate');
-                        horadate.innerHTML = `${formattedTime}`;
+                        horadate.innerHTML = `${v} - ${formattedTime}`;
                         messageElement.appendChild(horadate);
 
                         messages.appendChild(messageElement);
