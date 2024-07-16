@@ -31,3 +31,13 @@ func (server *Server) serveChat(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+
+func (server *Server) serveJS(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/javascript")
+	w.Write([]byte(templates.ChatJS))
+}
+
+func (server *Server) serveCSS(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/css")
+	w.Write([]byte(templates.StylesCSS))
+}

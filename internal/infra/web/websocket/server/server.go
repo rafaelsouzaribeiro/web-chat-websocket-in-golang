@@ -13,6 +13,8 @@ func (server *Server) ServerWebsocket() {
 	router.HandleFunc("/last-messages/{startIndex}", server.getMessagesFromIndex).Methods("GET")
 	router.HandleFunc("/last-users/{startIndex}", server.getUsersFromIndex).Methods("GET")
 	router.HandleFunc(server.pattern, handleConnections)
+	router.HandleFunc("/js/functions.js", server.serveJS)
+	router.HandleFunc("/css/styles.css", server.serveCSS)
 
 	go handleMessages()
 	go handleConnected()

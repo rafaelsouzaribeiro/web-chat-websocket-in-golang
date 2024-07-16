@@ -1,0 +1,156 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #111B21;
+    overflow: hidden;
+}
+
+#chat,#messages {
+    width: 30%;
+    height: 100%;
+    border: 1px solid  #8696A0;;
+    padding: 10px;
+    overflow-y: scroll;
+    background-color: #2A3942;
+ }
+
+#messages{
+    width: 98%!important;
+    height: 55%!important;
+    background-image: url("data:image/png;base64,{{.Img}}");
+    background-color: #8696A0!important;
+      
+}
+
+#message {
+    width: calc(100% - 50px);
+    border-radius: 10px;
+    background-color: #8696A0;
+    padding: 20px;
+    color:#000
+    
+}
+#username {
+    width: calc(99% - 50px);
+    height: 50px;
+    background-color: #f1f1f1;
+    border: 1px solid #ddd;
+}
+
+.message {
+    margin-bottom: 2px;
+    color:#fff;
+    padding: 10px;
+    border-radius: 10px;
+    
+}
+
+        
+#messages .message {
+    background-color: #fff;
+    color:#2A3942;
+    
+}
+
+
+  
+.emoji-container {
+    display: none;
+    background-color: #f1f1f1;
+    width: calc(105% - 50px);
+    overflow: auto;
+    border: 1px solid #ddd;
+    position: absolute;
+    bottom:100px
+
+}
+
+.emoji-container .emoji {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.emoji-container .emoji:hover {
+    background-color: #ddd;
+}
+
+.emoji{
+    float: left;
+}
+
+#spacer,#spacer-ms{
+    height: 500px;
+    margin-bottom: 300px;
+}
+
+#spacer{
+    overflow-y: scroll;
+}
+
+.clear{
+    clear: both;
+}
+
+.container,.username{
+    display: -ms-flexbox;
+    display: flexbox;
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    align-items: stretch;
+}
+
+.container{
+    width: 100%;
+    height: 100%;
+}
+
+#send{
+    padding: 19px;
+    width: 100px;
+    position: absolute;
+    top:0;
+    right:5px
+}
+
+.emoji-picker{
+    height: 100px;
+    position: relative;
+}
+
+.icons{
+    position: relative;
+    width: 100%;
+}
+
+.message-time{
+    padding: 5px;
+    background-color: #fff;
+    width: 100px;
+    text-align: center;
+    height: auto;
+    top:20px;
+    right:50%;
+    position: absolute;
+    border:solid 1px #2A3942;
+}
+
+#load{
+    width: 50px;
+    height: 20px;
+    float: right;
+}
+
+.horadate{
+    width: 100%;
+    text-align: right;
+}
+
+#scroll-down{
+    position: absolute;
+    bottom:450px;
+    right:10px;
+    background-color: #fff;
+    border:solid 1px #2A3942;
+    padding: 5px;
+    cursor: pointer;
+}
