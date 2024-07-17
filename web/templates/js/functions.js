@@ -6,7 +6,7 @@ const messages = document.getElementById('spacer-ms')
 const messagesScroll = document.getElementById('messages')
 const scrolldown = document.getElementById('scroll-down')
 const load = document.getElementById('load')
-const username_check = document.getElementById('username_check')
+let username_check = ""
 let socket;
 let hasMoreMessages = true;
 let hasMoreUsers=true
@@ -137,8 +137,8 @@ function loadPreviousMessages() {
 }
 
 function connect() {
-    username_check.value=usernameInput.value;
-    if (!username) {
+    username_check=usernameInput.value;
+    if (!username_check) {
         alert('Please enter a username.');
         return;
     }
@@ -205,16 +205,13 @@ function sendMessage(message, type) {
         message = messageInput.value;
     }
 
-
-
-    const username = username_check.value;
     const currentTime = new Date().toISOString();
     if (socket && socket.readyState === WebSocket.OPEN) {
-        if (username==""){
-            alert("enter username")
+        if (username_check==""){
+            alert("Please enter username")
         }
 
-        socket.send(JSON.stringify({ Username: username, Message: message, Type: type,Time:currentTime }));
+        socket.send(JSON.stringify({ Username: username_check, Message: message, Type: type,Time:currentTime }));
        // messageInput.value = '';
     } else {
         alert('WebSocket is not connected.');
