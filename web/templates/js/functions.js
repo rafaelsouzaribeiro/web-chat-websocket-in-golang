@@ -143,6 +143,10 @@ function connect() {
         return;
     }
 
+    if(username_check.includes('<script>')){
+        alert("Username contains a script tag!")
+        return;
+    }
     
     if (socket) {
         chat.innerHTML=""
@@ -203,6 +207,11 @@ function connect() {
 function sendMessage(message, type) {
     if (!message) {
         message = messageInput.value;
+    }
+
+    if(message.includes('<script>')){
+        alert("Message contains a script tag!")
+        return;
     }
 
     const currentTime = new Date().toISOString();
