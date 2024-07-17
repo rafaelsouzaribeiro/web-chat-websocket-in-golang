@@ -268,10 +268,3 @@ function formatTime(time) {
 }
 
 
-usernameInput.addEventListener("keydown", (e) => {
-    if ((e.keyCode == 32) && (e.ctrlKey || e.metaKey)) {
-        
-        console.log(e.keyCode)
-        return;
-    }
-});
