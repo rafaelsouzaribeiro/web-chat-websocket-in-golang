@@ -42,14 +42,13 @@ load.addEventListener('click',function(event){
 
 function updateVisibleMessages() {
     let children = messages.getElementsByClassName("horadate");
-    let visibleValues = "";
 
     for (let index = 0; index < children.length; index++) {
         const element = children[index];
         const rect = element.getBoundingClientRect();
 
-        if (rect.top >= 0 && (rect.bottom+50) <= window.innerHeight) {
-            document.getElementById('tempo').innerHTML=element.innerHTML; 
+        if (rect.top >= 0 && rect.top <= 30) { 
+            document.getElementById('tempo').innerHTML = element.innerHTML;
         }
 
     }
