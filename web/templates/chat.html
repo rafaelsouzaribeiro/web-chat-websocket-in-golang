@@ -32,6 +32,8 @@
     </div>
     <script>
         const webSocketURL = "{{.WebSocketURL}}";
+        const backgroundImage = "data:image/png;base64,{{.Img}}";
+        document.getElementById('messages').style.backgroundImage = `url(${backgroundImage})`;
     </script>
     <script src="/js/functions.js"></script>
 </body>

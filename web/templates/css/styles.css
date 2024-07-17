@@ -16,7 +16,6 @@ body {
 #messages{
     width: 98%!important;
     height: 55%!important;
-    background-image: url("data:image/png;base64,{{.Img}}");
     background-color: #8696A0!important;
       
 }
