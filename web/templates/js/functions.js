@@ -49,6 +49,7 @@ function updateVisibleMessages() {
 
         if (rect.top >= 0 && rect.top <= 30) { 
             document.getElementById('tempo').innerHTML = element.innerHTML;
+            break;
         }
 
     }
