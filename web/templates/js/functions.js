@@ -139,6 +139,8 @@ function loadPreviousMessages() {
 function connect() {
     username_check=usernameInput.value;
     if (!username_check.trim()) {
+        usernameInput.value="";
+        usernameInput.focus();
         alert('Please enter a username.');
         return;
     }
