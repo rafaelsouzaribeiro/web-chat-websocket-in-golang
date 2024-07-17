@@ -6,7 +6,7 @@ import _ "embed"
 var Chat string
 
 //go:embed img/background.png
-var Img []byte
+var Img string
 
 //go:embed js/functions.js
 var ChatJS string

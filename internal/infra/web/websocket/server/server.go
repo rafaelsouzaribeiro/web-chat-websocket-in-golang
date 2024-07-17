@@ -15,6 +15,7 @@ func (server *Server) ServerWebsocket() {
 	router.HandleFunc(server.pattern, handleConnections)
 	router.HandleFunc("/js/functions.js", server.serveJS)
 	router.HandleFunc("/css/styles.css", server.serveCSS)
+	router.HandleFunc("/img/background.png", server.serveImg)
 
 	go handleMessages()
 	go handleConnected()
