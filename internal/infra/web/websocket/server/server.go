@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/web/templates"
 )
 
 func (server *Server) ServerWebsocket() {
@@ -13,9 +14,15 @@ func (server *Server) ServerWebsocket() {
 	router.HandleFunc("/last-messages/{startIndex}", server.getMessagesFromIndex).Methods("GET")
 	router.HandleFunc("/last-users/{startIndex}", server.getUsersFromIndex).Methods("GET")
 	router.HandleFunc(server.pattern, handleConnections)
-	router.HandleFunc("/js/functions.js", server.serveJS)
-	router.HandleFunc("/css/styles.css", server.serveCSS)
-	router.HandleFunc("/img/background.png", server.serveImg)
+	router.HandleFunc("/js/functions.js", func(w http.ResponseWriter, r *http.Request) {
+		server.serveFile(w, "application/javascript", templates.ChatJS)
+	})
+	router.HandleFunc("/css/styles.css", func(w http.ResponseWriter, r *http.Request) {
+		server.serveFile(w, "text/css", templates.StylesCSS)
+	})
+	router.HandleFunc("/img/background.png", func(w http.ResponseWriter, r *http.Request) {
+		server.serveFile(w, "image/png", templates.Img)
+	})
 
 	go handleMessages()
 	go handleConnected()

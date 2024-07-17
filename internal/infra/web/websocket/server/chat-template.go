@@ -29,17 +29,7 @@ func (server *Server) serveChat(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (server *Server) serveJS(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/javascript")
-	w.Write([]byte(templates.ChatJS))
-}
-
-func (server *Server) serveCSS(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/css")
-	w.Write([]byte(templates.StylesCSS))
-}
-
-func (server *Server) serveImg(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "image/png")
-	w.Write([]byte(templates.Img))
+func (server *Server) serveFile(w http.ResponseWriter, contentType, filePath string) {
+	w.Header().Set("Content-Type", contentType)
+	w.Write([]byte(filePath))
 }
