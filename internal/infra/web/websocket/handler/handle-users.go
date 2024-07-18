@@ -1,8 +1,8 @@
-package server
+package handler
 
 import "fmt"
 
-func handleConnected() {
+func (h *MessageHandler) HandleConnected() {
 	for msg := range connected {
 
 		for _, user := range users {
@@ -16,7 +16,7 @@ func handleConnected() {
 				mu.Lock()
 				user.conn.Close()
 				mu.Unlock()
-				deleteUserByUserName(user.username, false)
+				h.deleteUserByUserName(user.username, false)
 			}
 		}
 

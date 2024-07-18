@@ -1,8 +1,8 @@
-package server
+package handler
 
 import "github.com/gorilla/websocket"
 
-func getUsernameByConnection(conn *websocket.Conn) string {
+func (h *MessageHandler) getUsernameByConnection(conn *websocket.Conn) string {
 	mu.Lock()
 	defer mu.Unlock()
 	for _, user := range users {
@@ -13,7 +13,7 @@ func getUsernameByConnection(conn *websocket.Conn) string {
 	return ""
 }
 
-func deleteUserByUserName(username string, close bool) {
+func (h *MessageHandler) deleteUserByUserName(username string, close bool) {
 	mu.Lock()
 	defer mu.Unlock()
 	for k, user := range users {
@@ -26,7 +26,7 @@ func deleteUserByUserName(username string, close bool) {
 	}
 }
 
-func deleteUserByConn(conn *websocket.Conn, close bool) {
+func (h *MessageHandler) deleteUserByConn(conn *websocket.Conn, close bool) {
 	mu.Lock()
 	defer mu.Unlock()
 	for k, user := range users {

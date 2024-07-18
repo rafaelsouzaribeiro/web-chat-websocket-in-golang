@@ -8,6 +8,9 @@ import (
 
 	"github.com/spf13/viper"
 
+	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/infra/database/redis/connection"
+	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/infra/di"
+	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/infra/web/websocket/handler"
 	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/infra/web/websocket/server"
 )
 
@@ -45,8 +48,10 @@ func main() {
 	}
 
 	svc := server.NewServer(hostname, wsEndpoint, port)
-	svc.ConnectingRedis(hostRedis, portR)
-	go svc.ServerWebsocket()
+	redis := connection.ConnectingRedis(hostRedis, portR, "123mudar")
+	di := di.NewMessageUseCase(redis)
+	handler := handler.NewMessageHandler(di)
+	go svc.Start(handler)
 	select {}
 
 }

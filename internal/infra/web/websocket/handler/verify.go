@@ -1,8 +1,8 @@
-package server
+package handler
 
 import "github.com/gorilla/websocket"
 
-func verifyExistsUser(u string, conn *websocket.Conn) bool {
+func (h *MessageHandler) verifyExistsUser(u string, conn *websocket.Conn) bool {
 	mu.Lock()
 	defer mu.Unlock()
 	for _, user := range users {
@@ -13,7 +13,7 @@ func verifyExistsUser(u string, conn *websocket.Conn) bool {
 	return true
 }
 
-func verifyCon(s *websocket.Conn, variable *map[*websocket.Conn]bool) bool {
+func (h *MessageHandler) verifyCon(s *websocket.Conn, variable *map[*websocket.Conn]bool) bool {
 	mu.Lock()
 	defer mu.Unlock()
 	if _, exists := (*variable)[s]; !exists {

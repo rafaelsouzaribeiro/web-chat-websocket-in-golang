@@ -5,15 +5,17 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/infra/web/websocket/handler"
 	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/web/templates"
 )
 
-func (server *Server) ServerWebsocket() {
+func (server *Server) Start(handler *handler.MessageHandler) {
+
 	router := mux.NewRouter()
 	router.HandleFunc("/chat", server.serveChat).Methods("GET")
-	router.HandleFunc("/last-messages/{startIndex}", server.getMessagesFromIndex).Methods("GET")
-	router.HandleFunc("/last-users/{startIndex}", server.getUsersFromIndex).Methods("GET")
-	router.HandleFunc(server.pattern, handleConnections)
+	router.HandleFunc("/last-messages/{startIndex}", handler.GetMessagesFromIndex).Methods("GET")
+	router.HandleFunc("/last-users/{startIndex}", handler.GetUsersFromIndex).Methods("GET")
+	router.HandleFunc(server.pattern, handler.HandleConnections)
 	router.HandleFunc("/js/functions.js", func(w http.ResponseWriter, r *http.Request) {
 		server.serveFile(w, "application/javascript", templates.ChatJS)
 	})
@@ -24,8 +26,8 @@ func (server *Server) ServerWebsocket() {
 		server.serveFile(w, "image/png", templates.Img)
 	})
 
-	go handleMessages()
-	go handleConnected()
+	go handler.HandleMessages()
+	go handler.HandleConnected()
 
 	httpServer := &http.Server{
 		Addr:    fmt.Sprintf("%s:%d", server.host, server.port),
@@ -39,5 +41,5 @@ func (server *Server) ServerWebsocket() {
 		}
 	}()
 
-	gracefulShutdown(httpServer)
+	handler.GracefulShutdown(httpServer)
 }

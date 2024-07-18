@@ -1,4 +1,4 @@
-package server
+package handler
 
 import (
 	"context"
@@ -12,7 +12,7 @@ import (
 	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/usecase/dto"
 )
 
-func gracefulShutdown(server *http.Server) {
+func (h *MessageHandler) GracefulShutdown(server *http.Server) {
 	stop := make(chan os.Signal, 1)
 	signal.Notify(stop, os.Interrupt, syscall.SIGTERM, syscall.SIGINT)
 
@@ -33,8 +33,8 @@ func gracefulShutdown(server *http.Server) {
 			Message:  fmt.Sprintf("User <strong>%s</strong> disconnected", user.username),
 		}
 
-		saveMessageToRedis(disconnectionMessage, "users")
-		deleteUserByConn(user.conn, true)
+		h.messageUseCase.SaveUsers(disconnectionMessage)
+		h.deleteUserByConn(user.conn, true)
 	}
 
 	fmt.Println("Server gracefully stopped")

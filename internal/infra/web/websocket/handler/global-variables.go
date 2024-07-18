@@ -1,4 +1,4 @@
-package server
+package handler
 
 import (
 	"context"
@@ -6,7 +6,6 @@ import (
 
 	"github.com/gorilla/websocket"
 	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/usecase/dto"
-	"github.com/redis/go-redis/v9"
 )
 
 var (
@@ -16,10 +15,11 @@ var (
 	messageExists = make(map[*websocket.Conn]bool)
 	mu            sync.Mutex
 
-	ctx = context.Background()
-	rdb *redis.Client
+	ctx         = context.Background()
+	StartMIndex = int64(-20)
+	StartUIndex = int64(-20)
 )
 
 const (
-	perPage = 20
+	PerPage = 20
 )

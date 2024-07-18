@@ -1,4 +1,4 @@
-package server
+package handler
 
 import (
 	"fmt"
@@ -6,10 +6,19 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/gorilla/websocket"
 	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/usecase/dto"
 )
 
-func handleConnections(w http.ResponseWriter, r *http.Request) {
+var upgrader = websocket.Upgrader{
+	ReadBufferSize:  1024,
+	WriteBufferSize: 1024,
+	CheckOrigin: func(r *http.Request) bool {
+		return true
+	},
+}
+
+func (h *MessageHandler) HandleConnections(w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		fmt.Println(err)
@@ -17,7 +26,7 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 	}
 
 	defer func() {
-		username := getUsernameByConnection(conn)
+		username := h.getUsernameByConnection(conn)
 
 		mu.Lock()
 		delete(messageExists, conn)
@@ -30,9 +39,9 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 				Time:     time.Now(),
 			}
 
-			deleteUserByUserName(username, true)
+			h.deleteUserByUserName(username, true)
 
-			saveMessageToRedis(disconnectionMessage, "users")
+			h.messageUseCase.SaveUsers(disconnectionMessage)
 			connected <- disconnectionMessage
 			conn.Close()
 		}
@@ -45,15 +54,15 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 
-		if !verifyExistsUser(msgs.Username, conn) {
-			if verifyCon(conn, &messageExists) {
+		if !h.verifyExistsUser(msgs.Username, conn) {
+			if h.verifyCon(conn, &messageExists) {
 				systemMessage := dto.Payload{
 					Username: "<strong>info</strong>",
 					Message:  fmt.Sprintf("User already exists: <strong>%s</strong>", msgs.Username),
 					Time:     time.Now(),
 				}
 
-				deleteUserByConn(conn, false)
+				h.deleteUserByConn(conn, false)
 				conn.WriteJSON(systemMessage)
 
 			}
@@ -65,7 +74,7 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 			msgs.Username = fmt.Sprintf("<strong>%s</strong>", msgs.Username)
 			mu.Unlock()
 
-			saveMessageToRedis(msgs, "messages")
+			h.messageUseCase.SaveMessage(msgs)
 			messages <- msgs
 		} else {
 			systemMessage := dto.Payload{
@@ -83,9 +92,27 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 			}
 
 			mu.Unlock()
-			getRedis(0, conn, "users")
-			getRedis(0, conn, "messages")
-			saveMessageToRedis(systemMessage, "users")
+			message, err := h.messageUseCase.GetInitusers()
+
+			if err != nil {
+				fmt.Printf("Error %v \n", err)
+			}
+
+			for _, payload := range *message {
+				conn.WriteJSON(payload)
+			}
+
+			messa, err := h.messageUseCase.GetInitMessages()
+
+			if err != nil {
+				fmt.Printf("Error %v \n", err)
+			}
+
+			for _, payload := range *messa {
+				conn.WriteJSON(payload)
+			}
+
+			h.messageUseCase.SaveUsers(systemMessage)
 			connected <- systemMessage
 		}
 	}
