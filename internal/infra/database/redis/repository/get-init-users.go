@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 
 	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/entity"
-	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/infra/web/websocket/handler"
 )
 
 func (r *MesssageRepository) GetInitUsers() (*[]entity.Message, error) {
@@ -16,11 +15,11 @@ func (r *MesssageRepository) GetInitUsers() (*[]entity.Message, error) {
 		return nil, err
 	}
 
-	if totalMessages > handler.PerPage {
-		handler.StartUIndex = totalMessages - handler.PerPage
+	if totalMessages > PerPage {
+		StartUIndex = totalMessages - PerPage
 	}
 
-	messages, err := r.rdb.LRange(ctx, "users", handler.StartUIndex, -1).Result()
+	messages, err := r.rdb.LRange(ctx, "users", StartUIndex, -1).Result()
 	if err != nil {
 		return nil, err
 	}

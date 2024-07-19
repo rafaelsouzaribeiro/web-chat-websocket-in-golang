@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"github.com/gorilla/mux"
+	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/infra/database/redis/repository"
 	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/usecase/dto"
 )
 
@@ -18,14 +19,14 @@ func (h *MessageHandler) GetUsersFromIndex(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	StartUIndex = startIndex
+	repository.StartUIndex = startIndex
 	messages, err := h.messageUseCase.ListUsers()
 
 	if err != nil {
 		fmt.Printf("error list users %s", err)
 	}
 
-	hasMore := StartUIndex > 0
+	hasMore := repository.StartUIndex > 0
 
 	response := struct {
 		Messages []dto.Payload `json:"messages"`

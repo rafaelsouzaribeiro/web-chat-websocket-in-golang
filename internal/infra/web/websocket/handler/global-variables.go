@@ -13,11 +13,4 @@ var (
 	users         = make(map[string]User)
 	messageExists = make(map[*websocket.Conn]bool)
 	mu            sync.Mutex
-
-	StartMIndex = int64(-20)
-	StartUIndex = int64(-20)
-)
-
-const (
-	PerPage = 20
 )
