@@ -4,6 +4,11 @@ import (
 	"time"
 )
 
+var (
+	StartMIndex = int64(-20)
+	StartUIndex = int64(-20)
+)
+
 type Message struct {
 	Message  string    `json:"message"`
 	Username string    `json:"username"`
