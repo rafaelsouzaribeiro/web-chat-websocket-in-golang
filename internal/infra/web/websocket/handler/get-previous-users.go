@@ -2,6 +2,7 @@ package handler
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -20,14 +21,8 @@ func (h *MessageHandler) GetUsersFromIndex(w http.ResponseWriter, r *http.Reques
 	StartUIndex = startIndex
 	messages, err := h.messageUseCase.ListUsers()
 
-	var ms []dto.Payload
-	for _, v := range *messages {
-		ms = append(ms, dto.Payload{
-			Message:  v.Message,
-			Username: v.Username,
-			Type:     v.Type,
-			Time:     v.Time,
-		})
+	if err != nil {
+		fmt.Printf("error list users %s", err)
 	}
 
 	hasMore := StartUIndex > 0
@@ -36,7 +31,7 @@ func (h *MessageHandler) GetUsersFromIndex(w http.ResponseWriter, r *http.Reques
 		Messages []dto.Payload `json:"messages"`
 		HasMore  bool          `json:"hasMore"`
 	}{
-		Messages: ms,
+		Messages: *messages,
 		HasMore:  hasMore,
 	}
 

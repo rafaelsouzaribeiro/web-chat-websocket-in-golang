@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"context"
 	"sync"
 
 	"github.com/gorilla/websocket"
@@ -15,7 +14,6 @@ var (
 	messageExists = make(map[*websocket.Conn]bool)
 	mu            sync.Mutex
 
-	ctx         = context.Background()
 	StartMIndex = int64(-20)
 	StartUIndex = int64(-20)
 )
