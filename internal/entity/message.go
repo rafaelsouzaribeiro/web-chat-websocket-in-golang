@@ -10,10 +10,10 @@ var (
 )
 
 type Message struct {
-	Message  string    `json:"message"`
-	Username string    `json:"username"`
-	Type     string    `json:"type"`
-	Time     time.Time `json:"time"`
+	Message  string
+	Username string
+	Type     string
+	Time     time.Time
 }
 
 func NewMessage(message, username, t string, time time.Time) *Message {
