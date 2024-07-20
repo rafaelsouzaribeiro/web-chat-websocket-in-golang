@@ -10,6 +10,7 @@ type Conf struct {
 	Port       string `mapstructure:"PORT_CONF"`
 	HostRedis  string `mapstructure:"HOST_REDIS"`
 	PortRedis  string `mapstructure:"PORT_REDIS"`
+	PassRedis  string `mapstructure:"PASSWORD_REDIS"`
 }
 
 func LoadConfig(path string) (*Conf, error) {

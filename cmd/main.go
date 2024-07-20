@@ -22,6 +22,7 @@ func main() {
 	portStr := viper.GetString("PORT")
 	hostRedis := viper.GetString("HOST_REDIS")
 	portRedis := viper.GetString("PORT_REDIS")
+	passRedis := viper.GetString("PASSWORD_REDIS")
 
 	if hostname == "" {
 		Conf, err := configs.LoadConfig("../")
@@ -35,6 +36,7 @@ func main() {
 		portStr = Conf.Port
 		hostRedis = Conf.HostRedis
 		portRedis = Conf.PortRedis
+		passRedis = Conf.PassRedis
 	}
 
 	port, err := strconv.Atoi(portStr)
@@ -48,7 +50,7 @@ func main() {
 	}
 
 	svc := server.NewServer(hostname, wsEndpoint, port)
-	redis := connection.ConnectingRedis(hostRedis, portR, "123mudar")
+	redis := connection.ConnectingRedis(hostRedis, portR, passRedis)
 	di := di.NewMessageUseCase(redis)
 	handler := handler.NewMessageHandler(di)
 	go svc.Start(handler)
