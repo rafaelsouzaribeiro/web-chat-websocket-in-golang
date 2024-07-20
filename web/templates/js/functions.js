@@ -9,7 +9,7 @@ const load = document.getElementById('load')
 let username_check = ""
 let socket;
 let hasMoreMessages = true;
-let hasMoreUsers=true
+let hasMoreUsers=true;
 let startIndex = -20;
 let startmessageIndex = -20;
 
@@ -196,8 +196,27 @@ function connect() {
     };
 
     socket.onclose = function() {
-        chat.innerHTML=""
-        messages.innerHTML=""
+        chat.innerHTML="";
+        messages.innerHTML="";
+        hasMoreMessages = true;
+        hasMoreUsers=true;
+        startIndex = -20;
+        startmessageIndex = -20;
+
+        messagesScroll.addEventListener('scroll', function(event) {
+            if (messagesScroll.scrollTop === 0 && hasMoreMessages) {
+                loadPreviousMessages();
+            }
+        
+            updateVisibleMessages()
+        });
+
+        chat.addEventListener('scroll', function(event) {
+            if (chat.scrollTop === 0 && hasMoreUsers) {
+                loadPreviousUsers();
+            }
+        });
+
         console.log('Disconnected from the server');
     };
 
