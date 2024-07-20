@@ -12,6 +12,7 @@ let hasMoreMessages = true;
 let hasMoreUsers=true;
 let startIndex = -20;
 let startmessageIndex = -20;
+let listenersAdded = false;
 
 
 window.addEventListener('beforeunload', function (event) {
@@ -151,19 +152,22 @@ function connect() {
         startIndex = -20;
         startmessageIndex = -20;
 
-        messagesScroll.addEventListener('scroll', function(event) {
-            if (messagesScroll.scrollTop === 0 && hasMoreMessages) {
-                loadPreviousMessages();
-            }
-        
-            updateVisibleMessages()
-        });
+        if (!listenersAdded) {
+            messagesScroll.addEventListener('scroll', function(event) {
+                if (messagesScroll.scrollTop === 0 && hasMoreMessages) {
+                    loadPreviousMessages();
+                }
+                updateVisibleMessages();
+            });
 
-        chat.addEventListener('scroll', function(event) {
-            if (chat.scrollTop === 0 && hasMoreUsers) {
-                loadPreviousUsers();
-            }
-        });
+            chat.addEventListener('scroll', function(event) {
+                if (chat.scrollTop === 0 && hasMoreUsers) {
+                    loadPreviousUsers();
+                }
+            });
+
+            listenersAdded = true;
+        }
 
         sendMessage('connected', 'connect');
     };
