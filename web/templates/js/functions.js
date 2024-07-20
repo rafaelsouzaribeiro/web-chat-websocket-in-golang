@@ -234,7 +234,7 @@ function sendMessage(message, type) {
         }
 
         socket.send(JSON.stringify({ Username: username_check, Message: message, Type: type,Time:currentTime }));
-       // messageInput.value = '';
+        messageInput.value = '';
     } else {
         alert('WebSocket is not connected.');
     }
