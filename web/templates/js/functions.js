@@ -27,12 +27,6 @@ scrolldown.addEventListener('click',function(event){
     messagesScroll.scrollTo(0, messagesScroll.scrollHeight);
 });
 
-chat.addEventListener('scroll', function(event) {
-    if (chat.scrollTop === 0 && hasMoreUsers) {
-        loadPreviousUsers();
-    }
-});
-
 load.addEventListener('click',function(event){
     if (hasMoreUsers) {
         loadPreviousUsers();
@@ -56,13 +50,6 @@ function updateVisibleMessages() {
      
 }
 
-messagesScroll.addEventListener('scroll', function(event) {
-    if (messagesScroll.scrollTop === 0 && hasMoreMessages) {
-        loadPreviousMessages();
-    }
-
-    updateVisibleMessages()
-});
 
 function GetTime(v){
     let currentTime = new Date(v);
@@ -159,6 +146,25 @@ function connect() {
 
     socket.onopen = function() {
         console.log('Connected to the server');
+        hasMoreMessages = true;
+        hasMoreUsers=true;
+        startIndex = -20;
+        startmessageIndex = -20;
+
+        messagesScroll.addEventListener('scroll', function(event) {
+            if (messagesScroll.scrollTop === 0 && hasMoreMessages) {
+                loadPreviousMessages();
+            }
+        
+            updateVisibleMessages()
+        });
+
+        chat.addEventListener('scroll', function(event) {
+            if (chat.scrollTop === 0 && hasMoreUsers) {
+                loadPreviousUsers();
+            }
+        });
+
         sendMessage('connected', 'connect');
     };
 
@@ -198,24 +204,6 @@ function connect() {
     socket.onclose = function() {
         chat.innerHTML="";
         messages.innerHTML="";
-        hasMoreMessages = true;
-        hasMoreUsers=true;
-        startIndex = -20;
-        startmessageIndex = -20;
-
-        messagesScroll.addEventListener('scroll', function(event) {
-            if (messagesScroll.scrollTop === 0 && hasMoreMessages) {
-                loadPreviousMessages();
-            }
-        
-            updateVisibleMessages()
-        });
-
-        chat.addEventListener('scroll', function(event) {
-            if (chat.scrollTop === 0 && hasMoreUsers) {
-                loadPreviousUsers();
-            }
-        });
 
         console.log('Disconnected from the server');
     };
