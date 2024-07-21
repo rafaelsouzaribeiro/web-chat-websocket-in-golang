@@ -7,6 +7,7 @@ import (
 var (
 	StartMIndex = int64(-20)
 	StartUIndex = int64(-20)
+	PerPage     = int64(20)
 )
 
 type Message struct {

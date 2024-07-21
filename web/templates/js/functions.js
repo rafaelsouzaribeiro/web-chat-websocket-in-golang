@@ -10,8 +10,8 @@ let username_check = ""
 let socket;
 let hasMoreMessages = true;
 let hasMoreUsers=true;
-let startIndex = -20;
-let startmessageIndex = -20;
+let startIndex = 2;
+let startmessageIndex = 2;
 let listenersAdded = false;
 
 
@@ -73,14 +73,15 @@ function loadPreviousUsers() {
                     messageElement.innerHTML = `${msg.username}: ${msg.message}`;
                     chat.insertBefore(messageElement, chat.firstChild);
                 });
-                startIndex -= 20;
+                startIndex += 1;
 
                 const childDivs = chat.getElementsByTagName('div');
                 
                 if(childDivs.length>19){
                     chat.scrollTop = chat.scrollHeight;
                 }
-                hasMoreUsers = data.hasMore;
+        }else{
+            hasMoreUsers=false
         }
 
         })
@@ -109,15 +110,16 @@ function loadPreviousMessages() {
                     
                                               
                 });
-                startmessageIndex -= 20;
+                startmessageIndex += 1;
 
                 const childDivs = messages.getElementsByTagName('div');
                 
                 if(childDivs.length>19){
                     messagesScroll.scrollTop = messages.scrollHeight;
                 }
-                hasMoreMessages = data.hasMore;
                 updateVisibleMessages()
+         }else{
+            hasMoreMessages=false;
          }
 
         })
@@ -149,8 +151,8 @@ function connect() {
         console.log('Connected to the server');
         hasMoreMessages = true;
         hasMoreUsers=true;
-        startIndex = -20;
-        startmessageIndex = -20;
+        startIndex = 2;
+        startmessageIndex = 2;
 
         if (!listenersAdded) {
             messagesScroll.addEventListener('scroll', function(event) {

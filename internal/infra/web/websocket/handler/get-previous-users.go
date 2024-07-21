@@ -26,14 +26,10 @@ func (h *MessageHandler) GetUsersFromIndex(w http.ResponseWriter, r *http.Reques
 		fmt.Printf("error list users %s", err)
 	}
 
-	hasMore := entity.StartUIndex > 0
-
 	response := struct {
 		Messages []dto.Payload `json:"messages"`
-		HasMore  bool          `json:"hasMore"`
 	}{
 		Messages: *messages,
-		HasMore:  hasMore,
 	}
 
 	w.Header().Set("Content-Type", "application/json")

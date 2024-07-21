@@ -27,14 +27,10 @@ func (h *MessageHandler) GetMessagesFromIndex(w http.ResponseWriter, r *http.Req
 		fmt.Printf("error list message %s", err)
 	}
 
-	hasMore := entity.StartMIndex > 0
-
 	response := struct {
 		Messages []dto.Payload `json:"messages"`
-		HasMore  bool          `json:"hasMore"`
 	}{
 		Messages: *messages,
-		HasMore:  hasMore,
 	}
 
 	w.Header().Set("Content-Type", "application/json")
