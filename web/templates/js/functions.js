@@ -67,7 +67,6 @@ function loadPreviousUsers() {
         .then(data => {
             if(data.messages!=null){
                 data.messages.reverse().forEach(msg => {
-                    console.log(msg)
                     const messageElement = document.createElement('div');
                     messageElement.classList.add('message');
                     messageElement.innerHTML = `${msg.username}: ${msg.message}`;
@@ -94,7 +93,6 @@ function loadPreviousMessages() {
         .then(data => {
             if(data.messages!=null){
                 data.messages.reverse().forEach(msg => {
-                    console.log(msg)
                     formattedTime=GetTime(msg.time)
 
                     const messageElement = document.createElement('div');
