@@ -21,7 +21,7 @@ func (r *MesssageRepository) GetFromMessageIndex() (*[]entity.Message, error) {
 		stop = totalMessages
 	}
 
-	messages, err := r.rdb.LRange(ctx, "messages", (stop * -1), (entity.StartMIndex * -1)).Result()
+	messages, err := r.rdb.LRange(ctx, "messages", (stop * -1), ((entity.StartMIndex * -1) - 1)).Result()
 	if err != nil {
 		return nil, err
 	}
