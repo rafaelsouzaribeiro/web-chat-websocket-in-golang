@@ -2,11 +2,11 @@
 const chat = document.getElementById('spacer');
 const messageInput = document.getElementById('message');
 const usernameInput = document.getElementById('username');
-const messages = document.getElementById('spacer-ms')
-const messagesScroll = document.getElementById('messages')
-const scrolldown = document.getElementById('scroll-down')
-const load = document.getElementById('load')
-let username_check = ""
+const messages = document.getElementById('spacer-ms');
+const messagesScroll = document.getElementById('messages');
+const scrolldown = document.getElementById('scroll-down');
+const load = document.getElementById('load');
+let username_check = "";
 let socket;
 let hasMoreMessages = true;
 let hasMoreUsers=true;
@@ -93,7 +93,7 @@ function loadPreviousMessages() {
         .then(data => {
             if(data.messages!=null){
                 data.messages.reverse().forEach(msg => {
-                    formattedTime=GetTime(msg.time)
+                    formattedTime=GetTime(msg.time);
 
                     const messageElement = document.createElement('div');
                     messageElement.classList.add('message');
@@ -115,7 +115,7 @@ function loadPreviousMessages() {
                 if(childDivs.length>19){
                     messagesScroll.scrollTop = messages.scrollHeight;
                 }
-                updateVisibleMessages()
+                updateVisibleMessages();
          }else{
             hasMoreMessages=false;
          }
@@ -134,7 +134,7 @@ function connect() {
     }
 
     if(username_check.includes('<script>')){
-        alert("Username contains a script tag!")
+        alert("Username contains a script tag!");
         return;
     }
     
@@ -176,12 +176,13 @@ function connect() {
         const msg = JSON.parse(event.data);
 
         if (msg.username && msg.message) {
+               
 
             const messageElement = document.createElement('div');
             messageElement.classList.add('message');
             messageElement.innerHTML = `${msg.username}: ${msg.message}`;
             let v = formatTime(msg.time);
-               
+
             if (msg.type=="message"){
                 formattedTime=GetTime(msg.time)
                 const horadate = document.createElement('div');
@@ -192,6 +193,9 @@ function connect() {
                 messages.appendChild(messageElement);
 
             }else{
+
+
+                
                chat.appendChild(messageElement);
             }
 
@@ -223,14 +227,14 @@ function sendMessage(message, type) {
     }
 
     if(message.includes('<script>')){
-        alert("Message contains a script tag!")
+        alert("Message contains a script tag!");
         return;
     }
 
     const currentTime = new Date().toISOString();
     if (socket && socket.readyState === WebSocket.OPEN) {
         if (username_check==""){
-            alert("Please enter username")
+            alert("Please enter username");
         }
 
         socket.send(JSON.stringify({ Username: username_check, Message: message, Type: type,Time:currentTime }));
