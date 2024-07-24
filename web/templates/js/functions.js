@@ -193,9 +193,6 @@ function connect() {
                 messages.appendChild(messageElement);
 
             }else{
-
-
-                
                chat.appendChild(messageElement);
             }
 
