@@ -11,6 +11,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+var count int = -1
+
 func BenchmarkUser(b *testing.B) {
 	server.Once.Do(server.StartServer)
 
@@ -20,13 +22,13 @@ func BenchmarkUser(b *testing.B) {
 	client.Channel = channel
 
 	for i := 0; i < b.N; i++ {
-		server.Count++
+		count++
 		go func(count int) {
 			client.Connect()
 			go client.Listen()
-			client.Send(fmt.Sprintf("Client %d", server.Count), "", time.Now(), "")
-			client.Send(fmt.Sprintf("Client %d", server.Count), fmt.Sprintf("Message %d", server.Count), time.Now(), "message")
-		}(server.Count)
+			client.Send(fmt.Sprintf("Client %d", count), "", time.Now(), "")
+			client.Send(fmt.Sprintf("Client %d", count), fmt.Sprintf("Message %d", count), time.Now(), "message")
+		}(count)
 	}
 
 	timeout := time.After(5 * time.Second)

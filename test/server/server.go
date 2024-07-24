@@ -59,4 +59,3 @@ func StartServer() {
 }
 
 var Once sync.Once
-var Count int = -1
