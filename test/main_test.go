@@ -48,6 +48,7 @@ loop:
 
 			if user == msg.Username {
 				assert.Contains(b, msg.Username, fmt.Sprintf("Client %d", i))
+				assert.Contains(b, msg.Message, fmt.Sprintf("Message %d", i))
 			}
 		} else {
 			assert.Contains(b, msg.Username, "info")
