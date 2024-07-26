@@ -25,10 +25,7 @@ func (r *MesssageRepository) GetInitUsers() (*[]entity.Message, error) {
 	}
 
 	var payloads []entity.Message
-	for i, msg := range messages {
-		if i == 0 {
-			continue
-		}
+	for _, msg := range messages {
 		var payload entity.Message
 		if err := json.Unmarshal([]byte(msg), &payload); err == nil {
 			payloads = append(payloads, payload)
