@@ -37,7 +37,6 @@ ENV WS_ENDPOINT=/ws
 ENV PORT=8080
 ENV HOST_REDIS="<ip_address_from_inspect>"
 ENV PORT_REDIS=6379
-ENV PASSWORD_REDIS=123mudar
 
 COPY --from=builder /app/main .
 
