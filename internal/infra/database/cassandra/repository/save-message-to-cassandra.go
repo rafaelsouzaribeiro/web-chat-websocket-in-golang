@@ -14,7 +14,7 @@ func (r *MesssageRepository) SaveMessage(msg *entity.Message) error {
 	var save Save
 	var total, page int
 
-	s := fmt.Sprintf(`SELECT page,total FROM %s.pagination`, entity.KeySpace)
+	s := fmt.Sprintf(`SELECT page,total FROM %s.pagination_messages`, entity.KeySpace)
 	query := r.cql.Query(s)
 	iter := query.Iter()
 	defer iter.Close()
@@ -41,7 +41,7 @@ func (r *MesssageRepository) SaveMessage(msg *entity.Message) error {
 		}
 
 		if iter.NumRows() == 0 {
-			query := fmt.Sprintf(`INSERT INTO %s.pagination (page,total) VALUES (?, ?)`,
+			query := fmt.Sprintf(`INSERT INTO %s.pagination_messages (page,total) VALUES (?, ?)`,
 				entity.KeySpace)
 
 			err = r.cql.Query(query, page, total).Exec()
@@ -50,7 +50,7 @@ func (r *MesssageRepository) SaveMessage(msg *entity.Message) error {
 				return err
 			}
 		} else {
-			query := fmt.Sprintf(`UPDATE %s.pagination SET page = ?, total = ? 
+			query := fmt.Sprintf(`UPDATE %s.pagination_messages SET page = ?, total = ? 
 								  WHERE page = ?`, entity.KeySpace)
 
 			err = r.cql.Query(query, page, total, save.Page).Exec()
