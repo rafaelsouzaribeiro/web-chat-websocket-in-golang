@@ -22,20 +22,21 @@ func main() {
 	portStr := viper.GetString("PORT")
 	hostRedis := viper.GetString("HOST_REDIS")
 	portRedis := viper.GetString("PORT_REDIS")
-	Conf, err := configs.LoadConfig("../")
-
-	if err != nil {
-		panic(err)
-	}
-
-	passRedis := Conf.PassRedis
+	passRedis := viper.GetString("PASSWORD_REDIS")
 
 	if hostname == "" {
+		Conf, err := configs.LoadConfig("../")
+
+		if err != nil {
+			panic(err)
+		}
+
 		hostname = Conf.HostName
 		wsEndpoint = Conf.WsEndPoint
 		portStr = Conf.Port
 		hostRedis = Conf.HostRedis
 		portRedis = Conf.PortRedis
+		passRedis = Conf.PassRedis
 
 	}
 
