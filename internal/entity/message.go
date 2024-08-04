@@ -8,12 +8,14 @@ var (
 	StartMIndex = int64(-20)
 	StartUIndex = int64(-20)
 	PerPage     = int64(20)
+	KeySpace    = "chat"
 )
 
 type Message struct {
 	Message  string
 	Username string
 	Type     string
+	Pages    int
 	Time     time.Time
 }
 
