@@ -12,7 +12,8 @@ import (
 
 func (r *MesssageRepository) SaveUsers(msg *entity.Message) error {
 	var save Save
-	var total, page int
+	var total int
+	var page int = 1
 
 	s := fmt.Sprintf(`SELECT page,total FROM %s.pagination_users`, entity.KeySpace)
 	query := r.cql.Query(s)
@@ -24,9 +25,10 @@ func (r *MesssageRepository) SaveUsers(msg *entity.Message) error {
 
 		if math.Mod(result, 1) == 0 {
 			total = save.Total + 1
-			page = save.Page + 1
+
 		} else {
 			total = save.Total + 1
+			page = save.Page + 1
 		}
 	}
 
@@ -34,7 +36,7 @@ func (r *MesssageRepository) SaveUsers(msg *entity.Message) error {
 		q := fmt.Sprintf(`INSERT INTO %s.users (id, pages, message, username, type, times) 
 						  VALUES (?, ?, ?, ?, ?, ?)`, entity.KeySpace)
 		err := r.cql.Query(q, gocql.TimeUUID(), page, msg.Message,
-			msg.Username, msg.Type, time.Now()).Exec()
+			msg.Username, "", time.Now()).Exec()
 
 		if err != nil {
 			return err

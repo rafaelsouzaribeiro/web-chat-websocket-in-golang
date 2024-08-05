@@ -40,7 +40,7 @@ func setCommands() {
             type TEXT,
             times TIMESTAMP,
             PRIMARY KEY (pages,times )
-        ) WITH CLUSTERING ORDER BY (times DESC);`, entity.KeySpace)
+        ) WITH CLUSTERING ORDER BY (times ASC);`, entity.KeySpace)
 
 	cql[1] = fmt.Sprintf(`CREATE TABLE IF NOT EXISTS %s.pagination_users (
 		page INT,
@@ -65,5 +65,5 @@ func setCommands() {
 				type TEXT,
 				times TIMESTAMP,
 				PRIMARY KEY (pages,times )
-			) WITH CLUSTERING ORDER BY (times DESC);`, entity.KeySpace)
+			) WITH CLUSTERING ORDER BY (times ASC);`, entity.KeySpace)
 }

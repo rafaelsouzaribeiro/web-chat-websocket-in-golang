@@ -25,7 +25,7 @@ func main() {
 	passRedis := viper.GetString("PASSWORD_REDIS")
 
 	if hostname == "" {
-		Conf, err := configs.LoadConfig("../")
+		Conf, err := configs.LoadConfig("../../")
 
 		if err != nil {
 			panic(err)
