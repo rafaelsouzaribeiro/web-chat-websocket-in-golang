@@ -7,7 +7,7 @@ import (
 	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/infra/database/cassandra/migrations"
 )
 
-var cql = make([]string, 5)
+var cql = make([]string, 4)
 
 func main() {
 
@@ -43,21 +43,18 @@ func setCommands() {
         ) WITH CLUSTERING ORDER BY (times ASC);`, entity.KeySpace)
 
 	cql[1] = fmt.Sprintf(`CREATE TABLE IF NOT EXISTS %s.pagination_users (
+		id TIMEUUID,
 		page INT,
 		total INT,
-		PRIMARY KEY (page,total));`, entity.KeySpace)
+		PRIMARY KEY (id));`, entity.KeySpace)
 
-	cql[2] = fmt.Sprintf(`CREATE TABLE IF NOT EXISTS %s.pagination_users (
+	cql[2] = fmt.Sprintf(`CREATE TABLE IF NOT EXISTS %s.pagination_messages (
+		id TIMEUUID,
 		page INT,
 		total INT,
-		PRIMARY KEY (page,total));`, entity.KeySpace)
+		PRIMARY KEY (id));`, entity.KeySpace)
 
-	cql[3] = fmt.Sprintf(`CREATE TABLE IF NOT EXISTS %s.pagination_messages (
-		page INT,
-		total INT,
-		PRIMARY KEY (page,total));`, entity.KeySpace)
-
-	cql[4] = fmt.Sprintf(`CREATE TABLE IF NOT EXISTS %s.users (
+	cql[3] = fmt.Sprintf(`CREATE TABLE IF NOT EXISTS %s.users (
 				id TIMEUUID,
 				message TEXT,
 				pages INT,

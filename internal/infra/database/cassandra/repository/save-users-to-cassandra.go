@@ -2,7 +2,6 @@ package repository
 
 import (
 	"fmt"
-	"math"
 	"strings"
 	"time"
 
@@ -15,20 +14,20 @@ func (r *MesssageRepository) SaveUsers(msg *entity.Message) error {
 	var total int
 	var page int = 1
 
-	s := fmt.Sprintf(`SELECT page,total FROM %s.pagination_users`, entity.KeySpace)
+	s := fmt.Sprintf(`SELECT id,page,total FROM %s.pagination_users`, entity.KeySpace)
 	query := r.cql.Query(s)
 	iter := query.Iter()
 	defer iter.Close()
 
-	if iter.Scan(&save.Page, &save.Total) {
-		result := float64(save.Page / 20)
+	if iter.Scan(&save.Id, &save.Page, &save.Total) {
+		result := save.Total % 20
 
-		if math.Mod(result, 1) == 0 {
+		if result == 0 {
 			total = save.Total + 1
+			page = save.Page + 1
 
 		} else {
 			total = save.Total + 1
-			page = save.Page + 1
 		}
 	}
 
@@ -43,19 +42,19 @@ func (r *MesssageRepository) SaveUsers(msg *entity.Message) error {
 		}
 
 		if iter.NumRows() == 0 {
-			query := fmt.Sprintf(`INSERT INTO %s.pagination_users (page,total) VALUES (?, ?)`,
+			query := fmt.Sprintf(`INSERT INTO %s.pagination_users (id,page,total) VALUES (?,?,?)`,
 				entity.KeySpace)
 
-			err = r.cql.Query(query, 1, 1).Exec()
+			err = r.cql.Query(query, gocql.TimeUUID(), 1, 1).Exec()
 
 			if err != nil {
 				return err
 			}
 		} else {
 			query := fmt.Sprintf(`UPDATE %s.pagination_users SET page = ?, total = ? 
-								  WHERE page = ?`, entity.KeySpace)
+								  WHERE id = ?`, entity.KeySpace)
 
-			err = r.cql.Query(query, page, total, save.Page).Exec()
+			err = r.cql.Query(query, page, total, save.Id).Exec()
 
 			if err != nil {
 				return err
