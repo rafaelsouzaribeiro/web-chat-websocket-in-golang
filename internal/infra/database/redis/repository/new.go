@@ -8,7 +8,7 @@ type MesssageRepository struct {
 	rdb *redis.Client
 }
 
-func NewMessageRepository(db *redis.Client) *MesssageRepository {
+func NewMessageRedisRepository(db *redis.Client) *MesssageRepository {
 	return &MesssageRepository{
 		rdb: db,
 	}

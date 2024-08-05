@@ -6,7 +6,7 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-func NewMessageUseCase(db *redis.Client) *usecase.MessageUsecase {
-	repository := repository.NewMessageRepository(db)
+func NewMessageRedisUseCase(db *redis.Client) *usecase.MessageUsecase {
+	repository := repository.NewMessageRedisRepository(db)
 	return usecase.NewMessageUseCase(repository)
 }

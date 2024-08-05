@@ -52,7 +52,7 @@ func main() {
 
 	svc := server.NewServer(hostname, wsEndpoint, port)
 	redis := connection.ConnectingRedis(hostRedis, portR, passRedis)
-	di := di.NewMessageUseCase(redis)
+	di := di.NewMessageRedisUseCase(redis)
 	handler := handler.NewMessageHandler(di)
 	go svc.Start(handler)
 	select {}

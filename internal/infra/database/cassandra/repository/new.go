@@ -13,7 +13,7 @@ type Save struct {
 	Page  int
 }
 
-func NewMessageRepository(db *gocql.Session) *MesssageRepository {
+func NewMessageCassandraRepository(db *gocql.Session) *MesssageRepository {
 	return &MesssageRepository{
 		cql: db,
 	}
