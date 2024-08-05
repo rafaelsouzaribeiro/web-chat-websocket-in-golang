@@ -9,7 +9,7 @@ type MesssageRepository struct {
 }
 
 type Save struct {
-	Id    gocql.UUID
+	Id    string
 	Total int
 	Page  int
 }

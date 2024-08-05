@@ -43,16 +43,15 @@ func setCommands() {
         ) WITH CLUSTERING ORDER BY (times ASC);`, entity.KeySpace)
 
 	cql[1] = fmt.Sprintf(`CREATE TABLE IF NOT EXISTS %s.pagination_users (
-		id TIMEUUID,
+		id TEXT PRIMARY KEY,
 		page INT,
-		total INT,
-		PRIMARY KEY (id));`, entity.KeySpace)
+		total INT);`, entity.KeySpace)
 
 	cql[2] = fmt.Sprintf(`CREATE TABLE IF NOT EXISTS %s.pagination_messages (
-		id TIMEUUID,
-		page INT,
-		total INT,
-		PRIMARY KEY (id));`, entity.KeySpace)
+    id TEXT PRIMARY KEY,
+    page INT,
+    total INT
+	);`, entity.KeySpace)
 
 	cql[3] = fmt.Sprintf(`CREATE TABLE IF NOT EXISTS %s.users (
 				id TIMEUUID,

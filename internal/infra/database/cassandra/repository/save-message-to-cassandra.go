@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/gocql/gocql"
+	"github.com/google/uuid"
 	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/entity"
 )
 
@@ -41,10 +42,10 @@ func (r *MesssageRepository) SaveMessage(msg *entity.Message) error {
 		}
 
 		if iter.NumRows() == 0 {
-			query := fmt.Sprintf(`INSERT INTO %s.pagination_messages (id,page,total) VALUES (?,?, ?)`,
+			query := fmt.Sprintf(`INSERT INTO %s.pagination_messages (id,page,total) VALUES (?,?,?)`,
 				entity.KeySpace)
 
-			err = r.cql.Query(query, gocql.TimeUUID(), 1, 1).Exec()
+			err = r.cql.Query(query, uuid.NewString(), 1, 1).Exec()
 
 			if err != nil {
 				return err
