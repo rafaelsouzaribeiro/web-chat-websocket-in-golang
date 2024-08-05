@@ -17,7 +17,7 @@ func SetVariables() (*gocql.Session, error) {
 	hosts := strings.Split(viper.GetString("HOST_CASSANDRA"), ",")
 
 	if password == "" {
-		Conf, err := configs.LoadConfig("./")
+		Conf, err := configs.LoadConfig("./cmd/cassandra/")
 
 		if err != nil {
 			return nil, err

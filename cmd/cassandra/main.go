@@ -26,7 +26,7 @@ func main() {
 	hosts := strings.Split(viper.GetString("HOST_CASSANDRA"), ",")
 
 	if hostname == "" {
-		Conf, err := configs.LoadConfig("../../")
+		Conf, err := configs.LoadConfig("./")
 
 		if err != nil {
 			panic(err)
