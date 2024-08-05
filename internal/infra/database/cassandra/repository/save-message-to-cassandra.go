@@ -44,7 +44,7 @@ func (r *MesssageRepository) SaveMessage(msg *entity.Message) error {
 			query := fmt.Sprintf(`INSERT INTO %s.pagination_messages (page,total) VALUES (?, ?)`,
 				entity.KeySpace)
 
-			err = r.cql.Query(query, page, total).Exec()
+			err = r.cql.Query(query, 1, 1).Exec()
 
 			if err != nil {
 				return err

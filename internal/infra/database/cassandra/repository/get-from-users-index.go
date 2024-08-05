@@ -7,7 +7,7 @@ import (
 )
 
 func (r *MesssageRepository) GetFromUsersIndex() (*[]entity.Message, error) {
-	s := fmt.Sprintf(`select message,pages,username,type,times from %s.messages 
+	s := fmt.Sprintf(`select message,pages,username,type,times from %s.users 
 	WHERE pages=?`, entity.KeySpace)
 	query := r.cql.Query(s, entity.StartUIndex)
 	iter := query.Iter()
