@@ -5,7 +5,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gocql/gocql"
 	"github.com/google/uuid"
 	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/entity"
 )
@@ -35,7 +34,7 @@ func (r *MesssageRepository) SaveUsers(msg *entity.Message) error {
 	if strings.TrimSpace(msg.Message) != "" {
 		q := fmt.Sprintf(`INSERT INTO %s.users (id, pages, message, username, type, times) 
 						  VALUES (?, ?, ?, ?, ?, ?)`, entity.KeySpace)
-		err := r.cql.Query(q, gocql.TimeUUID(), page, msg.Message,
+		err := r.cql.Query(q, uuid.NewString(), page, msg.Message,
 			msg.Username, "", time.Now()).Exec()
 
 		if err != nil {

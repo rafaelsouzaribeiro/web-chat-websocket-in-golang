@@ -33,7 +33,7 @@ func main() {
 
 func setCommands() {
 	cql[0] = fmt.Sprintf(`CREATE TABLE IF NOT EXISTS %s.messages (
-            id TIMEUUID,
+            id TEXT,
             message TEXT,
             pages INT,
             username TEXT,
@@ -54,7 +54,7 @@ func setCommands() {
 	);`, entity.KeySpace)
 
 	cql[3] = fmt.Sprintf(`CREATE TABLE IF NOT EXISTS %s.users (
-				id TIMEUUID,
+				id TEXT,
 				message TEXT,
 				pages INT,
 				username TEXT,
