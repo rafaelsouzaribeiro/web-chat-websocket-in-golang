@@ -18,27 +18,23 @@ import (
 func main() {
 
 	viper.AutomaticEnv()
-	hostname := viper.GetString("HOST_NAME")
-	wsEndpoint := viper.GetString("WS_ENDPOINT")
-	portStr := viper.GetString("PORT")
-	user := viper.GetString("USER_CASSANDRA")
-	password := viper.GetString("PASSWORD_CASSANDRA")
-	hosts := strings.Split(viper.GetString("HOST_CASSANDRA"), ",")
+	hostsDocker := strings.Split(viper.GetString("HOST_CASSANDRA_DOCKER"), ",")
 
-	if hostname == "" {
-		Conf, err := configs.LoadConfig("./")
+	Conf, err := configs.LoadConfig("./")
 
-		if err != nil {
-			panic(err)
-		}
+	if err != nil {
+		panic(err)
+	}
 
-		hostname = Conf.HostName
-		wsEndpoint = Conf.WsEndPoint
-		portStr = Conf.Port
-		user = Conf.UserCassaandra
-		password = Conf.PassCassaandra
-		hosts = strings.Split(Conf.HostCassaandra, ",")
+	hostname := Conf.HostName
+	wsEndpoint := Conf.WsEndPoint
+	portStr := Conf.Port
+	user := Conf.UserCassaandra
+	password := Conf.PassCassaandra
+	hosts := strings.Split(Conf.HostCassaandra, ",")
 
+	if len(hostsDocker) > 0 {
+		hosts = hostsDocker
 	}
 
 	port, err := strconv.Atoi(portStr)
