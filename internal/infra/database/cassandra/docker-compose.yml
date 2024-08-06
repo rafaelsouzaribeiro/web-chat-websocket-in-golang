@@ -2,9 +2,6 @@ version: '3'
 services:
   cassandra:
     image: cassandra:latest
-    environment:
-      - CASSANDRA_USER=root
-      - CASSANDRA_PASSWORD=123mudar
     ports:
       - "9042:9042"
     container_name: cassandra
