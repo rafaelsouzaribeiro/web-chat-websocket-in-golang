@@ -33,7 +33,7 @@ func main() {
 	password := Conf.PassCassaandra
 	hosts := strings.Split(Conf.HostCassaandra, ",")
 
-	if len(hostsDocker) > 0 {
+	if hostsDocker[0] != "" {
 		hosts = hostsDocker
 	}
 

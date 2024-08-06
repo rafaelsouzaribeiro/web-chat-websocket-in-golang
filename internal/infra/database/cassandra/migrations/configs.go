@@ -12,9 +12,10 @@ import (
 func SetVariables() (*gocql.Session, error) {
 
 	viper.AutomaticEnv()
+	var hosts []string
 	hostsDocker := strings.Split(viper.GetString("HOST_CASSANDRA_DOCKER"), ",")
 
-	Conf, err := configs.LoadConfig("./")
+	Conf, err := configs.LoadConfig("./cmd/cassandra/")
 
 	if err != nil {
 		panic(err)
@@ -22,9 +23,9 @@ func SetVariables() (*gocql.Session, error) {
 
 	user := Conf.UserCassaandra
 	password := Conf.PassCassaandra
-	hosts := strings.Split(Conf.HostCassaandra, ",")
+	hosts = strings.Split(Conf.HostCassaandra, ",")
 
-	if len(hostsDocker) > 0 {
+	if hostsDocker[0] != "" {
 		hosts = hostsDocker
 	}
 
