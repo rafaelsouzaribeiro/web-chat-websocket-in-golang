@@ -1,27 +1,15 @@
-FROM golang:1.22.0 AS builder
-
+FROM golang:1.22 AS builder
 WORKDIR /app
-
-COPY go.mod ./
-COPY go.sum ./
-RUN go mod download
-
 COPY . .
 
-RUN GOOS=linux CGO_ENABLED=0 go build -ldflags="-w -s" -o main ./cmd/main.go
+RUN go mod download
+RUN GOOS=linux CGO_ENABLED=0 go build -ldflags="-w -s" -o main ./cmd/redis/main.go
 
-FROM alpine:latest
+ENV HOST_REDIS_DOCKER=172.17.0.4
 
-WORKDIR /root/
-
-ENV HOST_NAME=0.0.0.0
-ENV WS_ENDPOINT=/ws
-ENV PORT=8080
-ENV HOST_REDIS=172.17.0.2
-ENV PORT_REDIS=6379
-
-COPY --from=builder /app/main .
-
-EXPOSE $PORT
+FROM scratch
+WORKDIR /app
+COPY --from=builder /app/main /app/
+COPY --from=builder /app/cmd/redis/.env /app/
 
 CMD ["./main"]
