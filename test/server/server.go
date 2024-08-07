@@ -15,27 +15,25 @@ import (
 )
 
 func StartServer() {
+
 	viper.AutomaticEnv()
-	hostname := viper.GetString("HOST_NAME")
-	wsEndpoint := viper.GetString("WS_ENDPOINT")
-	portStr := viper.GetString("PORT")
-	hostRedis := viper.GetString("HOST_REDIS")
-	portRedis := viper.GetString("PORT_REDIS")
-	passRedis := viper.GetString("PASSWORD_REDIS")
+	hostRedisDocker := viper.GetString("HOST_REDIS_DOCKER")
 
-	if hostname == "" {
-		Conf, err := configs.LoadConfig("../")
+	Conf, err := configs.LoadConfig("../redis/cmd")
 
-		if err != nil {
-			panic(err)
-		}
+	if err != nil {
+		panic(err)
+	}
 
-		hostname = Conf.HostName
-		wsEndpoint = Conf.WsEndPoint
-		portStr = Conf.Port
-		hostRedis = Conf.HostRedis
-		portRedis = Conf.PortRedis
-		passRedis = Conf.PassRedis
+	hostname := Conf.HostName
+	wsEndpoint := Conf.WsEndPoint
+	portStr := Conf.Port
+	hostRedis := Conf.HostRedis
+	portRedis := Conf.PortRedis
+	passRedis := Conf.PassRedis
+
+	if hostRedisDocker != "" {
+		hostRedis = hostRedisDocker
 	}
 
 	port, err := strconv.Atoi(portStr)
