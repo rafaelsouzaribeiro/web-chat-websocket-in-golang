@@ -22,3 +22,13 @@ func (h *MessageHandler) verifyCon(s *websocket.Conn, variable *map[*websocket.C
 	}
 	return false
 }
+
+func (h *MessageHandler) verifyId(s *string, id *map[*string]bool) bool {
+	mu.Lock()
+	defer mu.Unlock()
+	if _, exists := (*id)[s]; !exists {
+		(*id)[s] = true
+		return true
+	}
+	return false
+}

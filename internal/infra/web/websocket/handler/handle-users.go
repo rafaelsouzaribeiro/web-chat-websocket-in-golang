@@ -6,18 +6,21 @@ func (h *MessageHandler) HandleConnected() {
 	for msg := range connected {
 
 		for _, user := range users {
-			mu.Lock()
-			msg.Username = fmt.Sprintf("<strong>%s</strong>", msg.Username)
-			err := user.conn.WriteJSON(msg)
-			mu.Unlock()
-
-			if err != nil {
-				fmt.Println("Error sending message:", err)
+			if h.verifyId(&user.id, &id) {
 				mu.Lock()
-				user.conn.Close()
+				msg.Username = fmt.Sprintf("<strong>%s</strong>", msg.Username)
+				err := user.conn.WriteJSON(msg)
 				mu.Unlock()
-				h.deleteUserByUserName(user.username, false)
+
+				if err != nil {
+					fmt.Println("Error sending message:", err)
+					mu.Lock()
+					user.conn.Close()
+					mu.Unlock()
+					h.deleteUserByUserName(user.username, false)
+				}
 			}
+
 		}
 
 	}
