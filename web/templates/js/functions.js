@@ -178,7 +178,7 @@ function connect() {
         const msg = JSON.parse(event.data);
 
         if (msg.username && msg.message) {
-               
+            console.log(msg.username+">>"+msg.message);   
             const messageElement = document.createElement('div');
             messageElement.classList.add('message');
             messageElement.innerHTML = `${msg.username}: ${msg.message}`;
