@@ -67,29 +67,22 @@ docker-compose up
 <br />
 If you want to use Cassandra, navigate to the internal/infra/database/cassandra directory and execute the same command.<br/><br/>
  
- To use Redis and Cassandra as Docker containers and access them from another WebSocket container, you need to determine the internal IP address of the Redis or Cassandra container. First, with Redis or Cassandra running, execute the following command:<br/>
-
+ To use Redis and Cassandra as Docker containers and access them from another WebSocket container, you need to determine the internal IP address of the Redis or Cassandra container. First, with Redis or Cassandra running, execute the following command with the container name:<br/>
 
  ```
-sudo docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' redis
+sudo docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' container_name
  ```
 <br/>
-Cassandra:
-<br/>
- ```
-sudo docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' cassandra
- ```
- 
  
  After running this command, you can set the Redis IP address in the Dockerfile using the ENV instruction:
 
 ```
 ENV HOST_CASSANDRA_DOCKER=ip_address_from_inspect
- ```
-<br/>
-```
+
 ENV HOST_REDIS_DOCKER=ip_address_from_inspect
  ```
+
+
 
 
 
