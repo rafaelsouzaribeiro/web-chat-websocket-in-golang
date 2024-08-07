@@ -26,24 +26,19 @@ func main() {
 		panic(err)
 	}
 
-	hostname := Conf.HostName
-	wsEndpoint := Conf.WsEndPoint
-	portStr := Conf.Port
-	user := Conf.UserCassaandra
-	password := Conf.PassCassaandra
 	hosts := strings.Split(Conf.HostCassaandra, ",")
 
 	if hostsDocker[0] != "" {
 		hosts = hostsDocker
 	}
 
-	port, err := strconv.Atoi(portStr)
+	port, err := strconv.Atoi(Conf.Port)
 	if err != nil {
 		log.Fatalf("Invalid port: %v", err)
 	}
 
-	svc := server.NewServer(hostname, wsEndpoint, port)
-	cassandra, err := connection.NewCassandraConnection(hosts, user, password)
+	svc := server.NewServer(Conf.HostName, Conf.WsEndPoint, port)
+	cassandra, err := connection.NewCassandraConnection(hosts, Conf.PassCassaandra, Conf.UserCassaandra)
 
 	if err != nil {
 		panic(err)

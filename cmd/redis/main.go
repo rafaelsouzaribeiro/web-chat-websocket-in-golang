@@ -25,29 +25,24 @@ func main() {
 		panic(err)
 	}
 
-	hostname := Conf.HostName
-	wsEndpoint := Conf.WsEndPoint
-	portStr := Conf.Port
 	hostRedis := Conf.HostRedis
-	portRedis := Conf.PortRedis
-	passRedis := Conf.PassRedis
 
 	if hostRedisDocker != "" {
 		hostRedis = hostRedisDocker
 	}
 
-	port, err := strconv.Atoi(portStr)
+	port, err := strconv.Atoi(Conf.Port)
 	if err != nil {
 		log.Fatalf("Invalid port: %v", err)
 	}
 
-	portR, errs := strconv.Atoi(portRedis)
+	portR, errs := strconv.Atoi(Conf.PortRedis)
 	if errs != nil {
 		log.Fatalf("Invalid port: %v", errs)
 	}
 
-	svc := server.NewServer(hostname, wsEndpoint, port)
-	redis := connection.ConnectingRedis(hostRedis, portR, passRedis)
+	svc := server.NewServer(Conf.HostName, Conf.WsEndPoint, port)
+	redis := connection.ConnectingRedis(hostRedis, portR, Conf.PassRedis)
 	di := di.NewMessageRedisUseCase(redis)
 	handler := handler.NewMessageHandler(di)
 	go svc.Start(handler)
