@@ -60,12 +60,12 @@ CMD ["./main"]
 
  ```
 
-To run Redis in Docker, navigate to the internal/infra/database/redis directory and run:
+To run Redis in Docker, navigate to the internal/infra/database/redis directory and run:<br/>
  ```
 docker-compose up
  ```
 <br />
-iIf you want to use Cassandra, navigate to the internal/infra/database/cassandra directory and run:
+iIf you want to use Cassandra, navigate to the internal/infra/database/cassandra directory and run:<br/>
  ```
 docker-compose up
  ```
