@@ -69,7 +69,6 @@ If you want to use Cassandra, navigate to the internal/infra/database/cassandra 
  
  To use Redis and Cassandra as Docker containers and access them from another WebSocket container, you need to determine the internal IP address of the Redis or Cassandra container. First, with Redis or Cassandra running, execute the following command:<br/>
 
- Redis:<br/>
 
  ```
 sudo docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' redis
@@ -77,7 +76,7 @@ sudo docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}'
 <br/>
 Cassandra:
 <br/>
-```
+ ```
 sudo docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' cassandra
  ```
  
