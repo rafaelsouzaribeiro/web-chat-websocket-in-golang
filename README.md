@@ -59,7 +59,15 @@ COPY --from=builder /app/cmd/cassandra/.env /app/
 CMD ["./main"]
 
  ```
+<br />
+To create the keyspace and tables in Cassandra, just run the following Makefile commands in the project root:
+<br/>
+```
+make create-keyspace
+make migrateup
+make migratedown
 
+```
 To run Redis in Docker, navigate to the internal/infra/database/redis directory and run:<br/>
  ```
 docker-compose up
