@@ -61,10 +61,10 @@ CMD ["./main"]
  ```
 <br />
 To create the keyspace and tables in Cassandra, just run the following Makefile commands in the project root:
-<br/>
+<br/><br/>
 <strong>Create KeysPace</strong>: make create-keyspace<br/>
 <strong>Create tables</strong>: make migrateup<br/>
-<strong>Drop tables and keyspace</strong>: make migratedown<br/>
+<strong>Drop tables and keyspace</strong>: make migratedown<br/><br/>
 
 To run Redis in Docker, navigate to the internal/infra/database/redis directory and run:<br/>
  ```
