@@ -81,7 +81,7 @@ sudo docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}'
  ```
 <br/>
  
- After running this command, you can set the Redis IP address in the Dockerfile using the ENV instruction:
+ After running this command, you can set the Redis or Cassandra IP address in the Dockerfile using the ENV instruction:
 
 ```
 ENV HOST_CASSANDRA_DOCKER=ip_address_from_inspect
