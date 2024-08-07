@@ -19,7 +19,7 @@ func StartServer() {
 	viper.AutomaticEnv()
 	hostRedisDocker := viper.GetString("HOST_REDIS_DOCKER")
 
-	Conf, err := configs.LoadConfig("../redis/cmd")
+	Conf, err := configs.LoadConfig("../cmd/redis/")
 
 	if err != nil {
 		panic(err)
