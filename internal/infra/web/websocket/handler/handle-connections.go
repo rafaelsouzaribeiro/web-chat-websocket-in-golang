@@ -72,10 +72,10 @@ func (h *MessageHandler) HandleConnections(w http.ResponseWriter, r *http.Reques
 		if msgs.Type == "message" {
 			mu.Lock()
 			msgs.Username = fmt.Sprintf("<strong>%s</strong>", msgs.Username)
-			mu.Unlock()
-
 			h.messageUseCase.SaveMessage(msgs)
+			mu.Unlock()
 			messages <- msgs
+
 		} else {
 			systemMessage := dto.Payload{
 				Username: "<strong>info</strong>",
@@ -99,7 +99,9 @@ func (h *MessageHandler) HandleConnections(w http.ResponseWriter, r *http.Reques
 			}
 
 			for _, payload := range *message {
+				mu.Lock()
 				conn.WriteJSON(payload)
+				mu.Unlock()
 			}
 
 			messa, err := h.messageUseCase.GetInitMessages()
@@ -109,10 +111,14 @@ func (h *MessageHandler) HandleConnections(w http.ResponseWriter, r *http.Reques
 			}
 
 			for _, payload := range *messa {
+				mu.Lock()
 				conn.WriteJSON(payload)
+				mu.Unlock()
 			}
 
+			mu.Lock()
 			h.messageUseCase.SaveUsers(systemMessage)
+			mu.Unlock()
 			connected <- systemMessage
 		}
 	}

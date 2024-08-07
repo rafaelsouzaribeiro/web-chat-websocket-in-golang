@@ -151,6 +151,7 @@ function connect() {
         hasMoreUsers=true;
         startIndex = 2;
         startmessageIndex = 2;
+        chat.innerHTML="";
 
         if (!listenersAdded) {
             messagesScroll.addEventListener('scroll', function(event) {
@@ -169,6 +170,7 @@ function connect() {
             listenersAdded = true;
         }
 
+        
         sendMessage('connected', 'connect');
     };
 
@@ -177,7 +179,6 @@ function connect() {
 
         if (msg.username && msg.message) {
                
-
             const messageElement = document.createElement('div');
             messageElement.classList.add('message');
             messageElement.innerHTML = `${msg.username}: ${msg.message}`;
