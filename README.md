@@ -65,7 +65,7 @@ To run Redis in Docker, navigate to the internal/infra/database/redis directory 
 docker-compose up
  ```
 <br />
-If you want to use Cassandra, navigate to the internal/infra/database/cassandra directory and execute the same command.<br/>
+If you want to use Cassandra, navigate to the internal/infra/database/cassandra directory and execute the same command.<br/><br/>
  
  To use Redis and Cassandra as Docker containers and access them from another WebSocket container, you need to determine the internal IP address of the Redis or Cassandra container. First, with Redis or Cassandra running, execute the following command:
 
