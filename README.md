@@ -6,66 +6,90 @@ To use messages and track connected and disconnected users with only a map varia
 
 Now, if you want to use a chat with messages and track connected and disconnected users using Redis, this is the project you need.<br />
 <br />
-1 - Run: cmd/main.go<br />
-2 - access via browser: http://localhost:8080/chat<br />
-2 - being able to open in multiple tabs and connect multiple users<br />
-3 - connect user and send message
+1 - Navigate to the cmd/redis or cmd/cassandra directory.
+2 - Run: main.go<br />
+3 - access via browser: http://localhost:8080/chat<br />
+4 - being able to open in multiple tabs and connect multiple users<br />
+5 - connect user and send message
 
 <br/>
 
 You can also run it through the dockerfile:<br />
+Redis:<br/>
 
  ```
-FROM golang:1.22.0 AS builder
-
+FROM golang:1.22 AS builder
 WORKDIR /app
-
-COPY go.mod ./
-COPY go.sum ./
-RUN go mod download
-
 COPY . .
 
-RUN GOOS=linux CGO_ENABLED=0 go build -ldflags="-w -s" -o main ./cmd/main.go
+RUN go mod download
+RUN GOOS=linux CGO_ENABLED=0 go build -ldflags="-w -s" -o main ./cmd/redis/main.go
 
-FROM alpine:latest
+FROM scratch
+WORKDIR /app
 
-WORKDIR /root/
+ENV HOST_REDIS_DOCKER="172.17.0.4"
 
-ENV HOST_NAME=0.0.0.0
-ENV WS_ENDPOINT=/ws
-ENV PORT=8080
-ENV HOST_REDIS="<ip_address_from_inspect>"
-ENV PORT_REDIS=6379
-
-COPY --from=builder /app/main .
-
-EXPOSE $PORT
+COPY --from=builder /app/main /app/
+COPY --from=builder /app/cmd/redis/.env /app/
 
 CMD ["./main"]
 
  ```
  <br />
+ Cassandra:
+  <br />
 
-To run Redis in Docker, use:
  ```
-sudo docker run --name redis -d -p 6379:6379 redis
+FROM golang:1.22 AS builder
+WORKDIR /app
+COPY . .
+
+RUN go mod download
+RUN GOOS=linux CGO_ENABLED=0 go build -ldflags="-w -s" -o main ./cmd/cassandra/main.go
+
+FROM scratch
+WORKDIR /app
+
+ENV HOST_CASSANDRA_DOCKER="172.17.0.4"
+
+COPY --from=builder /app/main /app/
+COPY --from=builder /app/cmd/cassandra/.env /app/
+
+CMD ["./main"]
+
+ ```
+
+To run Redis in Docker, navigate to the internal/infra/database/redis directory and run:
+ ```
+docker-compose up
  ```
 <br />
-To use Redis as a Docker container and access it from another WebSocket container, you need to determine the internal IP address of the Redis container. First, with Redis running, execute the following command: 
+iIf you want to use Cassandra, navigate to the internal/infra/database/cassandra directory and run:
+ ```
+docker-compose up
+ ```
+<br />
+To use Redis and Cassandra as Docker containers and access them from another WebSocket container, you need to determine the internal IP address of the Redis or Cassandra container. First, with Redis or Cassandra running, execute the following command:
 
  ```
 sudo docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' redis
  ```
-
+<br/>
+```
+sudo docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' cassandra
+ ```
  
  
  After running this command, you can set the Redis IP address in the Dockerfile using the ENV instruction:
 
 ```
-ENV HOST_REDIS=ip_address_from_inspect
+ENV HOST_CASSANDRA_DOCKER=ip_address_from_inspect
  ```
-
+<br/>
+```
+ENV HOST_REDIS_DOCKER=ip_address_from_inspect
+ ```
 
 
 
