@@ -90,8 +90,13 @@ sudo docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}'
 ```
 ENV HOST_CASSANDRA_DOCKER=ip_address_from_inspect
 
-ENV HOST_REDIS_DOCKER=ip_address_from_inspect
  ```
+
+```
+ENV HOST_REDIS_DOCKER=ip_address_from_inspect
+
+ ```
+
 
 
 
