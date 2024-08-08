@@ -15,7 +15,7 @@ var cql = ""
 func main() {
 
 	reader := bufio.NewReader(os.Stdin)
-	fmt.Print("Deseja deletar? sim (y) não (n): ")
+	fmt.Print("Do you want to delete? Yes (y) or No (n): ")
 	text, _ := reader.ReadString('\n')
 	text = strings.TrimSpace(text)
 
