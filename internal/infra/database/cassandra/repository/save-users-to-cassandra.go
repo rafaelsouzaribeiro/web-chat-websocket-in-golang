@@ -28,6 +28,7 @@ func (r *MesssageRepository) SaveUsers(msg *entity.Message) error {
 
 		} else {
 			total = save.Total + 1
+			page = save.Page
 		}
 	}
 
