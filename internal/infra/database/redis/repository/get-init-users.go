@@ -15,11 +15,13 @@ func (r *MesssageRepository) GetInitUsers() (*[]entity.Message, error) {
 		return nil, err
 	}
 
-	if totalMessages > entity.PerPage {
-		entity.StartUIndex = totalMessages - entity.PerPage
+	multi := totalMessages % 20
+	if multi == 0 && totalMessages > 19 {
+		startU = startU + 20
+		stopU = stopU + 10
 	}
 
-	messages, err := r.rdb.LRange(ctx, "users", entity.StartUIndex, -1).Result()
+	messages, err := r.rdb.LRange(ctx, "users", (startU * -1), (stopU * -1)).Result()
 	if err != nil {
 		return nil, err
 	}
