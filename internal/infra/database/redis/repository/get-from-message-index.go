@@ -3,7 +3,6 @@ package repository
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 
 	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/entity"
 )
@@ -31,7 +30,6 @@ func (r *MesssageRepository) GetFromMessageIndex() (*[]entity.Message, error) {
 	for _, msg := range messages {
 		var payload entity.Message
 		if err := json.Unmarshal([]byte(msg), &payload); err == nil {
-			payload.Username = fmt.Sprintf("%d,%d", (stop * -1), (entity.StartMIndex*-1)-1)
 			payloads = append(payloads, payload)
 		}
 
