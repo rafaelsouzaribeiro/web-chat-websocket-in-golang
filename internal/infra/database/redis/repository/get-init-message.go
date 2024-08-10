@@ -16,12 +16,15 @@ func (r *MesssageRepository) GetInitMessages() (*[]entity.Message, error) {
 	}
 
 	multi := totalMessages % 20
+	stopM = totalMessages
+
 	if multi == 0 && totalMessages > 19 {
-		startM = startM + 20
-		stopM = stopM + 10
+		startM = (totalMessages - 20) - 1
+	} else {
+		startM = (totalMessages - 20) - 2
 	}
 
-	messages, err := r.rdb.LRange(ctx, "messages", (startM * -1), stopM*-1).Result()
+	messages, err := r.rdb.LRange(ctx, "messages", startM, stopM).Result()
 	if err != nil {
 		return nil, err
 	}
@@ -34,6 +37,9 @@ func (r *MesssageRepository) GetInitMessages() (*[]entity.Message, error) {
 		}
 
 	}
+
+	startM = 1
+	stopM = 20
 
 	return &payloads, nil
 

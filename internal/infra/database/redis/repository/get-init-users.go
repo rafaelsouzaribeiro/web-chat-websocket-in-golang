@@ -16,12 +16,15 @@ func (r *MesssageRepository) GetInitUsers() (*[]entity.Message, error) {
 	}
 
 	multi := totalMessages % 20
+	stopU = totalMessages
+
 	if multi == 0 && totalMessages > 19 {
-		startU = startU + 20
-		stopU = stopU + 10
+		startU = (totalMessages - 20) - 1
+	} else {
+		startU = (totalMessages - 20) - 2
 	}
 
-	messages, err := r.rdb.LRange(ctx, "users", (startU * -1), (stopU * -1)).Result()
+	messages, err := r.rdb.LRange(ctx, "users", startU, stopU).Result()
 	if err != nil {
 		return nil, err
 	}
@@ -34,6 +37,9 @@ func (r *MesssageRepository) GetInitUsers() (*[]entity.Message, error) {
 		}
 
 	}
+
+	startU = 1
+	stopU = 20
 
 	return &payloads, nil
 

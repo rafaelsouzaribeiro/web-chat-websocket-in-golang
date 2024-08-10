@@ -9,10 +9,10 @@ type MesssageRepository struct {
 }
 
 var (
-	startM int64 = 20
-	stopM  int64 = 1
-	startU int64 = 20
-	stopU  int64 = 1
+	startM int64 = 1
+	stopM  int64 = 20
+	startU int64 = 1
+	stopU  int64 = 20
 )
 
 func NewMessageRedisRepository(db *redis.Client) *MesssageRepository {
