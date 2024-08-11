@@ -33,10 +33,6 @@ func (r *MesssageRepository) GetFromUsersIndex() (*[]entity.Message, error) {
 		return &[]entity.Message{}, nil
 	}
 
-	if stop < 0 {
-		return &[]entity.Message{}, nil
-	}
-
 	messages, err := r.rdb.LRange(ctx, "users", start, stop).Result()
 	if err != nil {
 		return nil, err
