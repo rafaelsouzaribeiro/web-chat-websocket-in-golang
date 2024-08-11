@@ -16,13 +16,13 @@ func (r *MesssageRepository) GetFromMessageIndex() (*[]entity.Message, error) {
 		return nil, err
 	}
 
-	multi := totalMessages % 20
-	start = (totalMessages - (entity.StartMIndex)*20) - 1
+	multi := totalMessages % entity.PerPage
+	start = (totalMessages - (entity.StartMIndex)*entity.PerPage) - 1
 
 	if multi == 0 {
-		stop = (start + 20) - 1
+		stop = (start + entity.PerPage) - 1
 	} else {
-		stop = (start + 20) - 2
+		stop = (start + entity.PerPage) - 2
 	}
 
 	if start < 0 {

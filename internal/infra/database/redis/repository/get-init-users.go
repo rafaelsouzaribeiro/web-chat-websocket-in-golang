@@ -15,13 +15,13 @@ func (r *MesssageRepository) GetInitUsers() (*[]entity.Message, error) {
 		return nil, err
 	}
 
-	multi := totalMessages % 20
+	multi := totalMessages % entity.PerPage
 	stopU = totalMessages
 
-	if multi == 0 && totalMessages > 19 {
-		startU = (totalMessages - 20) - 1
+	if multi == 0 && totalMessages > ((entity.PerPage)-1) {
+		startU = (totalMessages - entity.PerPage) - 1
 	} else {
-		startU = (totalMessages - 20) - 2
+		startU = (totalMessages - entity.PerPage) - 2
 	}
 
 	if startU < 0 {
