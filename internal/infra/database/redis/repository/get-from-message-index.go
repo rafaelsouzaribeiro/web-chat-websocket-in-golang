@@ -9,15 +9,21 @@ import (
 
 func (r *MesssageRepository) GetFromMessageIndex() (*[]entity.Message, error) {
 	ctx := context.Background()
-
+	var start int64
+	var stop int64
 	totalMessages, err := r.rdb.LLen(ctx, "messages").Result()
 	if err != nil {
 		return nil, err
 	}
 
-	start := (totalMessages - (entity.StartMIndex)*20) - 1
+	multi := totalMessages % 20
+	start = (totalMessages - (entity.StartMIndex)*20) - 1
 
-	stop := (start + 20) - 1
+	if multi == 0 {
+		stop = (start + 20) - 1
+	} else {
+		stop = (start + 20) - 2
+	}
 
 	if start < 0 {
 		start = 0
