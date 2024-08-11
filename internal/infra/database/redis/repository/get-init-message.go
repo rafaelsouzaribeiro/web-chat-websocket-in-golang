@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 
 	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/entity"
 )
@@ -28,6 +29,7 @@ func (r *MesssageRepository) GetInitMessages() (*[]entity.Message, error) {
 		startM = 0
 	}
 
+	fmt.Printf("Init Start: %d, Stop: %d\n", startM, stopM)
 	messages, err := r.rdb.LRange(ctx, "messages", startM, stopM).Result()
 	if err != nil {
 		return nil, err
