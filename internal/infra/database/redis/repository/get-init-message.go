@@ -43,7 +43,7 @@ func (r *MesssageRepository) GetInitMessages() (*[]entity.Message, error) {
 	}
 
 	startM = 1
-	stopM = 20
+	stopM = entity.PerPage
 
 	return &payloads, nil
 
