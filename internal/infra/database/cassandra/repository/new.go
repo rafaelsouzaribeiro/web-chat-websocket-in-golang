@@ -8,7 +8,7 @@ type MesssageRepository struct {
 	cql *gocql.Session
 }
 
-type Save struct {
+type Pagination struct {
 	Id    string
 	Total int
 	Page  int

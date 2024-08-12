@@ -10,7 +10,7 @@ import (
 )
 
 func (r *MesssageRepository) SaveUsers(msg *entity.Message) error {
-	var save Save
+	var save Pagination
 	var total int
 	var page int = 1
 
