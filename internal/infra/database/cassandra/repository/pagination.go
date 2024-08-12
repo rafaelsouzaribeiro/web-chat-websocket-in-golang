@@ -13,7 +13,7 @@ func (r *MesssageRepository) getPagination(table string) Pagination {
 	defer iter.Close()
 
 	var pagination Pagination
-	if iter.Scan(&pagination.Page, &pagination.Total, &pagination.Id) {
+	if iter.Scan(&pagination.Id, &pagination.Page, &pagination.Total) {
 		return pagination
 	}
 
