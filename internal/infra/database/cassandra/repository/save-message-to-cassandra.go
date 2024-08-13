@@ -21,12 +21,11 @@ func (r *MesssageRepository) SaveMessage(msg *entity.Message) error {
 
 	if iter.Scan(&save.Id, &save.Page, &save.Total) {
 		result := save.Total % 20
+		total = save.Total + 1
 
 		if result == 0 {
-			total = save.Total + 1
 			page = save.Page + 1
 		} else {
-			total = save.Total + 1
 			page = save.Page
 		}
 	}
