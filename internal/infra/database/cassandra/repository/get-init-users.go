@@ -11,7 +11,7 @@ func (r *MesssageRepository) GetInitUsers() (*[]entity.Message, error) {
 
 	multi := pagination.Total % 20
 
-	if multi != 0 {
+	if multi != 0 && pagination.Page != 1 {
 		pagination.Page--
 	}
 
@@ -28,6 +28,8 @@ func (r *MesssageRepository) GetInitUsers() (*[]entity.Message, error) {
 		&message.Username, &message.Type, &message.Time) {
 		messages = append(messages, message)
 	}
+
+	entity.PageU = int64(pagination.Page)
 
 	return &messages, nil
 

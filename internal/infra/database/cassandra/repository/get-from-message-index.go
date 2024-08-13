@@ -7,10 +7,10 @@ import (
 )
 
 func (r *MesssageRepository) GetFromMessageIndex() (*[]entity.Message, error) {
-	pagination := r.getPagination("pagination_messages")
+	entity.StartMIndex--
 
-	if entity.StartMIndex == int64(pagination.Page) {
-		entity.StartMIndex--
+	if entity.StartMIndex == entity.PageM {
+		entity.StartMIndex++
 	}
 
 	s := fmt.Sprintf(`select message,pages,username,type,times from %s.messages 
@@ -19,7 +19,6 @@ func (r *MesssageRepository) GetFromMessageIndex() (*[]entity.Message, error) {
 	iter := query.Iter()
 	defer iter.Close()
 
-	println(entity.StartMIndex)
 	var message entity.Message
 	var messages []entity.Message
 

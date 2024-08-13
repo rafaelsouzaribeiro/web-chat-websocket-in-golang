@@ -7,10 +7,10 @@ import (
 )
 
 func (r *MesssageRepository) GetFromUsersIndex() (*[]entity.Message, error) {
-	pagination := r.getPagination("pagination_users")
+	entity.StartUIndex--
 
-	if entity.StartUIndex == int64(pagination.Page) {
-		entity.StartUIndex--
+	if entity.StartUIndex == entity.PageU {
+		entity.StartUIndex++
 	}
 
 	s := fmt.Sprintf(`select message,pages,username,type,times from %s.users 
