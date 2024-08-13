@@ -7,7 +7,7 @@ import (
 )
 
 func (r *MesssageRepository) GetInitUsers() (*[]entity.Message, error) {
-	pagination := r.getPagination("pagination_messages")
+	pagination := r.getPagination("pagination_users")
 
 	multi := pagination.Total % 20
 
