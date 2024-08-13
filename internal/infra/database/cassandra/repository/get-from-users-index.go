@@ -7,7 +7,7 @@ import (
 )
 
 func (r *MesssageRepository) GetFromUsersIndex() (*[]entity.Message, error) {
-	entity.StartUIndex--
+	Once.Do(func() { entity.StartMIndex-- })
 
 	if entity.StartUIndex == entity.PageU {
 		entity.StartUIndex++
