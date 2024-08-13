@@ -39,5 +39,4 @@ func (h *MessageHandler) GracefulShutdown(server *http.Server) {
 
 	fmt.Println("Server gracefully stopped")
 
-	os.Exit(0)
 }

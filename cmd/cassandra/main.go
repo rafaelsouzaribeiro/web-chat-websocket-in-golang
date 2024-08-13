@@ -46,7 +46,5 @@ func main() {
 
 	di := di.NewMessageCassandraUseCase(cassandra)
 	handler := handler.NewMessageHandler(di)
-	go svc.Start(handler)
-	select {}
-
+	svc.Start(handler)
 }

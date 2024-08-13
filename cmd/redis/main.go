@@ -45,7 +45,6 @@ func main() {
 	redis := connection.ConnectingRedis(hostRedis, portR, Conf.PassRedis)
 	di := di.NewMessageRedisUseCase(redis)
 	handler := handler.NewMessageHandler(di)
-	go svc.Start(handler)
-	select {}
+	svc.Start(handler)
 
 }

@@ -6,7 +6,16 @@ import (
 	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/entity"
 )
 
+var lastId int64
+
 func (r *MesssageRepository) GetFromMessageIndex() (*[]entity.Message, error) {
+
+	if entity.StartMIndex == lastId {
+		entity.StartMIndex++
+	} else {
+		lastId = entity.StartMIndex
+	}
+
 	entity.StartMIndex--
 
 	if entity.StartMIndex == entity.PageM {
