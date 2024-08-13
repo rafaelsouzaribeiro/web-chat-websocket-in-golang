@@ -27,8 +27,9 @@ func (r *MesssageRepository) GetFromMessageIndex() (*[]entity.Message, error) {
 
 	if start < 0 {
 		start = 0
+		stop++
 	}
-
+	println(start, stop)
 	if stop < 0 {
 		return &[]entity.Message{}, nil
 	}
