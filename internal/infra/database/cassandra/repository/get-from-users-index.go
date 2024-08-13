@@ -7,6 +7,12 @@ import (
 )
 
 func (r *MesssageRepository) GetFromUsersIndex() (*[]entity.Message, error) {
+	pagination := r.getPagination("pagination_users")
+
+	if entity.StartUIndex == int64(pagination.Page) {
+		entity.StartUIndex--
+	}
+
 	s := fmt.Sprintf(`select message,pages,username,type,times from %s.users 
 	WHERE pages=?`, entity.KeySpace)
 	query := r.cql.Query(s, entity.StartUIndex)

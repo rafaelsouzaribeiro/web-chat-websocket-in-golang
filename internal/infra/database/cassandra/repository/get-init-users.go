@@ -7,7 +7,14 @@ import (
 )
 
 func (r *MesssageRepository) GetInitUsers() (*[]entity.Message, error) {
-	pagination := r.getPagination("pagination_users")
+	pagination := r.getPagination("pagination_messages")
+
+	multi := pagination.Total % 20
+
+	if multi != 0 {
+		pagination.Page--
+	}
+
 	s := fmt.Sprintf(`select message,pages,username,type,times from %s.users 
 	WHERE pages=?`, entity.KeySpace)
 	query := r.cql.Query(s, pagination.Page)
