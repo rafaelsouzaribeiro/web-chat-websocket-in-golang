@@ -4,11 +4,12 @@ To use messages and track connected and disconnected users with only a map varia
 
 If you want to use a chat with message tracking and the ability to track connected and disconnected users using Redis or Cassandra, this is the project you need.<br />
 <br />
-1 - Navigate to the cmd/redis or cmd/cassandra directory.<br/>
-2 - Run: main.go<br />
-3 - access via browser: http://localhost:8080/chat<br />
-4 - being able to open in multiple tabs and connect multiple users<br />
-5 - connect user and send message
+1 - Navigate to the /cmd directory.<br/>
+2 - Set within the cmd/main.go code: factory.NewFactory(factory.Redis, Conf), using either factory.Redis or factory.Cassandra.<br/>
+3 - Run: main.go<br />
+4 - access via browser: http://localhost:8080/chat<br />
+5 - being able to open in multiple tabs and connect multiple users<br />
+6 - connect user and send message
 
 <br/>
 
@@ -21,7 +22,7 @@ WORKDIR /app
 COPY . .
 
 RUN go mod download
-RUN GOOS=linux CGO_ENABLED=0 go build -ldflags="-w -s" -o main ./cmd/redis/main.go
+RUN GOOS=linux CGO_ENABLED=0 go build -ldflags="-w -s" -o main ./cmd/main.go
 
 FROM scratch
 WORKDIR /app
@@ -44,7 +45,7 @@ WORKDIR /app
 COPY . .
 
 RUN go mod download
-RUN GOOS=linux CGO_ENABLED=0 go build -ldflags="-w -s" -o main ./cmd/cassandra/main.go
+RUN GOOS=linux CGO_ENABLED=0 go build -ldflags="-w -s" -o main ./cmd/main.go
 
 FROM scratch
 WORKDIR /app
