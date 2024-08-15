@@ -5,7 +5,7 @@ To use messages and track connected and disconnected users with only a map varia
 If you want to use a chat with message tracking and the ability to track connected and disconnected users using Redis or Cassandra, this is the project you need.<br />
 <br />
 1 - Navigate to the /cmd directory.<br/>
-2 - Set within the cmd/main.go code: factory.NewFactory(factory.Redis, Conf), using either factory.Redis or factory.Cassandra.<br/>
+2 - Set within the cmd/main.go code: `factory.NewFactory(factory.Redis, Conf)`, using either factory.Redis or factory.Cassandra.<br/>
 3 - Run: main.go<br />
 4 - access via browser: http://localhost:8080/chat<br />
 5 - being able to open in multiple tabs and connect multiple users<br />
