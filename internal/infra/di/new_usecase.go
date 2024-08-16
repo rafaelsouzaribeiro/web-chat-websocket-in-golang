@@ -12,7 +12,9 @@ func NewUseCase(db *factory.Iconnection) *usecase.MessageUsecase {
 	if db.Gocql != nil {
 		repository := cassandra.NewMessageCassandraRepository(db)
 		return usecase.NewMessageUseCase(repository)
-	} else if db.Redis != nil {
+	}
+
+	if db.Redis != nil {
 		repository := redis.NewMessageRedisRepository(db)
 		return usecase.NewMessageUseCase(repository)
 	}
