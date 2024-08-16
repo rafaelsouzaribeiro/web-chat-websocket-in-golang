@@ -7,17 +7,13 @@ import (
 	"time"
 
 	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/configs"
-	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/infra/database/redis/connection"
+	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/infra/database/factory"
 	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/infra/di"
 	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/infra/web/websocket/handler"
 	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/infra/web/websocket/server"
-	"github.com/spf13/viper"
 )
 
 func StartServer() {
-
-	viper.AutomaticEnv()
-	hostRedisDocker := viper.GetString("HOST_REDIS_DOCKER")
 
 	Conf, err := configs.LoadConfig("../cmd/redis/")
 
@@ -25,32 +21,22 @@ func StartServer() {
 		panic(err)
 	}
 
-	hostname := Conf.HostName
-	wsEndpoint := Conf.WsEndPoint
-	portStr := Conf.Port
-	hostRedis := Conf.HostRedis
-	portRedis := Conf.PortRedis
-	passRedis := Conf.PassRedis
-
-	if hostRedisDocker != "" {
-		hostRedis = hostRedisDocker
-	}
-
-	port, err := strconv.Atoi(portStr)
+	port, err := strconv.Atoi(Conf.Port)
 	if err != nil {
 		log.Fatalf("Invalid port: %v", err)
 	}
 
-	portR, errs := strconv.Atoi(portRedis)
-	if errs != nil {
-		log.Fatalf("Invalid port: %v", errs)
+	f := factory.NewFactory(factory.Redis, Conf)
+	db, err := f.GetConnection()
+
+	if err != nil {
+		panic(err)
 	}
 
-	svc := server.NewServer(hostname, wsEndpoint, port)
-	redis := connection.ConnectingRedis(hostRedis, portR, passRedis)
-	di := di.NewMessageRedisUseCase(redis)
+	svc := server.NewServer(Conf.HostName, Conf.WsEndPoint, port)
+	di := di.NewUseCase(db)
 	handler := handler.NewMessageHandler(di)
-	go svc.Start(handler)
+	svc.Start(handler)
 
 	time.Sleep(1 * time.Second)
 

@@ -4,6 +4,7 @@ import (
 	"sync"
 
 	"github.com/gocql/gocql"
+	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/infra/database/factory"
 )
 
 type MesssageRepository struct {
@@ -18,8 +19,8 @@ type Pagination struct {
 
 var Once sync.Once
 
-func NewMessageCassandraRepository(db *gocql.Session) *MesssageRepository {
+func NewMessageCassandraRepository(db *factory.Iconnection) *MesssageRepository {
 	return &MesssageRepository{
-		cql: db,
+		cql: db.Gocql,
 	}
 }

@@ -7,6 +7,7 @@ import (
 	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/configs"
 
 	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/infra/database/factory"
+	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/infra/di"
 	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/infra/web/websocket/handler"
 	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/infra/web/websocket/server"
 )
@@ -24,8 +25,15 @@ func main() {
 		log.Fatalf("Invalid port: %v", err)
 	}
 
+	f := factory.NewFactory(factory.Cassandra, Conf)
+	db, err := f.GetConnection()
+
+	if err != nil {
+		panic(err)
+	}
+
 	svc := server.NewServer(Conf.HostName, Conf.WsEndPoint, port)
-	di := factory.NewFactory(factory.Redis, Conf)
+	di := di.NewUseCase(db)
 	handler := handler.NewMessageHandler(di)
 	svc.Start(handler)
 

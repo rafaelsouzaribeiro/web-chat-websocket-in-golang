@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/infra/database/factory"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -15,8 +16,8 @@ var (
 	stopU  int64 = 20
 )
 
-func NewMessageRedisRepository(db *redis.Client) *MesssageRepository {
+func NewMessageRedisRepository(db *factory.Iconnection) *MesssageRepository {
 	return &MesssageRepository{
-		rdb: db,
+		rdb: db.Redis,
 	}
 }
