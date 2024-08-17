@@ -4,7 +4,7 @@ import (
 	"log"
 	"strconv"
 
-	connectionRedis "github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/infra/database/redis/connection"
+	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/infra/database/redis/connection"
 	"github.com/redis/go-redis/v9"
 	"github.com/spf13/viper"
 )
@@ -24,5 +24,5 @@ func (f *Factory) GetConRedis() (*redis.Client, error) {
 		log.Fatalf("Invalid port: %v", errs)
 	}
 
-	return connectionRedis.ConnectingRedis(hostRedis, portR, f.Conf.PassRedis), nil
+	return connection.ConnectingRedis(hostRedis, portR, f.Conf.PassRedis), nil
 }

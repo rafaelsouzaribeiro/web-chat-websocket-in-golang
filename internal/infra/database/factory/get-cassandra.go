@@ -4,7 +4,7 @@ import (
 	"strings"
 
 	"github.com/gocql/gocql"
-	ConnectingCassandra "github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/infra/database/cassandra/connection"
+	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/infra/database/cassandra/connection"
 	"github.com/spf13/viper"
 )
 
@@ -18,7 +18,7 @@ func (f *Factory) GetConCassandra() (*gocql.Session, error) {
 		hosts = hostsDocker
 	}
 
-	cassandra, err := ConnectingCassandra.NewCassandraConnection(hosts, f.Conf.PassCassaandra, f.Conf.UserCassaandra)
+	cassandra, err := connection.NewCassandraConnection(hosts, f.Conf.PassCassaandra, f.Conf.UserCassaandra)
 
 	if err != nil {
 		return nil, err
