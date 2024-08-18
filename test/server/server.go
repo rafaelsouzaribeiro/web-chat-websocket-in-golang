@@ -15,7 +15,7 @@ import (
 
 func StartServer() {
 
-	Conf, err := configs.LoadConfig("../cmd/redis/")
+	Conf, err := configs.LoadConfig("../cmd/")
 
 	if err != nil {
 		panic(err)
