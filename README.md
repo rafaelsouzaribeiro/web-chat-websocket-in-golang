@@ -68,7 +68,11 @@ Create tables: make migrateup
 Drop tables and keyspace: make migratedown
 
  ```
+If you don't have make installed, install it with the following command:
+```
+sudo apt install make
 
+ ```
 
 To run Redis in Docker, navigate to the internal/infra/database/redis directory and run:<br/>
  ```
