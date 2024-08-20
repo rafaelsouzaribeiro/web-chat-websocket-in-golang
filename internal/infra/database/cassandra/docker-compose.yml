@@ -1,6 +1,7 @@
 services:
   cassandra:
     image: cassandra:latest
+    network_mode: bridge
     ports:
       - "9042:9042"
     container_name: cassandra
