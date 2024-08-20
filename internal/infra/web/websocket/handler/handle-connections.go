@@ -40,7 +40,7 @@ func (h *MessageHandler) HandleConnections(w http.ResponseWriter, r *http.Reques
 			}
 
 			h.deleteUserByUserName(username, true)
-
+			DeleteUsername = username
 			h.messageUseCase.SaveUsers(disconnectionMessage)
 			connected <- disconnectionMessage
 			conn.Close()

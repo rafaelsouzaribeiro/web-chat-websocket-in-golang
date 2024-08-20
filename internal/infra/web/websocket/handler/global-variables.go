@@ -8,9 +8,10 @@ import (
 )
 
 var (
-	connected     = make(chan dto.Payload)
-	messages      = make(chan dto.Payload)
-	users         = make(map[string]User)
-	messageExists = make(map[*websocket.Conn]bool)
-	mu            sync.Mutex
+	connected      = make(chan dto.Payload)
+	messages       = make(chan dto.Payload)
+	users          = make(map[string]User)
+	messageExists  = make(map[*websocket.Conn]bool)
+	mu             sync.Mutex
+	DeleteUsername = ""
 )

@@ -6,6 +6,11 @@ func (h *MessageHandler) HandleConnected() {
 	for msg := range connected {
 
 		for _, user := range users {
+			if DeleteUsername == user.username {
+				DeleteUsername = ""
+				continue
+			}
+
 			mu.Lock()
 			msg.Username = fmt.Sprintf("<strong>%s</strong>", msg.Username)
 			err := user.conn.WriteJSON(msg)
