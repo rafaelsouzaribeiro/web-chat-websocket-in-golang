@@ -15,7 +15,7 @@ func SetVariables() (*gocql.Session, error) {
 	var hosts []string
 	hostsDocker := strings.Split(viper.GetString("HOST_CASSANDRA_DOCKER"), ",")
 
-	Conf, err := configs.LoadConfig("./cmd/cassandra/")
+	Conf, err := configs.LoadConfig("./cmd/")
 
 	if err != nil {
 		panic(err)
