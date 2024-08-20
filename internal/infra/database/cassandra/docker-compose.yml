@@ -6,6 +6,8 @@ services:
     container_name: cassandra
     volumes:
        - /mnt/docker/volumes/cassandra:/var/lib/cassandra
+    env_file: ../../../../cmd/.env   
+
        
        
 

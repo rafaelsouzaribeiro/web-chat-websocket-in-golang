@@ -98,10 +98,12 @@ func (h *MessageHandler) HandleConnections(w http.ResponseWriter, r *http.Reques
 				fmt.Printf("Error %v \n", err)
 			}
 
-			for _, payload := range *message {
-				mu.Lock()
-				conn.WriteJSON(payload)
-				mu.Unlock()
+			if message != nil {
+				for _, payload := range *message {
+					mu.Lock()
+					conn.WriteJSON(payload)
+					mu.Unlock()
+				}
 			}
 
 			messa, err := h.messageUseCase.GetInitMessages()
@@ -110,10 +112,12 @@ func (h *MessageHandler) HandleConnections(w http.ResponseWriter, r *http.Reques
 				fmt.Printf("Error %v \n", err)
 			}
 
-			for _, payload := range *messa {
-				mu.Lock()
-				conn.WriteJSON(payload)
-				mu.Unlock()
+			if messa != nil {
+				for _, payload := range *messa {
+					mu.Lock()
+					conn.WriteJSON(payload)
+					mu.Unlock()
+				}
 			}
 
 			mu.Lock()
