@@ -17,7 +17,7 @@ You can also run it through the dockerfile:<br />
 Redis:<br/>
 
  ```
-FROM golang:1.22 AS builder
+FROM golang:1.23 AS builder
 WORKDIR /app
 COPY . .
 
@@ -30,7 +30,7 @@ WORKDIR /app
 ENV HOST_REDIS_DOCKER="172.17.0.4"
 
 COPY --from=builder /app/main /app/
-COPY --from=builder /app/cmd/redis/.env /app/
+COPY --from=builder /app/cmd/.env /app/
 
 CMD ["./main"]
 
@@ -40,7 +40,7 @@ CMD ["./main"]
   <br />
 
  ```
-FROM golang:1.22 AS builder
+FROM golang:1.23 AS builder
 WORKDIR /app
 COPY . .
 
@@ -53,7 +53,7 @@ WORKDIR /app
 ENV HOST_CASSANDRA_DOCKER="172.17.0.4"
 
 COPY --from=builder /app/main /app/
-COPY --from=builder /app/cmd/cassandra/.env /app/
+COPY --from=builder /app/cmd/.env /app/
 
 CMD ["./main"]
 
