@@ -2,7 +2,6 @@ package repository
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/entity"
 )
@@ -15,10 +14,9 @@ func (r *MesssageRepository) GetFromMessageIndex() (*[]entity.Message, error) {
 		entity.StartMIndex++
 	}
 
-	tenMinutesAgo := time.Now().Add(-20 * time.Minute)
 	s := fmt.Sprintf(`select message,pages,username,type,times from %s.messages 
-					  WHERE pages=? AND times < ? ALLOW FILTERING`, entity.KeySpace)
-	query := r.cql.Query(s, entity.StartMIndex, tenMinutesAgo)
+					  WHERE pages=?`, entity.KeySpace)
+	query := r.cql.Query(s, entity.StartMIndex)
 	iter := query.Iter()
 	defer iter.Close()
 
