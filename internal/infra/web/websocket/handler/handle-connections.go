@@ -44,7 +44,6 @@ func (h *MessageHandler) HandleConnections(w http.ResponseWriter, r *http.Reques
 			for _, user := range users {
 
 				mu.Lock()
-				disconnectionMessage.Username = fmt.Sprintf("<strong>%s</strong>", disconnectionMessage.Username)
 				err := user.conn.WriteJSON(disconnectionMessage)
 				mu.Unlock()
 
