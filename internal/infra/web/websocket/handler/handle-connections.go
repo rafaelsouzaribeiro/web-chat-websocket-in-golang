@@ -40,9 +40,24 @@ func (h *MessageHandler) HandleConnections(w http.ResponseWriter, r *http.Reques
 			}
 
 			h.deleteUserByUserName(username, true)
-			DeleteUsername = username
+
+			for _, user := range users {
+
+				mu.Lock()
+				disconnectionMessage.Username = fmt.Sprintf("<strong>%s</strong>", disconnectionMessage.Username)
+				err := user.conn.WriteJSON(disconnectionMessage)
+				mu.Unlock()
+
+				if err != nil {
+					fmt.Println("Error sending message:", err)
+					mu.Lock()
+					user.conn.Close()
+					mu.Unlock()
+					h.deleteUserByUserName(user.username, false)
+				}
+
+			}
 			h.messageUseCase.SaveUsers(disconnectionMessage)
-			connected <- disconnectionMessage
 			conn.Close()
 		}
 	}()
