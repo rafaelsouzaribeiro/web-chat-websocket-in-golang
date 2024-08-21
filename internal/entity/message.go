@@ -12,6 +12,8 @@ var (
 	PageM       = int64(1)
 	PageU       = int64(1)
 	TotalM      = int64(1)
+	PointerM    = int64(1)
+	PointerU    = int64(1)
 	TotalU      = int64(1)
 )
 
