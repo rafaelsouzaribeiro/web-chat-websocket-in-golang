@@ -8,13 +8,13 @@ import (
 
 func (r *MesssageRepository) GetFromUsersIndex() (*[]entity.Message, error) {
 
-	if entity.PageU == 1 && entity.TotalU <= 20 {
+	entity.PageU--
+
+	if entity.PageU == 0 && entity.TotalU <= 21 {
 		entity.PageU = 2
 	}
 
-	entity.PageU--
-
-	if entity.PageU == 1 && entity.TotalU <= 20 {
+	if entity.PageU == 1 && entity.TotalU == 21 {
 		return &[]entity.Message{}, nil
 	}
 
