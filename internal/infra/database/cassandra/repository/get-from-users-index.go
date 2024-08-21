@@ -6,16 +6,25 @@ import (
 	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/entity"
 )
 
-func (r *MesssageRepository) GetFromUsersIndex() (*[]entity.Message, error) {
-	Once.Do(func() { entity.StartUIndex-- })
+var condU bool = false
 
-	if entity.StartUIndex == entity.PageU {
-		entity.StartUIndex++
+func (r *MesssageRepository) GetFromUsersIndex() (*[]entity.Message, error) {
+
+	entity.PageU--
+
+	if entity.PageU == 0 && !condU {
+		entity.PageU = 2
+		condM = true
 	}
 
+	if entity.PageU == 1 && !condU {
+		return &[]entity.Message{}, nil
+	}
+
+	println(">>", entity.StartUIndex, entity.PageU)
 	s := fmt.Sprintf(`select message,pages,username,type,times from %s.users 
-	WHERE pages=?`, entity.KeySpace)
-	query := r.cql.Query(s, entity.StartUIndex)
+	WHERE pages=? ORDER BY times DESC`, entity.KeySpace)
+	query := r.cql.Query(s, entity.PageU)
 	iter := query.Iter()
 	defer iter.Close()
 
