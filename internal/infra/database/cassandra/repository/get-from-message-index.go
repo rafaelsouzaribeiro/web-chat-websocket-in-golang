@@ -12,10 +12,6 @@ func (r *MesssageRepository) GetFromMessageIndex() (*[]entity.Message, error) {
 		entity.PageM = 2
 	}
 
-	if entity.PageM == 1 && (entity.TotalM < 20) {
-		return &[]entity.Message{}, nil
-	}
-
 	if entity.PointerM == entity.PageM {
 		entity.PageM--
 	}

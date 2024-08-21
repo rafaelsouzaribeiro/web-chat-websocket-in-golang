@@ -12,10 +12,6 @@ func (r *MesssageRepository) GetFromUsersIndex() (*[]entity.Message, error) {
 		entity.PageU = 2
 	}
 
-	if entity.PageU == 1 && entity.TotalU == 21 {
-		return &[]entity.Message{}, nil
-	}
-
 	if entity.PointerU == entity.PageU {
 		entity.PageU--
 	}
