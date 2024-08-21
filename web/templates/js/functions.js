@@ -74,11 +74,6 @@ function loadPreviousUsers() {
                 });
                 startIndex += 1;
 
-                const childDivs = chat.getElementsByTagName('div');
-                
-                if(childDivs.length>19){
-                    chat.scrollTop = chat.scrollHeight;
-                }
         }else{
             hasMoreUsers=false
         }
@@ -162,11 +157,15 @@ function connect() {
             });
 
             chat.addEventListener('scroll', function(event) {
-                if (chat.scrollTop === 0 && hasMoreUsers) {
-                    loadPreviousUsers();
-                }
-            });
+                const {scrollHeight, scrollTop, clientHeight} = event.target;
 
+                if (Math.abs(scrollHeight - clientHeight - scrollTop) < 1 && hasMoreUsers) {
+                    loadPreviousUsers();
+                    chat.scrollTop=0
+                }
+                
+            });
+            
             listenersAdded = true;
         }
 
