@@ -10,18 +10,17 @@ var condM bool = false
 
 func (r *MesssageRepository) GetFromMessageIndex() (*[]entity.Message, error) {
 
-	entity.PageM--
-
-	if entity.PageM == 0 && !condM {
+	if entity.PageM == 1 && !condM {
 		entity.PageM = 2
 		condM = true
 	}
 
-	if entity.PageM == 1 && !condU {
+	entity.PageM--
+
+	if entity.PageM == 1 && condM {
 		return &[]entity.Message{}, nil
 	}
 
-	println("<<", entity.StartUIndex, entity.PageM)
 	s := fmt.Sprintf(`select message,pages,username,type,times from %s.messages 
 					  WHERE pages=?`, entity.KeySpace)
 	query := r.cql.Query(s, entity.PageM)
