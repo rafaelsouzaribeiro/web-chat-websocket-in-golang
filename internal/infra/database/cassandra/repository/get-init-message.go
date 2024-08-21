@@ -30,7 +30,7 @@ func (r *MesssageRepository) GetInitMessages() (*[]entity.Message, error) {
 	}
 
 	entity.PageM = int64(pagination.Page)
-
+	entity.TotalM = int64(pagination.Total)
 	return &messages, nil
 
 }

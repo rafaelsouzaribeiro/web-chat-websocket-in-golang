@@ -6,18 +6,15 @@ import (
 	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/entity"
 )
 
-var condM bool = false
-
 func (r *MesssageRepository) GetFromMessageIndex() (*[]entity.Message, error) {
 
-	if entity.PageM == 1 && !condM {
+	if entity.PageM == 1 && entity.TotalM <= 20 {
 		entity.PageM = 2
-		condM = true
 	}
 
 	entity.PageM--
 
-	if entity.PageM == 1 && condM {
+	if entity.PageM == 1 && entity.TotalM <= 20 {
 		return &[]entity.Message{}, nil
 	}
 
