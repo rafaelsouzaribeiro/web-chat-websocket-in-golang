@@ -22,6 +22,8 @@ func (r *MesssageRepository) GetInitUsers() (*[]entity.Message, error) {
 		messages = append(messages, message)
 	}
 
+	entity.IndexU = 2
+
 	return &messages, nil
 
 }

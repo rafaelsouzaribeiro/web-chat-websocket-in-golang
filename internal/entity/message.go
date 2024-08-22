@@ -12,6 +12,7 @@ var (
 	PageM       = int64(1)
 	TotalM      = int64(1)
 	PointerM    = int64(1)
+	IndexU      int64
 )
 
 type Message struct {

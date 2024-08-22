@@ -8,9 +8,11 @@ import (
 
 func (r *MesssageRepository) GetFromUsersIndex() (*[]entity.Message, error) {
 
+	Once.Do(func() { entity.IndexU = entity.StartUIndex })
+
 	s := fmt.Sprintf(`select message,pages,username,type,times from %s.users 
 	WHERE pages=? ORDER BY times DESC`, entity.KeySpace)
-	query := r.cql.Query(s, entity.StartUIndex)
+	query := r.cql.Query(s, entity.IndexU)
 	iter := query.Iter()
 	defer iter.Close()
 
@@ -22,7 +24,7 @@ func (r *MesssageRepository) GetFromUsersIndex() (*[]entity.Message, error) {
 		messages = append(messages, message)
 	}
 
-	entity.StartUIndex++
+	entity.IndexU++
 
 	return &messages, nil
 }
