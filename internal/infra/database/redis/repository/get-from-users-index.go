@@ -18,13 +18,14 @@ func (r *MesssageRepository) GetFromUsersIndex() (*[]entity.Message, error) {
 		return nil, err
 	}
 
-	var payloads []entity.Message
+	payloads := make([]entity.Message, len(messages))
+	var inter int = len(messages) - 1
 	for _, msg := range messages {
 		var payload entity.Message
 		if err := json.Unmarshal([]byte(msg), &payload); err == nil {
-			payloads = append(payloads, payload)
+			payloads[inter] = payload
 		}
-
+		inter--
 	}
 
 	return &payloads, nil
