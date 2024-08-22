@@ -7,17 +7,10 @@ import (
 )
 
 func (r *MesssageRepository) GetInitUsers() (*[]entity.Message, error) {
-	pagination := r.getPagination("pagination_users")
-	var index int = pagination.Page
-	multi := pagination.Total % 20
-
-	if multi != 0 && pagination.Page != 1 {
-		index--
-	}
 
 	s := fmt.Sprintf(`select message,pages,username,type,times from %s.users 
 	WHERE pages=?`, entity.KeySpace)
-	query := r.cql.Query(s, index)
+	query := r.cql.Query(s, 1)
 	iter := query.Iter()
 	defer iter.Close()
 
@@ -29,9 +22,6 @@ func (r *MesssageRepository) GetInitUsers() (*[]entity.Message, error) {
 		messages = append(messages, message)
 	}
 
-	entity.PageU = int64(pagination.Page)
-	entity.TotalU = int64(pagination.Total)
-	entity.PointerU = int64(index)
 	return &messages, nil
 
 }

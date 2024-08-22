@@ -70,7 +70,7 @@ function loadPreviousUsers() {
                     const messageElement = document.createElement('div');
                     messageElement.classList.add('message');
                     messageElement.innerHTML = `${msg.username}: ${msg.message}`;
-                    chat.insertBefore(messageElement, chat.firstChild);
+                    chat.appendChild(messageElement);
                 });
                 startIndex += 1;
 
