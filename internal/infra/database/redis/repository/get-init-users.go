@@ -10,25 +10,7 @@ import (
 func (r *MesssageRepository) GetInitUsers() (*[]entity.Message, error) {
 	ctx := context.Background()
 
-	totalMessages, err := r.rdb.LLen(ctx, "users").Result()
-	if err != nil {
-		return nil, err
-	}
-
-	multi := totalMessages % entity.PerPage
-	stopU = totalMessages
-
-	if multi == 0 && totalMessages > ((entity.PerPage)-1) {
-		startU = (totalMessages - entity.PerPage) - 1
-	} else {
-		startU = (totalMessages - entity.PerPage) - 2
-	}
-
-	if startU < 0 {
-		startU = 0
-	}
-
-	messages, err := r.rdb.LRange(ctx, "users", startU, stopU).Result()
+	messages, err := r.rdb.LRange(ctx, "users", 0, entity.PerPage).Result()
 	if err != nil {
 		return nil, err
 	}
@@ -43,7 +25,7 @@ func (r *MesssageRepository) GetInitUsers() (*[]entity.Message, error) {
 	}
 
 	startU = 1
-	stopU = entity.PerPage
+	stopU = entity.PerPage + 1
 
 	return &payloads, nil
 
