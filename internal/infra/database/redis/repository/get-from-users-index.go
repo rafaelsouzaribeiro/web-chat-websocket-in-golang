@@ -17,7 +17,6 @@ func (r *MesssageRepository) GetFromUsersIndex() (*[]entity.Message, error) {
 		startU++
 	}
 
-	println(startU, stopU)
 	messages, err := r.rdb.LRange(ctx, "users", startU, stopU).Result()
 	if err != nil {
 		return nil, err
