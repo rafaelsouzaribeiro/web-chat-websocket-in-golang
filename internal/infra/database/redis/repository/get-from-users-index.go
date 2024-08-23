@@ -10,9 +10,14 @@ import (
 func (r *MesssageRepository) GetFromUsersIndex() (*[]entity.Message, error) {
 	ctx := context.Background()
 
-	startU = startU + entity.PerPage + 1
+	startU = startU + entity.PerPage
 	stopU = stopU + entity.PerPage
 
+	if startU == 41 {
+		startU++
+	}
+
+	println(startU, stopU)
 	messages, err := r.rdb.LRange(ctx, "users", startU, stopU).Result()
 	if err != nil {
 		return nil, err
