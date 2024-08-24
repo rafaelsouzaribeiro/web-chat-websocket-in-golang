@@ -25,8 +25,6 @@ func (r *MesssageRepository) GetFromMessageIndex() (*[]entity.Message, error) {
 		return &[]entity.Message{}, nil
 	}
 
-	println(startM, stopM)
-
 	messages, err := r.rdb.LRange(ctx, "messages", startM, stopM).Result()
 	if err != nil {
 		return nil, err
