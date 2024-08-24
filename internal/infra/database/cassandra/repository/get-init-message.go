@@ -9,7 +9,7 @@ import (
 func (r *MesssageRepository) GetInitMessages() (*[]entity.Message, error) {
 	pagination := r.getPagination("pagination_messages")
 	var index int
-	multi := pagination.Total % 20
+	multi := pagination.Total % int(entity.PerPage)
 	index = pagination.Page
 
 	if multi != 0 && pagination.Page != 1 {

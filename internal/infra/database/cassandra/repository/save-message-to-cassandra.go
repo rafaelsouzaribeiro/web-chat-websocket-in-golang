@@ -20,7 +20,7 @@ func (r *MesssageRepository) SaveMessage(msg *entity.Message) error {
 	defer iter.Close()
 
 	if iter.Scan(&save.Id, &save.Page, &save.Total) {
-		result := save.Total % 20
+		result := save.Total % int(entity.PerPage)
 		total = save.Total + 1
 
 		if result == 0 {
