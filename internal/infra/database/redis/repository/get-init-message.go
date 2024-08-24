@@ -15,14 +15,8 @@ func (r *MesssageRepository) GetInitMessages() (*[]entity.Message, error) {
 		return nil, err
 	}
 
-	multi := totalMessages % entity.PerPage
+	startM = totalMessages - entity.PerPage
 	stopM = totalMessages
-
-	if multi == 0 && totalMessages > 19 {
-		startM = (totalMessages - entity.PerPage) - 1
-	} else {
-		startM = (totalMessages - entity.PerPage) - 2
-	}
 
 	if startM < 0 {
 		startM = 0
@@ -42,8 +36,8 @@ func (r *MesssageRepository) GetInitMessages() (*[]entity.Message, error) {
 
 	}
 
-	startM = 1
-	stopM = entity.PerPage
+	startM = startM + 1
+	stopM = stopM + 1
 
 	return &payloads, nil
 
