@@ -15,8 +15,7 @@ If you want to use a chat with message tracking and the ability to track connect
 
 <br/>
 
-You can also run it through the dockerfile:<br />
-I am using Docker Engine version 27.1.2.
+You can also run it through the dockerfile. I am using Docker Engine version 27.1.2:
 <br/>
 Redis:<br/>
 
