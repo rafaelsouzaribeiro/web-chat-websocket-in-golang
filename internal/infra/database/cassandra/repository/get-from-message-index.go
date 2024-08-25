@@ -8,7 +8,7 @@ import (
 
 func (r *MesssageRepository) GetFromMessageIndex() (*[]entity.Message, error) {
 
-	if entity.PageM == 0 && entity.TotalM == 21 {
+	if entity.PageM == 0 && entity.TotalM == (entity.PerPage+1) {
 		entity.PageM = 2
 	}
 
