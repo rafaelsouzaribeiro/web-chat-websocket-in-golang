@@ -16,6 +16,8 @@ If you want to use a chat with message tracking and the ability to track connect
 <br/>
 
 You can also run it through the dockerfile:<br />
+I am using Docker Engine version 27.1.2.
+<br/>
 Redis:<br/>
 
  ```
@@ -78,7 +80,7 @@ sudo apt install make
 
 To run Redis in Docker, navigate to the internal/infra/database/redis directory and run:<br/>
  ```
-docker-compose up
+ sudo docker compose up
  ```
 <br />
 If you want to use Cassandra, navigate to the internal/infra/database/cassandra directory and execute the same command.<br/><br/>
