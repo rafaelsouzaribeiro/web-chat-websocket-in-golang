@@ -13,7 +13,7 @@ func (r *MesssageRepository) GetFromUsersIndex() (*[]entity.Message, error) {
 	startU = startU + entity.PerPage
 	stopU = stopU + entity.PerPage
 
-	if startU == (entity.PerPage*2)+1 {
+	if startU == (entity.PerPage)+1 {
 		startU++
 	}
 
@@ -30,6 +30,10 @@ func (r *MesssageRepository) GetFromUsersIndex() (*[]entity.Message, error) {
 			payloads[inter] = payload
 		}
 		inter--
+	}
+
+	if len(payloads) == 0 {
+		return &[]entity.Message{}, nil
 	}
 
 	return &payloads, nil

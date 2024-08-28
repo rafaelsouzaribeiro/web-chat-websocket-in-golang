@@ -39,5 +39,9 @@ func (r *MesssageRepository) GetFromMessageIndex() (*[]entity.Message, error) {
 
 	}
 
+	if len(payloads) == 0 {
+		return &[]entity.Message{}, nil
+	}
+
 	return &payloads, nil
 }
