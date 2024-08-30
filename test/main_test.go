@@ -14,7 +14,10 @@ import (
 var count int = -1
 
 func BenchmarkUser(b *testing.B) {
-	server.Once.Do(server.StartServer)
+	server.Once.Do(func() {
+		go server.StartServer()
+		time.Sleep(time.Second * 1)
+	})
 
 	channel := make(chan dto.Payload, b.N)
 	var messages []dto.Payload
