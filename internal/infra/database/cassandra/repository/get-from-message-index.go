@@ -8,13 +8,7 @@ import (
 
 func (r *MesssageRepository) GetFromMessageIndex() (*[]entity.Message, error) {
 
-	if entity.PageM == 0 && entity.TotalM == (entity.PerPage+1) {
-		entity.PageM = 2
-	}
-
-	if entity.PointerM == entity.PageM {
-		entity.PageM--
-	}
+	entity.PageM--
 
 	s := fmt.Sprintf(`select message,pages,username,type,times from %s.messages 
 					  WHERE pages=?`, entity.KeySpace)
@@ -29,8 +23,6 @@ func (r *MesssageRepository) GetFromMessageIndex() (*[]entity.Message, error) {
 		&message.Username, &message.Type, &message.Time) {
 		messages = append(messages, message)
 	}
-
-	entity.PageM--
 
 	return &messages, nil
 }

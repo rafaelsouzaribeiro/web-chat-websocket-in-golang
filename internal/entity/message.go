@@ -10,8 +10,6 @@ var (
 	PerPage     = int64(20)
 	KeySpace    = "chat"
 	PageM       = int64(1)
-	TotalM      = int64(1)
-	PointerM    = int64(1)
 	IndexU      int64
 )
 

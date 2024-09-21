@@ -8,17 +8,10 @@ import (
 
 func (r *MesssageRepository) GetInitMessages() (*[]entity.Message, error) {
 	pagination := r.getPagination("pagination_messages")
-	var index int
-	multi := pagination.Total % int(entity.PerPage)
-	index = pagination.Page
-
-	if multi != 0 && pagination.Page != 1 {
-		index--
-	}
 
 	s := fmt.Sprintf(`select message,pages,username,type,times from %s.messages 
 	WHERE pages=?`, entity.KeySpace)
-	query := r.cql.Query(s, index)
+	query := r.cql.Query(s, pagination.Page)
 	iter := query.Iter()
 	defer iter.Close()
 
@@ -31,8 +24,6 @@ func (r *MesssageRepository) GetInitMessages() (*[]entity.Message, error) {
 	}
 
 	entity.PageM = int64(pagination.Page)
-	entity.TotalM = int64(pagination.Total)
-	entity.PointerM = int64(index)
 	return &messages, nil
 
 }
