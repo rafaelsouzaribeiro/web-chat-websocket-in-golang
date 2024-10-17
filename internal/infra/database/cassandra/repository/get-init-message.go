@@ -23,7 +23,6 @@ func (r *MesssageRepository) GetInitMessages() (*[]entity.Message, error) {
 		messages = append(messages, message)
 	}
 
-	entity.PageM = int64(pagination.Page)
 	return &messages, nil
 
 }

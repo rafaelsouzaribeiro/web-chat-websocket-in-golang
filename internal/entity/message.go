@@ -9,8 +9,6 @@ var (
 	StartUIndex = int64(-20)
 	PerPage     = int64(20)
 	KeySpace    = "chat"
-	PageM       = int64(1)
-	IndexU      int64
 )
 
 type Message struct {

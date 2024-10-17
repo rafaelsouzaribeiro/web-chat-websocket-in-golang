@@ -8,11 +8,9 @@ import (
 
 func (r *MesssageRepository) GetFromMessageIndex() (*[]entity.Message, error) {
 
-	entity.PageM--
-
 	s := fmt.Sprintf(`select message,pages,username,type,times from %s.messages 
 					  WHERE pages=?`, entity.KeySpace)
-	query := r.cql.Query(s, entity.PageM)
+	query := r.cql.Query(s, entity.StartMIndex)
 	iter := query.Iter()
 	defer iter.Close()
 
