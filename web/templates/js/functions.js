@@ -10,8 +10,6 @@ let username_check = "";
 let socket;
 let hasMoreMessages = true;
 let hasMoreUsers=true;
-let startIndex = 2;
-let startmessageIndex = 2;
 let listenersAdded = false;
 
 
@@ -62,7 +60,7 @@ function GetTime(v){
 
 
 function loadPreviousUsers() {
-    fetch(`/last-users/${startIndex}`)
+    fetch(`/last-users/${startUserIndex}`)
         .then(response => response.json())
         .then(data => {
             if(data.messages!=null){
@@ -72,7 +70,7 @@ function loadPreviousUsers() {
                     messageElement.innerHTML = `${msg.username}: ${msg.message}`;
                     chat.appendChild(messageElement);
                 });
-                startIndex += 1;
+                startUserIndex -= 1;
 
         }else{
             hasMoreUsers=false
@@ -103,7 +101,7 @@ function loadPreviousMessages() {
                     
                                               
                 });
-                startmessageIndex += 1;
+                startmessageIndex -= 1;
 
                 const childDivs = messages.getElementsByTagName('div');
                 
@@ -144,8 +142,8 @@ function connect() {
         console.log('Connected to the server');
         hasMoreMessages = true;
         hasMoreUsers=true;
-        startIndex = 2;
-        startmessageIndex = 2;
+        startIndex = startUserInit;
+        startmessageIndex = startmessageinit;
         chat.innerHTML="";
 
         if (!listenersAdded) {

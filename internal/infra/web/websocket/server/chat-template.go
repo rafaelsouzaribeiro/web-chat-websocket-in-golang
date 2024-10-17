@@ -16,10 +16,32 @@ func (server *Server) serveChat(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	messages, err := server.usecase.GetInitMessages()
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	numRowsM := int64(len(*messages))
+
+	users, err := server.usecase.GetInitusers()
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	numRowsU := int64(len(*users))
+
 	data := struct {
 		WebSocketURL string
+		indexm       int64
+		indexU       int64
 	}{
 		WebSocketURL: fmt.Sprintf("ws://%s:%d%s", server.host, server.port, server.pattern),
+		indexm:       numRowsM,
+		indexU:       numRowsU,
 	}
 
 	err = tmpl.Execute(w, data)

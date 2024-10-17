@@ -32,8 +32,8 @@ func main() {
 		panic(err)
 	}
 
-	svc := server.NewServer(Conf.HostName, Conf.WsEndPoint, port)
 	di := di.NewUseCase(db)
+	svc := server.NewServer(Conf.HostName, Conf.WsEndPoint, port, di)
 	handler := handler.NewMessageHandler(di)
 	svc.Start(handler)
 
