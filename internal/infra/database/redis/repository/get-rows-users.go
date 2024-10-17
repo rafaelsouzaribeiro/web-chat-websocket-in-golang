@@ -2,6 +2,8 @@ package repository
 
 import (
 	"context"
+
+	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/entity"
 )
 
 func (r *MesssageRepository) GetUsersRows() (int64, error) {
@@ -13,6 +15,8 @@ func (r *MesssageRepository) GetUsersRows() (int64, error) {
 		return 0, err
 	}
 
-	return totalUsers, nil
+	divi := totalUsers / entity.PerPage
+
+	return divi, nil
 
 }
