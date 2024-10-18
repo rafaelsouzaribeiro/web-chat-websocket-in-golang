@@ -117,6 +117,20 @@ function loadPreviousMessages() {
         .catch(error => console.error('Error fetching previous messages:', error));
 }
 
+function getRows(){
+    fetch(`/get-rows`)
+        .then(response => response.json())
+        .then(data => {
+            if(data.rows_messages!=null){
+                startmessageIndex =data.rows_messages;
+                startmessageinit =data.rows_messages;
+                startUserIndex=data.rows_users;
+                startUserInit=data.rows_users;
+            }
+        })
+        .catch(error => console.error('Error fetching rows messages:', error));
+}
+
 function connect() {
     username_check=usernameInput.value;
     if (!username_check.trim()) {
@@ -139,6 +153,7 @@ function connect() {
     socket = new WebSocket(webSocketURL);
 
     socket.onopen = function() {
+        getRows();
         console.log('Connected to the server');
         hasMoreMessages = true;
         hasMoreUsers=true;
@@ -173,9 +188,8 @@ function connect() {
 
     socket.onmessage = function(event) {
         const msg = JSON.parse(event.data);
-        console.log(">>>>>>>>>>>>>>>>>>>>>>");  
+
         if (msg.username && msg.message) {
-            console.log(msg.username+">>"+msg.message);   
             const messageElement = document.createElement('div');
             messageElement.classList.add('message');
             messageElement.innerHTML = `${msg.username}: ${msg.message}`;

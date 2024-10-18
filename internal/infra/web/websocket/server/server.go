@@ -15,6 +15,7 @@ func (server *Server) Start(handler *handler.MessageHandler) {
 	router.HandleFunc("/chat", server.serveChat).Methods("GET")
 	router.HandleFunc("/last-messages/{startIndex}", handler.GetMessagesFromIndex).Methods("GET")
 	router.HandleFunc("/last-users/{startIndex}", handler.GetUsersFromIndex).Methods("GET")
+	router.HandleFunc("/get-rows", handler.GetRows).Methods("GET")
 	router.HandleFunc(server.pattern, handler.HandleConnections)
 	router.HandleFunc("/js/functions.js", func(w http.ResponseWriter, r *http.Request) {
 		server.serveFile(w, "application/javascript", templates.ChatJS)
