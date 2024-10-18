@@ -72,9 +72,9 @@ function loadPreviousUsers() {
                 });
                 startUserIndex -= 1;
 
-        }else{
-            hasMoreUsers=false
-        }
+            }else{
+                hasMoreUsers=false
+            }
 
         })
         .catch(error => console.error('Error fetching previous messages:', error));

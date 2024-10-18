@@ -15,7 +15,7 @@ func (r *MesssageRepository) GetMessageRows() (float64, error) {
 		return 0, err
 	}
 
-	divi := float64(totalMessages / entity.PerPage)
+	divi := float64(totalMessages) / float64(entity.PerPage)
 
 	return divi, nil
 

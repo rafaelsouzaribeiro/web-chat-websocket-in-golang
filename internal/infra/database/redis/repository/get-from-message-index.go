@@ -9,14 +9,14 @@ import (
 
 func (r *MesssageRepository) GetFromMessageIndex() (*[]entity.Message, error) {
 	ctx := context.Background()
-	stopM := entity.PerPage * entity.StartMIndex
-	startM := stopM - entity.PerPage
+	stopM := float64(entity.PerPage) * entity.StartMIndex
+	startM := stopM - float64(entity.PerPage)
 
 	if startM < 0 {
 		startM = 0
 	}
 
-	messages, err := r.rdb.LRange(ctx, "messages", startM, stopM).Result()
+	messages, err := r.rdb.LRange(ctx, "messages", int64(startM), int64(stopM)).Result()
 	if err != nil {
 		return nil, err
 	}

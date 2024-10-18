@@ -13,7 +13,7 @@ import (
 
 func (h *MessageHandler) GetUsersFromIndex(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	startIndex, err := strconv.ParseInt(vars["startIndex"], 10, 64)
+	startIndex, err := strconv.ParseFloat(vars["startIndex"], 64)
 	if err != nil {
 		http.Error(w, "Invalid start index", http.StatusBadRequest)
 		return
