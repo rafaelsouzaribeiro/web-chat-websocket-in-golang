@@ -1,9 +1,9 @@
 package repository
 
-func (r *MesssageRepository) GetUsersRows() (int64, error) {
+func (r *MesssageRepository) GetUsersRows() (float64, error) {
 
 	pagination := r.getPagination("pagination_users")
 
-	return int64(pagination.Page), nil
+	return float64(pagination.Page), nil
 
 }

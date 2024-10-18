@@ -7,6 +7,6 @@ type Irepository interface {
 	SaveUsers(msg *Message) error
 	GetInitMessages() (*[]Message, error)
 	GetInitUsers() (*[]Message, error)
-	GetMessageRows() (int64, error)
-	GetUsersRows() (int64, error)
+	GetMessageRows() (float64, error)
+	GetUsersRows() (float64, error)
 }

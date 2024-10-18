@@ -32,8 +32,8 @@ func (server *Server) serveChat(w http.ResponseWriter, r *http.Request) {
 
 	data := struct {
 		WebSocketURL string
-		indexm       int64
-		indexU       int64
+		indexm       float64
+		indexU       float64
 	}{
 		WebSocketURL: fmt.Sprintf("ws://%s:%d%s", server.host, server.port, server.pattern),
 		indexm:       messages,

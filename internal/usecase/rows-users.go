@@ -1,6 +1,6 @@
 package usecase
 
-func (l *MessageUsecase) GetUsersRows() (int64, error) {
+func (l *MessageUsecase) GetUsersRows() (float64, error) {
 	rows, err := l.Irepository.GetUsersRows()
 
 	if err != nil {

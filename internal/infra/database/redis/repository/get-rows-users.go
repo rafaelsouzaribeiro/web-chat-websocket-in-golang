@@ -6,7 +6,7 @@ import (
 	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/entity"
 )
 
-func (r *MesssageRepository) GetUsersRows() (int64, error) {
+func (r *MesssageRepository) GetUsersRows() (float64, error) {
 	ctx := context.Background()
 
 	totalUsers, err := r.rdb.LLen(ctx, "users").Result()
@@ -15,7 +15,7 @@ func (r *MesssageRepository) GetUsersRows() (int64, error) {
 		return 0, err
 	}
 
-	divi := totalUsers / entity.PerPage
+	divi := float64(totalUsers / entity.PerPage)
 
 	return divi, nil
 

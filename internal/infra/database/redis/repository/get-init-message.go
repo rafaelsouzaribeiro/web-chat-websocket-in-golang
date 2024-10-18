@@ -36,9 +36,6 @@ func (r *MesssageRepository) GetInitMessages() (*[]entity.Message, error) {
 
 	}
 
-	startM = startM + 1
-	stopM = stopM + 1
-
 	return &payloads, nil
 
 }
