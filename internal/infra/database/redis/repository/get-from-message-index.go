@@ -9,20 +9,11 @@ import (
 
 func (r *MesssageRepository) GetFromMessageIndex() (*[]entity.Message, error) {
 	ctx := context.Background()
-	startM = startM - entity.PerPage
-	stopM = stopM - entity.PerPage
-	multi := startM % entity.PerPage
-
-	if multi == 0 {
-		startM++
-	}
+	stopM := entity.PerPage * entity.StartMIndex
+	startM := stopM - entity.PerPage
 
 	if startM < 0 {
 		startM = 0
-	}
-
-	if stopM < 0 {
-		return &[]entity.Message{}, nil
 	}
 
 	messages, err := r.rdb.LRange(ctx, "messages", startM, stopM).Result()

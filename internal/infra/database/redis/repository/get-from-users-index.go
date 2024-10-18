@@ -10,14 +10,14 @@ import (
 func (r *MesssageRepository) GetFromUsersIndex() (*[]entity.Message, error) {
 	ctx := context.Background()
 
-	startU = startU + entity.PerPage
-	stopU = stopU + entity.PerPage
+	stopM := entity.PerPage * entity.StartUIndex
+	startM := stopM - entity.PerPage
 
-	if startU == (entity.PerPage)+1 {
-		startU++
+	if startM < 0 {
+		startM = 0
 	}
 
-	messages, err := r.rdb.LRange(ctx, "users", startU, stopU).Result()
+	messages, err := r.rdb.LRange(ctx, "users", startM, stopM).Result()
 	if err != nil {
 		return nil, err
 	}

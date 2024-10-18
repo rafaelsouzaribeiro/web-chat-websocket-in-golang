@@ -10,13 +10,8 @@ import (
 func (r *MesssageRepository) GetInitMessages() (*[]entity.Message, error) {
 	ctx := context.Background()
 
-	totalMessages, err := r.rdb.LLen(ctx, "messages").Result()
-	if err != nil {
-		return nil, err
-	}
-
-	startM = totalMessages - entity.PerPage
-	stopM = totalMessages
+	stopM := entity.PerPage * entity.StartMIndex
+	startM := stopM - entity.PerPage
 
 	if startM < 0 {
 		startM = 0
