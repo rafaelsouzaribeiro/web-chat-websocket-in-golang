@@ -5,8 +5,8 @@ import (
 )
 
 var (
-	StartMIndex = int64(-20)
-	StartUIndex = int64(-20)
+	StartMIndex int64
+	StartUIndex int64
 	PerPage     = int64(20)
 	KeySpace    = "chat"
 )
