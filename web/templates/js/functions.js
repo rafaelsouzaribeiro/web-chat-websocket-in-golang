@@ -117,18 +117,25 @@ function loadPreviousMessages() {
         .catch(error => console.error('Error fetching previous messages:', error));
 }
 
-function getRows(){
-    fetch(`/get-rows`)
-        .then(response => response.json())
-        .then(data => {
-            if(data.rows_messages!=null){
-                startmessageIndex =data.rows_messages;
-                startmessageinit =data.rows_messages;
-                startUserIndex=data.rows_users;
-                startUserInit=data.rows_users;
-            }
-        })
-        .catch(error => console.error('Error fetching rows messages:', error));
+async function getRows(){
+    try {
+        document.getElementById('loadingOverlay').classList.add('show');
+
+        const response = await fetch(`/get-rows`);
+        const data = await response.json();
+
+        if(data.rows_messages!=null){
+            startmessageIndex =data.rows_messages;
+            startmessageinit =data.rows_messages;
+            startUserIndex=data.rows_users;
+            startUserInit=data.rows_users;
+        }
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    } finally {
+        document.getElementById('loadingOverlay').classList.remove('show');
+    }
+
 }
 
 function connect() {
