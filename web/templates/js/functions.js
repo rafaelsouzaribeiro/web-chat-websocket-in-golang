@@ -215,13 +215,7 @@ function connect() {
                chat.appendChild(messageElement);
             }
 
-
-            const childDivs = chat.getElementsByTagName('div');
-
-            if(childDivs.length>13){
-                chat.scrollTop = chat.scrollHeight;
-            }
-
+            
         }
     };
 
