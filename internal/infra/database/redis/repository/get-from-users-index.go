@@ -10,8 +10,8 @@ import (
 func (r *MesssageRepository) GetFromUsersIndex() (*[]entity.Message, error) {
 	ctx := context.Background()
 
-	stopM := float64(entity.PerPage) * (entity.StartUIndex - 1)
-	startM := stopM - float64(entity.PerPage)
+	startM := float64(entity.PerPage) * (entity.StartUIndex - 2)
+	stopM := startM + float64(entity.PerPage) - 1
 
 	if startM < 0 {
 		startM = 0
@@ -21,7 +21,7 @@ func (r *MesssageRepository) GetFromUsersIndex() (*[]entity.Message, error) {
 		return &[]entity.Message{}, nil
 	}
 
-	println(">>", int64(startM), int64(stopM), int64((entity.StartUIndex - 1)))
+	println(">>", int64(startM), int64(stopM), int64((entity.StartUIndex - 2)))
 
 	messages, err := r.rdb.LRange(ctx, "users", int64(startM), int64(stopM)).Result()
 	if err != nil {

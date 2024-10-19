@@ -3,6 +3,8 @@ package repository
 import (
 	"context"
 	"encoding/json"
+	"sort"
+	"time"
 
 	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/entity"
 )
@@ -15,7 +17,7 @@ func (r *MesssageRepository) GetInitUsers() (*[]entity.Message, error) {
 		return nil, err
 	}
 	stopM := totalMessages
-	startM := stopM - entity.PerPage
+	startM := stopM - entity.PerPage + 1
 
 	if startM <= 0 {
 		startM = 0
@@ -31,10 +33,15 @@ func (r *MesssageRepository) GetInitUsers() (*[]entity.Message, error) {
 	for _, msg := range messages {
 		var payload entity.Message
 		if err := json.Unmarshal([]byte(msg), &payload); err == nil {
+			payload.Time = time.Now()
 			payloads = append(payloads, payload)
 		}
 
 	}
+
+	sort.Slice(payloads, func(i, j int) bool {
+		return payloads[i].Time.After(payloads[j].Time)
+	})
 
 	return &payloads, nil
 

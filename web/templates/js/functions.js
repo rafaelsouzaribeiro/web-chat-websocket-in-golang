@@ -64,7 +64,7 @@ function loadPreviousUsers() {
         .then(response => response.json())
         .then(data => {
             if(data.messages!=null){
-                data.messages.reverse().forEach(msg => {
+                data.messages.forEach(msg => {
                     const messageElement = document.createElement('div');
                     messageElement.classList.add('message');
                     messageElement.innerHTML = `${msg.username}: ${msg.message}`;
@@ -212,7 +212,11 @@ function connect() {
                 messages.appendChild(messageElement);
 
             }else{
-               chat.appendChild(messageElement);
+                if (chat.children.length === 0) {
+                    chat.insertBefore(messageElement, chat.firstChild);
+                } else {
+                    chat.appendChild(messageElement);
+                }
             }
 
             
