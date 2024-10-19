@@ -164,8 +164,6 @@ function connect() {
         console.log('Connected to the server');
         hasMoreMessages = true;
         hasMoreUsers=true;
-        startIndex = startUserInit;
-        startmessageIndex = startmessageinit;
         chat.innerHTML="";
 
         if (!listenersAdded) {
