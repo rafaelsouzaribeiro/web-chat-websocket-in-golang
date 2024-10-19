@@ -23,7 +23,6 @@ func (r *MesssageRepository) GetInitUsers() (*[]entity.Message, error) {
 		startM = 0
 	}
 
-	println(int64(startM), int64(stopM))
 	messages, err := r.rdb.LRange(ctx, "users", int64(startM), int64(stopM)).Result()
 	if err != nil {
 		return nil, err
