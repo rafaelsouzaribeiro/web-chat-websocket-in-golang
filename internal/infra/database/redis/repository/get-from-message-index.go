@@ -13,6 +13,10 @@ func (r *MesssageRepository) GetFromMessageIndex() (*[]entity.Message, error) {
 	startM := float64(entity.PerPage) * (entity.StartMIndex - 2)
 	stopM := startM + float64(entity.PerPage)
 
+	if int64(entity.StartMIndex) == 1 {
+		stopM = stopM - 1
+	}
+
 	if int64(startM) < 0 {
 		startM = 0
 	}
