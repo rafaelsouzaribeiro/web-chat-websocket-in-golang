@@ -212,11 +212,7 @@ function connect() {
                 messages.appendChild(messageElement);
 
             }else{
-                if (chat.children.length === 0) {
-                    chat.insertBefore(messageElement, chat.firstChild);
-                } else {
-                    chat.appendChild(messageElement);
-                }
+                chat.appendChild(messageElement);
             }
 
             
