@@ -12,24 +12,24 @@ import (
 func (r *MesssageRepository) GetInitUsers() (*[]entity.Message, error) {
 	ctx := context.Background()
 
-	totalMessages, err := r.rdb.LLen(ctx, "users").Result()
+	totalUsers, err := r.rdb.LLen(ctx, "users").Result()
 	if err != nil {
 		return nil, err
 	}
-	stopM := totalMessages
+	stopM := totalUsers
 	startM := stopM - entity.PerPage + 1
 
 	if startM <= 0 {
 		startM = 0
 	}
 
-	messages, err := r.rdb.LRange(ctx, "users", int64(startM), int64(stopM)).Result()
+	users, err := r.rdb.LRange(ctx, "users", int64(startM), int64(stopM)).Result()
 	if err != nil {
 		return nil, err
 	}
 
 	var payloads []entity.Message
-	for _, msg := range messages {
+	for _, msg := range users {
 		var payload entity.Message
 		if err := json.Unmarshal([]byte(msg), &payload); err == nil {
 			payload.Time = time.Now()

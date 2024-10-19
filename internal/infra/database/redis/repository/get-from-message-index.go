@@ -9,13 +9,19 @@ import (
 
 func (r *MesssageRepository) GetFromMessageIndex() (*[]entity.Message, error) {
 	ctx := context.Background()
-	stopM := float64(entity.PerPage) * entity.StartMIndex
-	startM := stopM - float64(entity.PerPage)
 
-	if startM < 0 {
+	startM := float64(entity.PerPage) * (entity.StartMIndex - 2)
+	stopM := startM + float64(entity.PerPage)
+
+	if int64(startM) < 0 {
 		startM = 0
 	}
 
+	if int64(stopM) <= 0 {
+		return &[]entity.Message{}, nil
+	}
+
+	println(">>", int64(startM), int64(stopM), int64(entity.StartMIndex))
 	messages, err := r.rdb.LRange(ctx, "messages", int64(startM), int64(stopM)).Result()
 	if err != nil {
 		return nil, err
