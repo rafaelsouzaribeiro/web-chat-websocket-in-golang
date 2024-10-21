@@ -8,7 +8,7 @@ import (
 
 func (r *MesssageRepository) GetInitMessages() (*[]entity.Message, error) {
 	pagination := r.getPagination("pagination_messages")
-	println(">>", pagination.Page)
+
 	s := fmt.Sprintf(`select message,pages,username,type,times from %s.messages 
 	WHERE pages=?`, entity.KeySpace)
 	query := r.cql.Query(s, pagination.Page)
