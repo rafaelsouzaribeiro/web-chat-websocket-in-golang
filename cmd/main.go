@@ -25,7 +25,7 @@ func main() {
 		log.Fatalf("Invalid port: %v", err)
 	}
 
-	f := factory.NewFactory(factory.Redis, Conf)
+	f := factory.NewFactory(factory.Cassandra, Conf)
 	db, err := f.GetConnection()
 
 	if err != nil {
