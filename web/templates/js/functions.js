@@ -193,6 +193,8 @@ function connect() {
 
     socket.onmessage = function(event) {
         const msg = JSON.parse(event.data);
+        hasMoreMessages = true;
+        hasMoreUsers=true;
 
         if (msg.username && msg.message) {
             const messageElement = document.createElement('div');
