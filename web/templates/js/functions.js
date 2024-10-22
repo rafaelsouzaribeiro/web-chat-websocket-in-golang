@@ -70,6 +70,7 @@ function loadPreviousUsers() {
                     messageElement.innerHTML = `${msg.username}: ${msg.message}`;
                     chat.appendChild(messageElement);
                 });
+                
                 startUserIndex -= 1;
 
             }else{
