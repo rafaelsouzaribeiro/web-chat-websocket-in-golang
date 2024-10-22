@@ -289,14 +289,14 @@ function formatTime(time) {
 
     const isToday = today.toDateString() === date.toDateString();
     if (isToday) {
-        return "Hoje";
+        return "Today";
     }
 
     const yesterday = new Date(today);
     yesterday.setDate(today.getDate() - 1);
     const isYesterday = yesterday.toDateString() === date.toDateString();
     if (isYesterday) {
-        return "Ontem";
+        return "Yesterday";
     }
 
     return date.toLocaleDateString();
