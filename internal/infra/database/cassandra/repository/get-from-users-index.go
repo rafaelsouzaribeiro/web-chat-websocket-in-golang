@@ -8,7 +8,6 @@ import (
 
 func (r *MesssageRepository) GetFromUsersIndex() (*[]entity.Message, error) {
 	startu := entity.StartUIndex - 1
-	println(">>", int64(startu))
 	s := fmt.Sprintf(`select message,pages,username,type,times from %s.users 
 	WHERE pages=? ORDER BY times DESC`, entity.KeySpace)
 	query := r.cql.Query(s, int64(startu))
