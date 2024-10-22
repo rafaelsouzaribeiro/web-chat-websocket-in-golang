@@ -15,7 +15,7 @@ func (r *MesssageRepository) GetFromUsersIndex() (*[]entity.Message, error) {
 
 	var div int64
 	if int64(entity.StartUIndex-2) != 0 {
-		div = entity.PerPage % int64(entity.StartUIndex-2)
+		div = entity.PerPage % (int64(entity.StartUIndex) - 2)
 	}
 
 	if div == 0 {
@@ -30,7 +30,7 @@ func (r *MesssageRepository) GetFromUsersIndex() (*[]entity.Message, error) {
 		return &[]entity.Message{}, nil
 	}
 
-	println(int64(startM), int64(stopM), int64(entity.StartMIndex-2))
+	println(int64(startM), int64(stopM), (int64(entity.StartUIndex) - 2), div)
 	messages, err := r.rdb.LRange(ctx, "users", int64(startM), int64(stopM)).Result()
 	if err != nil {
 		return nil, err
