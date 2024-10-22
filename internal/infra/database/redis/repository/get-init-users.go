@@ -3,7 +3,6 @@ package repository
 import (
 	"context"
 	"encoding/json"
-	"sort"
 	"time"
 
 	"github.com/rafaelsouzaribeiro/web-chat-websocket-in-golang/internal/entity"
@@ -23,6 +22,7 @@ func (r *MesssageRepository) GetInitUsers() (*[]entity.Message, error) {
 		startM = 0
 	}
 
+	println(startM, stopM)
 	users, err := r.rdb.LRange(ctx, "users", startM, stopM).Result()
 	if err != nil {
 		return nil, err
@@ -37,10 +37,6 @@ func (r *MesssageRepository) GetInitUsers() (*[]entity.Message, error) {
 		}
 
 	}
-
-	sort.Slice(payloads, func(i, j int) bool {
-		return payloads[i].Time.After(payloads[j].Time)
-	})
 
 	return &payloads, nil
 
