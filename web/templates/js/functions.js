@@ -162,8 +162,6 @@ function connect() {
     socket.onopen = function() {
         getRows();
         console.log('Connected to the server');
-        hasMoreMessages = true;
-        hasMoreUsers=true;
         chat.innerHTML="";
 
         if (!listenersAdded) {
@@ -212,7 +210,7 @@ function connect() {
                 messages.appendChild(messageElement);
 
             }else{
-                chat.appendChild(messageElement);
+                chat.prepend(messageElement);
             }
 
             
