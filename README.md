@@ -1,6 +1,8 @@
 Web chat with WebSocket, Redis and Cassandra, including notifications for logged-in and logged-out users, and emoji support, implemented in Go and JavaScript.
 <br /><br />
-To use messages and track connected and disconnected users with only a map variable, use this project.<a href="https://github.com/rafaelsouzaribeiro/Web-chat-with-WebSocket-using-a-map-variable-in-Go">here</a>.<br /><br />
+To use messages and track connected and disconnected users with only a map variable, use this project.<a href="https://github.com/rafaelsouzaribeiro/Web-chat-with-WebSocket-using-a-map-variable-in-Go" title="Web chat with WebSocket using a map variable, notifications for logged-in and logged-out users, and support for emojis in Go and JavaScript.">here</a>.<br /><br />
+See also an <a href="https://github.com/rafaelsouzaribeiro/go-chat-with-mqtt" title="Go chat with MQTT, implementing user registration, login, logout, online and offline user listing, and message sending.">MQTT chat application</a> created using Go, JavaScript, CSS, and HTML
+<br/><br/>
 
 If you want to use a chat with message tracking and the ability to track connected and disconnected users using Redis or Cassandra, this is the project you need.<br />
 <br />
